@@ -3,17 +3,18 @@ import sys, pyfits, numpy as np
 
 Halpha = 6564.614
  
+logFile = sys.argv[2]
 file = sys.argv[1]
+hdu = pyfits.open(file)
+data = hdu[1].data
+
 data = pyfits.getdata(file)
-sigma = data[4]
+sigma = data.field('inverse_variance')
+x = data.field('wavelength')
 
-
-w = lambda x : 10.0**(3.5796 + x*10.0**(-4))
-x = np.arange(1,data[0].size + 1)
-xx  = w(x) # convert to actual wavelenght
-
-sigma2 = sigma[(xx < Halpha + 25) & (xx > Halpha - 25)]
+range = 50
+sigma2 = sigma[(x < Halpha + range) & (x > Halpha - range)]
 if not sigma2.any():
-    f = open('corrupt.log','a')
+    f = open(logFile + '.log','a')
     f.write(file + '\n')
     f.close()
