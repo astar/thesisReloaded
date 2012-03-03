@@ -1,0 +1,10 @@
+-*- mode: org; -*-
+
+* TODO
+
+** pf.py doesn't work
+* DONE
+** Store number of zeros in fits file
+** corrupt.py too slow
+***  if not sigma.any():
+        z = len(sigma)

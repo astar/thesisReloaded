@@ -3,7 +3,7 @@
 This should corespond to the corrupted spectrum """
 
 
-import sys, pyfits, numpy as np
+import sys, pyfits, numpy as np, os
 
 deli = ' '
 Halpha = 6564.614
@@ -24,6 +24,8 @@ x = data.field('wavelength')
 range = 5
 sigma2 = sigma[(x < Halpha + range) & (x > Halpha - range)]
 
+def listdir_fullpath(d):
+    return [os.path.join(d, f) for f in os.listdir(d)]
 
 def zeros(sigma,x, Halpha):
     """ Test how many zeros are to the left """
@@ -34,14 +36,21 @@ def zeros(sigma,x, Halpha):
             break
     return index/2
 
+
+
 def row(items):
     r = ''
     for item in items:
         r = r + deli + str(item)
     return r + '\n'
 
+
 if not sigma2.any():
-    z = zeros(sigma,x,Halpha)
+    if not sigma.any():
+        z = len(sigma)
+    else:
+        z = zeros(sigma,x,Halpha)
+    
     f = open(logFile + '.log','a')
     f.write(row([file, z, header['MJD'],header['PLATEID'],header['FIBERID']]))
     f.close()
