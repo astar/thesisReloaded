@@ -5,10 +5,10 @@ This should corespond to the corrupted spectrum """
 
 import sys, pyfits, numpy as np, os, glob
 
-def main():
+Halpha = 6564.614
+range = 5
 
-    Halpha = 6564.614
-    range = 5
+def main():
 
     if len(sys.argv) > 1:
         dir = sys.argv[1] 
@@ -17,15 +17,33 @@ def main():
         sys.exit(1)
     
     files = listdir(dir)
-    for file in files:
-        print file
+    nFiles = len(files)
+    for idx, file in enumerate(files):
+        (data, header) = fitsInfo(file)
+        (c, status) = corrupt(data)
+        if c:
+            log(logFile, line(file, header, status))
+        print '(%i/%i) %s %s' % (idx + 1, nFiles, file, status)
 
-def check(file):
-    """Check fits file for zeros in inverse varience """
+def line(file, header, z):
+    deli = ' '
+    r = ''
+    items = [file, str(z), str(header['MJD']),str(header['PLATEID']),str(header['FIBERID'])]
+    r = deli.join(items)
+    return r + '\n'
+
+
+    
+
+def fitsInfo(file):
     hdu = pyfits.open(file)
     data = hdu[1].data
     header = hdu[1].header
     data = pyfits.getdata(file)
+    return data, header
+    
+def corrupt(data):
+    """Check fits file for zeros in inverse varience """
     sigma = data.field('inverse_variance')
     x = data.field('wavelength')
     
@@ -38,13 +56,16 @@ def check(file):
         else:
             z = zeros(sigma,x,Halpha)
 
-def log(logFile,row):            
+        return True, str(z)
+    return False, 'ok'
+
+def log(logFile, line):            
         f = open(logFile + '.log','a')
-        f.write(row([file, str(z), str(header['MJD']),str(header['PLATEID']),str(header['FIBERID'])]))
+        f.write(line)
         f.close()
 
 def listdir(d):
-    return [os.path.join(d, f) for f in glob.glob(d + '/*.fits')]
+    return glob.glob(d + '/*.fits')
 
 def zeros(sigma,x, Halpha):
     """ Test how many zeros are to the left """
@@ -54,16 +75,6 @@ def zeros(sigma,x, Halpha):
         if index/2 > len(sigma):
             break
     return index/2
-
-
-
-def row(items):
-    deli = ' '
-    r = ''
-    for item in items:
-        r = deli.join(items)
-    return r + '\n'
-
 
 
 
