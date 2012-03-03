@@ -5,26 +5,37 @@ This should corespond to the corrupted spectrum """
 
 import sys, pyfits, numpy as np, os
 
-deli = ' '
-Halpha = 6564.614
+def main():
 
-if len(sys.argv) > 1:
-    file = sys.argv[1] 
-    logFile = sys.argv[2]
-else:
-    sys.exit(1)
+    Halpha = 6564.614
 
-hdu = pyfits.open(file)
-data = hdu[1].data
-header = hdu[1].header
-data = pyfits.getdata(file)
-sigma = data.field('inverse_variance')
-x = data.field('wavelength')
+    if len(sys.argv) > 1:
+        file = sys.argv[1] 
+        logFile = sys.argv[2]
+    else:
+        sys.exit(1)
 
-range = 5
-sigma2 = sigma[(x < Halpha + range) & (x > Halpha - range)]
+    hdu = pyfits.open(file)
+    data = hdu[1].data
+    header = hdu[1].header
+    data = pyfits.getdata(file)
+    sigma = data.field('inverse_variance')
+    x = data.field('wavelength')
+    
+    range = 5
+    sigma2 = sigma[(x < Halpha + range) & (x > Halpha - range)]
 
-def listdir_fullpath(d):
+    if not sigma2.any():
+        if not sigma.any():
+            z = len(sigma)
+        else:
+            z = zeros(sigma,x,Halpha)
+            
+        f = open(logFile + '.log','a')
+        f.write(row([file, str(z), str(header['MJD']),str(header['PLATEID']),str(header['FIBERID'])]))
+        f.close()
+
+def listdir(d):
     return [os.path.join(d, f) for f in os.listdir(d)]
 
 def zeros(sigma,x, Halpha):
@@ -39,20 +50,14 @@ def zeros(sigma,x, Halpha):
 
 
 def row(items):
+    deli = ' '
     r = ''
     for item in items:
-        r = r + deli + str(item)
+        r = deli.join(items)
     return r + '\n'
 
 
-if not sigma2.any():
-    if not sigma.any():
-        z = len(sigma)
-    else:
-        z = zeros(sigma,x,Halpha)
-    
-    f = open(logFile + '.log','a')
-    f.write(row([file, z, header['MJD'],header['PLATEID'],header['FIBERID']]))
-    f.close()
 
 
+if __name__ == "__main__":
+    main()
