@@ -1,10 +1,97 @@
 -*- mode: org; -*-
 
 * TODO
+  not in database 3533121815952072704
 
-** pf.py doesn't work
 * DONE
+** process only stras with not full corrupted spectra
+ awk '{if ($2<3000){print $2}}' corrupt_segue2.log
+
+*** create list of corruption < whole spectrum
+    awk '{if ($2<3000){print "cp " $1 " corrupt_segue2_small"}}' corrupt_segue2.log >copy_corrupt_segue2_small.sh
+    awk '{if ($2<3000){print "cp " $1 " corrupt_seguefaint_small"}}' corrupt_seguefaint.log >copy_corrupt_seguefaint_small.sh
+    awk '{if ($2<3000){print "cp " $1 " corrupt_segue_small"}}' corrupt_segue.log.log >copy_corrupt_segue_small.sh
+
+*** corrupted all
+    awk '{if ($2>3000){print $2}}' corrupt_segue2.log | wc
+
+| segue2 | seguefaint | segue |
+|--------+------------+-------|
+|    908 |        580 |   431 |
+    
+*** not corrutpted all
+    awk '{if ($2<3000){print $2}}' corrupt_seguefaint.log | wc
+
+| segue2 | seguefaint | segue |
+|--------+------------+-------|
+|    398 |        303 |   222 |
+
 ** Store number of zeros in fits file
 ** corrupt.py too slow
 ***  if not sigma.any():
-        z = len(sigma)
+     z = len(sigma)
+** Number of spectras in individual programs
+*** stars
+    programname	Column1
+    reddening	4262
+    segpointedf	9046
+    m31_fstars	1749
+    segcluster	9955
+    seglowlat	8047
+    fstars	4556
+    lowz_lrg	3020
+    perseus	743
+    segtestf	2239
+    commissioning	1766
+    lowz	623
+    lowz_loveday	52
+    orion	4568
+    photoz	830
+    segclusterf	4525
+    apbias	397
+    msturnoff	4850
+    southern	39838
+    taurus	1763
+    hyades	274
+    preboss	1322
+    seguefaint	93598
+    disk	9903
+    premarvels_preselection	5360
+    seglowlatf	6185
+    segpointed	9546
+    segtest	6373
+    segue	108712
+    segue2	125357
+    legacy	187342
+*** all
+    programname	Column1
+    reddening	5760
+    segpointedf	10240
+    m31_fstars	1920
+    segcluster	10880
+    seglowlat	8960
+    commissioning	1920
+    lowz	5760
+    lowz_loveday	640
+    orion	5120
+    photoz	12160
+    segclusterf	5120
+    fstars	5120
+    lowz_lrg	28160
+    perseus	1280
+    segtestf	2560
+    apbias	1920
+    msturnoff	5120
+    southern	85760
+    taurus	1920
+    hyades	640
+    preboss	6400
+    seguefaint	106880
+    disk	10240
+    premarvels_preselection	12800
+    seglowlatf	7040
+    segpointed	10240
+    segtest	7040
+    segue	115200
+    segue2	133760
+    legacy	1232640

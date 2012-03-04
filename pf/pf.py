@@ -1,20 +1,25 @@
 #!/usr/bin/python
-import sys, pyfits, numpy as np, pylab as p, matplotlib.pyplot as plt
+import sys, pyfits, numpy as np, pylab as p, matplotlib.pyplot as plt, os
 
 #show position of some lines
 Halpha = 6564.614
-ond = 0
+type = 3 # type of the spectrum 1 = ond, 2 = dr7 , 3 = dr8 
+save = 0
 
 if len(sys.argv) > 1:
     file = sys.argv[1]
 else:
     print 'This utility plot fits file passed as argument'
 if len(sys.argv) == 3:
-    ond = int(sys.argv[2])
+    type = int(sys.argv[2])
+
+if len(sys.argv) == 4:
+    save = int(sys.argv[3])
+
 
 
 print file
-print ond
+print type
 
 def readParam(file, param):
     """ Read fits file. Retrun valeu of parameter """
@@ -106,12 +111,18 @@ def plot2(file, spLine, xx,yy):
 # ax3.set_xlabel("$Wavelenght [\\AA]$")
     
     #obj = readParam(file, 'OBJTYPE')    
-    ax[0].set_title(file + ' ' + obj )
+#    ax[0].set_title(file + ' ' + obj )
 
-    plt.draw()
-    plt.show()
+    basename = os.path.basename(file)
+    ax[0].set_title(basename)
+    if save:
+        filename = os.path.splitext(basename)[0] + '.svg'
+        plt.savefig(filename)
+    else:
+        plt.draw()
+        plt.show()
 
-data = read(file,ond)
+data = read(file,type)
 #plot(file, data[0,:], data[1,:], Halpha)
 
 x = data[0,:]
