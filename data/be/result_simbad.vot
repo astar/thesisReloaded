@@ -1,0 +1,3412 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VOTABLE version="1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.ivoa.net/xml/VOTable/v1.2" xmlns="http://www.ivoa.net/xml/VOTable/v1.2">
+	<RESOURCE type="results">
+		<INFO name="QUERY_STATUS" value="OK" />
+		<INFO name="PROVIDER" value="Simbad">TAP Service of Simbad</INFO>
+		<INFO name="QUERY"><![CDATA[SELECT basic.OID,
+       RA,
+       DEC,
+       main_id AS "Main identifier",
+       coo_bibcode AS "Coord Reference",
+       nbref AS "NbReferences",
+       f1.flux as B, f2.flux as V, f3.flux as U, f4.flux as J, f5.flux as H, f6.flux as K
+FROM basic  JOIN ident i ON i.oidref = oid JOIN flux f1 ON f1.oidref = oid JOIN flux f2 ON f2.oidref = oid JOIN flux f3 on f3.oidref = oid JOIN flux f4 ON f4.oidref = oid JOIN flux f5 on f5.oidref = oid JOIN flux f6 on f6.oidref = oid
+WHERE f1.filter = 'B'
+AND f2.filter = 'V'
+AND f3.filter ='U'
+AND f4.filter ='J'
+AND f5.filter = 'H'
+AND f6.filter = 'K'
+AND id in (
+'HD 224699',
+'V* V639 Cas',
+'HD 225095',
+'*  10 Cas',
+'V* SX Cas',
+'V* V742 Cas',
+'TYC 4026-362-1',
+'* kap Cas',
+'HD 232214',
+'BD+63	 82',
+'* omi Cas',
+'BD+65	 91',
+'HD   4931',
+'* gam Cas',
+'HD 6226',
+'HD   6343',
+'* phi And',
+'V* V764 Cas',
+'HD   7720',
+'HD 236737',
+'HD   9709',
+'HD   9612',
+'V* V771 Cas',
+'V* phi Per',
+'HD  10664',
+'V* V978 Cas',
+'HD 232525',
+' *  eps Cas',
+'V* V777 Cas',
+'V* V472 Per',
+'BD+82	 50',
+'V* V787 Cas',
+'HD  13867',
+'V* V551 Per',
+'V* V520 Per',
+'V* V554 Per',
+'V* V788 Cas',
+'HD  18552',
+'V* RX Cas',
+'V* V801 Cas',
+'HD  20134',
+'V* BK Cam',
+'HD  20899',
+'TYC 3320-1861-1',
+'HD  21455',
+'HD  21650',
+'HD  21641',
+'* psi Per',
+'V* CT Cam',
+'HD  22780',
+'*  13 Tau',
+'17 Tau	',
+'*  23 Tau',
+'eta Tau',
+'HD  23552',
+'BU Tau	',
+'HD  23800',
+'V* X Per',
+'HD  24479',
+'NAME Menkhib',
+'* c Per',
+'HD  26398',
+'V* CI Cam',
+'* 228 Eri',
+'*  56 Eri',
+'HD  29866',
+'* alf Cam',
+'V* AB Aur',
+'HD 284012',
+'V* eps Aur',
+'*  11 Cam',
+'* 105 Tau',
+'V* lam Eri',
+'V* V416 Aur',
+'NAME RIGEL',
+'*  12 Aur',
+'V* V1369 Ori',
+'*  HD 34921',
+'V* eta Ori',
+'*  25 Ori',
+'V* V1372 Ori',
+'V* V1374 Ori',
+'HR 1847A',
+'* 120 Tau',
+'HD  36861',
+'HD  37115',
+'NAME ALNILAM A',
+'* zet Tau',
+'HD  37330',
+'* ome Ori',
+'HD  37971',
+'V* V434 Aur',
+'V* V731 Tau',
+'V* V1165 Tau',
+'HD 246878',
+'HD  39478',
+'*  62 Ori',
+'V* V696 Mon',
+'V* V447 Aur',
+'*  17 Lep',
+'HD  42406',
+'HD  43285',
+'HD  43544',
+'V* V1308 Ori',
+'V* FR CMa',
+'HD  44996',
+'V* PZ Gem',
+'V* FS CMa',
+'bet Mon A',
+'bet Mon C',
+'*  18 Gem',
+'V* AX Mon',
+'HD  45995',
+'V* QQ Gem',
+'HD  47054',
+'V* S Mon',
+'V* KS CMa',
+'V* V743 Mon',
+'V* V742 Mon',
+'HD  50820',
+'AU Mon	',
+'V* V744 Mon',
+'HD  50658',
+'V* QY Gem',
+'V* OY Gem',
+'V* FU CMa',
+'V* GU CMa',
+'V* V637 Mon',
+'V* V749 Mon',
+'HD  53416',
+'V* FV CMa',
+'HD  55271',
+'V* EW CMa',
+'V* ome CMa',
+'HD  56039',
+'V* OT Gem',
+'V* FW CMa',
+'V* FY CMa',
+'* bet CMi',
+'V* V378 Pup',
+'V* BN Gem',
+'HD  61224',
+'BR CMi	',
+'HD  62367',
+'V* FF Cam',
+'* omi Pup',
+'HD  64109',
+'V* BT CMi',
+'V* UX Mon',
+'V* V695 Mon',
+'V* V420 Pup',
+'HD  71072',
+'HD  81357',
+'HD  83953',
+'HD  86612',
+'*  17 Sex',
+'HD  89884',
+'HD  91120',
+'gam UMa',
+'* zet Crv',
+'* kap Dra',
+'V* tet CrB',
+'V* V1040 Sco',
+'V* V839 Her',
+'*  48 Lib',
+'V* AG Dra',
+'BD+79	499',
+'V* chi Oph',
+'* zet Oph',
+'V* XX Oph',
+'V* V2385 Oph',
+'BD+23  3183',
+'HD 162428',
+'V* V744 Her',
+'V* RS Oph',
+'*  66 Oph',
+'V* V974 Her',
+'V* V4379 Sgr',
+'V* YY Her',
+'V* MY Ser',
+'HD 168135',
+'HD 168957',
+'V* NW Ser',
+'HD 169033',
+'BD+16  3492',
+'V* V4031 Sgr',
+'V* V431 Sct',
+'HD 171219',
+'V* V532 Lyr',
+'HD 171780',
+'HD 173292',
+'HD 173219',
+'HD 173371',
+'V* CX Dra',
+'HD 174105',
+'V* bet Lyr',
+'HD 175511',
+'HD 174886',
+'HD 175863',
+'*  64 Ser',
+'HD 177648',
+'V* V4409 Sgr',
+'* iot Lyr',
+'V* V4024 Sgr',
+'HD 178515',
+'HD 179218',
+'HD 179343',
+'V* V1448 Aql',
+'HD 180398',
+'V* U Sge',
+'V* ups Sgr',
+'V* CH Cyg',
+'V* V558 Lyr',
+'HD 183261',
+'V* V923 Aql',
+'bet Cyg B',
+'V* V1294 Aql',
+'*  11 Cyg',
+'V* V341 Sge',
+'V* V1463 Aql',
+'BD+05  4285',
+'V* V1507 Cyg',
+'HD 187350',
+'V* CI Cyg',
+'V* V1339 Aql',
+'*  12 Vul',
+'V* V396 Vul',
+'V* V2028 Cyg',
+'*  25 Cyg',
+'HD 189689',
+'HD 190150',
+'V* V1362 Cyg',
+'V* V1768 Cyg',
+'HD 190944',
+'V* V448 Cyg',
+'*  28 Cyg',
+'V* BE Cap',
+'*  20 Vul',
+'HD 192445',
+'V* QR Vul',
+'V* V2113 Cyg',
+'V* LZ Del',
+'HD 193182',
+'P Cyg	',
+'*  25 Vul',
+'V* V1972 Cyg',
+'V* V2118 Cyg',
+'V* V2119 Cyg',
+'V* V2120 Cyg',
+'HD 195554',
+'HD 195407',
+'HD 195358',
+'*   1 Del',
+'BD+47  3129',
+'V* V2123 Cyg',
+'BD+36  4145',
+'HD 196712',
+'BD+48  3184',
+'HD 197434',
+'V* alf Cyg',
+'V* V568 Cyg',
+'* lam Cyg',
+'V* V2135 Cyg',
+'*  55 Cyg',
+'BD+46  3062',
+'V* V2136 Cyg',
+'V* V417 Cep',
+'V* V418 Cep',
+'HD 199218',
+'V* V2139 Cyg',
+'HD 199579',
+'V* V1057 Cyg',
+'V* V832 Cyg',
+'V* V2144 Cyg',
+'V* V1331 Cyg',
+'V* V1931 Cyg',
+'V* V380 Cep',
+'BD+45  3377',
+'HD 200830',
+'HD 201522',
+'V* V2148 Cyg',
+'HD 239601',
+'V* V420 Cep',
+'V* V421 Cep',
+'* ups Cyg',
+'68 Cyg',
+'HD 203374',
+'V* V382 Cep',
+'HD 203356',
+'V* V2153 Cyg',
+'V* NT Peg',
+'HD 204185',
+'V* V2155 Cyg',
+'V* V2162 Cyg',
+'V* V2163 Cyg',
+'HD 205060',
+'HD 205551',
+'V* V2166 Cyg',
+'V* V433 Cep',
+'* eps Cap',
+'HD 206267',
+'BD+57  2358',
+'HD 206773',
+'BD+57  2376',
+'HD 207232',
+'HD 207329',
+'HD 207370',
+'V* AG Peg',
+'16 Peg	',
+'V* EM Cep',
+'HD 208682',
+'BD+48  3561',
+'V* V2174 Cyg',
+'V* V439 Cep',
+'* omi Aqr',
+'HD 209552',
+'*  25 Peg',
+'BD+60  2349',
+'V* EE Cep',
+'* lam Cep',
+'V* V357 Lac',
+'*  31 Peg',
+'*  pi  Aqr',
+'HD 214167',
+'* eps PsA',
+'HD 216057',
+'14 Lac	',
+'V* V423 Lac',
+'V* EW Lac',
+'HD 217543',
+'V* omi And',
+'* bet Psc',
+'V* KX And',
+'V* KY And',
+'V* V813 Cas',
+'HD 220582',
+'V* Z And',
+'HD 221692',
+'V* V817 Cas',
+'*   6 Cas',
+'V* V818 Cas',
+'BD+66  1651',
+'* rho Cas',
+'BD+71  1238',
+'BD+65  1970',
+'HIP 118163',
+'V* LQ And',
+'HD 224544')]]></INFO>
+		<TABLE>
+			<FIELD ID="oid" name="oid" datatype="long" arraysize="1" ucd="meta.record;meta.id">
+<VALUES null="-9223372036854775808" />
+<DESCRIPTION>Object internal identifier</DESCRIPTION>
+</FIELD>
+			<FIELD ID="ra" name="ra" datatype="double" arraysize="1" ucd="pos.eq.ra;meta.main" unit="deg">
+<DESCRIPTION>Right ascension</DESCRIPTION>
+</FIELD>
+			<FIELD ID="dec" name="dec" datatype="double" arraysize="1" ucd="pos.eq.dec;meta.main" unit="deg">
+<DESCRIPTION>Declination</DESCRIPTION>
+</FIELD>
+			<FIELD ID="Main identifier" name="Main identifier" datatype="char" arraysize="*" ucd="meta.id;meta.main">
+<DESCRIPTION>Main identifier for an object</DESCRIPTION>
+</FIELD>
+			<FIELD ID="Coord Reference" name="Coord Reference" datatype="char" arraysize="*" ucd="meta.bib.bibcode;pos.eq">
+<DESCRIPTION>Coordinate reference</DESCRIPTION>
+</FIELD>
+			<FIELD ID="NbReferences" name="NbReferences" datatype="int" arraysize="1" ucd="meta.bib;meta.number">
+<VALUES null="-2147483648" />
+<DESCRIPTION>number of references</DESCRIPTION>
+</FIELD>
+			<FIELD ID="B" name="B" datatype="float" arraysize="1"/>
+			<FIELD ID="V" name="V" datatype="float" arraysize="1"/>
+			<FIELD ID="U" name="U" datatype="float" arraysize="1"/>
+			<FIELD ID="J" name="J" datatype="float" arraysize="1"/>
+			<FIELD ID="H" name="H" datatype="float" arraysize="1"/>
+			<FIELD ID="K" name="K" datatype="float" arraysize="1"/>
+			<DATA>
+				<TABLEDATA>
+					<TR>
+						<TD>2555605</TD>
+						<TD>290.4317618174354</TD>
+						<TD>-15.95501735096998</TD>
+						<TD>* ups Sgr</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>252</TD>
+						<TD>4.643</TD>
+						<TD>4.578</TD>
+						<TD>4.18</TD>
+						<TD>4.153</TD>
+						<TD>3.385</TD>
+						<TD>2.624</TD>
+					</TR>
+					<TR>
+						<TD>675803</TD>
+						<TD>56.58155767537894</TD>
+						<TD>23.94835589629028</TD>
+						<TD>NAME MEROPE</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>360</TD>
+						<TD>4.113</TD>
+						<TD>4.164</TD>
+						<TD>3.7</TD>
+						<TD>4.233</TD>
+						<TD>4.31</TD>
+						<TD>4.22</TD>
+					</TR>
+					<TR>
+						<TD>799866</TD>
+						<TD>84.05338894077023</TD>
+						<TD>-1.2019191358333312</TD>
+						<TD>NAME ALNILAM A</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>784</TD>
+						<TD>1.51</TD>
+						<TD>1.7</TD>
+						<TD>0.48</TD>
+						<TD>2.191</TD>
+						<TD>2.408</TD>
+						<TD>2.273</TD>
+					</TR>
+					<TR>
+						<TD>759664</TD>
+						<TD>76.98098519703217</TD>
+						<TD>21.704823632777646</TD>
+						<TD>* 105 Tau</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>145</TD>
+						<TD>6.08</TD>
+						<TD>5.92</TD>
+						<TD>5.51</TD>
+						<TD>5.197</TD>
+						<TD>4.961</TD>
+						<TD>4.775</TD>
+					</TR>
+					<TR>
+						<TD>688290</TD>
+						<TD>59.74125954701081</TD>
+						<TD>35.79103144916618</TD>
+						<TD>NAME Menkhib</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>691</TD>
+						<TD>4.08</TD>
+						<TD>4.06</TD>
+						<TD>3.19</TD>
+						<TD>3.987</TD>
+						<TD>4.07</TD>
+						<TD>3.953</TD>
+					</TR>
+					<TR>
+						<TD>1362858</TD>
+						<TD>330.82851678988635</TD>
+						<TD>-2.1553629849770033</TD>
+						<TD>* omi Aqr</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>208</TD>
+						<TD>4.63</TD>
+						<TD>4.7</TD>
+						<TD>4.22</TD>
+						<TD>4.865</TD>
+						<TD>4.809</TD>
+						<TD>4.661</TD>
+					</TR>
+					<TR>
+						<TD>2658387</TD>
+						<TD>284.3191241550561</TD>
+						<TD>2.535347563325759</TD>
+						<TD>*  64 Ser</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>74</TD>
+						<TD>5.562</TD>
+						<TD>5.563</TD>
+						<TD>5.29</TD>
+						<TD>5.425</TD>
+						<TD>5.455</TD>
+						<TD>5.39</TD>
+					</TR>
+					<TR>
+						<TD>93304</TD>
+						<TD>312.23454661867095</TD>
+						<TD>46.11413398722123</TD>
+						<TD>*  55 Cyg</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>415</TD>
+						<TD>5.167</TD>
+						<TD>4.858</TD>
+						<TD>4.8</TD>
+						<TD>4.182</TD>
+						<TD>4.049</TD>
+						<TD>3.946</TD>
+					</TR>
+					<TR>
+						<TD>132509</TD>
+						<TD>14.177215416666668</TD>
+						<TD>60.71674027777778</TD>
+						<TD>* gam Cas</TD>
+						<TD>1997A&amp;A...323L..49P</TD>
+						<TD>977</TD>
+						<TD>2.29</TD>
+						<TD>2.47</TD>
+						<TD>1.24</TD>
+						<TD>2.039</TD>
+						<TD>1.993</TD>
+						<TD>1.756</TD>
+					</TR>
+					<TR>
+						<TD>158752</TD>
+						<TD>332.8773987749807</TD>
+						<TD>59.41448739513404</TD>
+						<TD>* lam Cep</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>554</TD>
+						<TD>5.29</TD>
+						<TD>5.05</TD>
+						<TD>4.56</TD>
+						<TD>5.053</TD>
+						<TD>4.618</TD>
+						<TD>4.5</TD>
+					</TR>
+					<TR>
+						<TD>164306</TD>
+						<TD>1.6105867759721486</TD>
+						<TD>64.19616890304388</TD>
+						<TD>*  10 Cas</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>85</TD>
+						<TD>5.541</TD>
+						<TD>5.567</TD>
+						<TD>5.37</TD>
+						<TD>5.463</TD>
+						<TD>5.47</TD>
+						<TD>5.468</TD>
+					</TR>
+					<TR>
+						<TD>165520</TD>
+						<TD>8.24996331567719</TD>
+						<TD>62.93178260874858</TD>
+						<TD>* kap Cas</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>390</TD>
+						<TD>4.276</TD>
+						<TD>4.189</TD>
+						<TD>3.5</TD>
+						<TD>4.141</TD>
+						<TD>4.148</TD>
+						<TD>4.013</TD>
+					</TR>
+					<TR>
+						<TD>213587</TD>
+						<TD>62.16538399579049</TD>
+						<TD>47.712511929005</TD>
+						<TD>* c Per</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>316</TD>
+						<TD>3.967</TD>
+						<TD>4.003</TD>
+						<TD>3.46</TD>
+						<TD>3.978</TD>
+						<TD>3.899</TD>
+						<TD>3.796</TD>
+					</TR>
+					<TR>
+						<TD>284427</TD>
+						<TD>79.11284708333334</TD>
+						<TD>46.416064166666665</TD>
+						<TD>*  12 Aur</TD>
+						<TD>1998A&amp;A...335L..65H</TD>
+						<TD>38</TD>
+						<TD>7.06</TD>
+						<TD>6.95</TD>
+						<TD>6.39</TD>
+						<TD>6.206</TD>
+						<TD>6.12</TD>
+						<TD>5.915</TD>
+					</TR>
+					<TR>
+						<TD>293690</TD>
+						<TD>73.51254332256097</TD>
+						<TD>66.3426767965273</TD>
+						<TD>* alf Cam</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>563</TD>
+						<TD>4.289</TD>
+						<TD>4.301</TD>
+						<TD>3.55</TD>
+						<TD>4.243</TD>
+						<TD>4.38</TD>
+						<TD>4.242</TD>
+					</TR>
+					<TR>
+						<TD>294895</TD>
+						<TD>76.53521493047853</TD>
+						<TD>58.972371890134305</TD>
+						<TD>*  11 Cam</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>177</TD>
+						<TD>5.0</TD>
+						<TD>5.03</TD>
+						<TD>4.31</TD>
+						<TD>5.424</TD>
+						<TD>5.021</TD>
+						<TD>4.906</TD>
+					</TR>
+					<TR>
+						<TD>447421</TD>
+						<TD>188.37059685744595</TD>
+						<TD>69.78823583786696</TD>
+						<TD>* kap Dra</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>300</TD>
+						<TD>3.766</TD>
+						<TD>3.881</TD>
+						<TD>3.17</TD>
+						<TD>3.823</TD>
+						<TD>3.908</TD>
+						<TD>3.82</TD>
+					</TR>
+					<TR>
+						<TD>662174</TD>
+						<TD>55.57894623235266</TD>
+						<TD>19.700255725138646</TD>
+						<TD>*  13 Tau</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>60</TD>
+						<TD>5.664</TD>
+						<TD>5.681</TD>
+						<TD>5.22</TD>
+						<TD>5.635</TD>
+						<TD>5.649</TD>
+						<TD>5.641</TD>
+					</TR>
+					<TR>
+						<TD>712372</TD>
+						<TD>67.27885558989952</TD>
+						<TD>-13.048367615972223</TD>
+						<TD>* 228 Eri</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>239</TD>
+						<TD>5.392</TD>
+						<TD>5.59</TD>
+						<TD>4.48</TD>
+						<TD>5.87</TD>
+						<TD>5.939</TD>
+						<TD>5.798</TD>
+					</TR>
+					<TR>
+						<TD>737266</TD>
+						<TD>71.02217040125555</TD>
+						<TD>-8.5035673688893</TD>
+						<TD>*  56 Eri</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>150</TD>
+						<TD>5.699</TD>
+						<TD>5.775</TD>
+						<TD>4.98</TD>
+						<TD>5.69</TD>
+						<TD>5.647</TD>
+						<TD>5.452</TD>
+					</TR>
+					<TR>
+						<TD>785712</TD>
+						<TD>81.18677766068183</TD>
+						<TD>1.8464455295833329</TD>
+						<TD>*  25 Ori</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>269</TD>
+						<TD>4.701</TD>
+						<TD>4.873</TD>
+						<TD>3.83</TD>
+						<TD>5.369</TD>
+						<TD>5.417</TD>
+						<TD>5.355</TD>
+					</TR>
+					<TR>
+						<TD>795990</TD>
+						<TD>83.38179817682207</TD>
+						<TD>18.540230758472084</TD>
+						<TD>* 120 Tau</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>116</TD>
+						<TD>5.642</TD>
+						<TD>5.667</TD>
+						<TD>4.94</TD>
+						<TD>5.16</TD>
+						<TD>5.065</TD>
+						<TD>4.777</TD>
+					</TR>
+					<TR>
+						<TD>823349</TD>
+						<TD>84.41118925863405</TD>
+						<TD>21.142544108749938</TD>
+						<TD>* zet Tau</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>606</TD>
+						<TD>2.84</TD>
+						<TD>3.03</TD>
+						<TD>2.14</TD>
+						<TD>3.001</TD>
+						<TD>3.047</TD>
+						<TD>2.808</TD>
+					</TR>
+					<TR>
+						<TD>825631</TD>
+						<TD>84.79644298696026</TD>
+						<TD>4.1214665199999985</TD>
+						<TD>* ome Ori</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>338</TD>
+						<TD>4.46</TD>
+						<TD>4.57</TD>
+						<TD>3.7</TD>
+						<TD>5.012</TD>
+						<TD>4.924</TD>
+						<TD>4.805</TD>
+					</TR>
+					<TR>
+						<TD>857214</TD>
+						<TD>90.97993674699605</TD>
+						<TD>20.138453235833264</TD>
+						<TD>*  62 Ori</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>377</TD>
+						<TD>4.856</TD>
+						<TD>4.646</TD>
+						<TD>4.21</TD>
+						<TD>4.186</TD>
+						<TD>4.039</TD>
+						<TD>3.949</TD>
+					</TR>
+					<TR>
+						<TD>886516</TD>
+						<TD>97.24077555585049</TD>
+						<TD>20.212134899721338</TD>
+						<TD>CCDM J06290+2013AB</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>210</TD>
+						<TD>4.0</TD>
+						<TD>4.14</TD>
+						<TD>3.54</TD>
+						<TD>4.585</TD>
+						<TD>4.523</TD>
+						<TD>4.346</TD>
+					</TR>
+					<TR>
+						<TD>971213</TD>
+						<TD>111.78767390623872</TD>
+						<TD>8.289315764007656</TD>
+						<TD>* bet CMi</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>290</TD>
+						<TD>2.814</TD>
+						<TD>2.886</TD>
+						<TD>2.53</TD>
+						<TD>3.061</TD>
+						<TD>3.109</TD>
+						<TD>3.101</TD>
+					</TR>
+					<TR>
+						<TD>1013709</TD>
+						<TD>117.02153496878786</TD>
+						<TD>-25.937170075833983</TD>
+						<TD>* omi Pup</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>161</TD>
+						<TD>4.45</TD>
+						<TD>4.5</TD>
+						<TD>3.43</TD>
+						<TD>4.568</TD>
+						<TD>4.435</TD>
+						<TD>4.165</TD>
+					</TR>
+					<TR>
+						<TD>1234294</TD>
+						<TD>340.16391979587155</TD>
+						<TD>-27.04361545887463</TD>
+						<TD>* eps PsA</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>108</TD>
+						<TD>4.086</TD>
+						<TD>4.18</TD>
+						<TD>3.69</TD>
+						<TD>4.281</TD>
+						<TD>4.365</TD>
+						<TD>4.4</TD>
+					</TR>
+					<TR>
+						<TD>1401500</TD>
+						<TD>345.96922288698</TD>
+						<TD>3.8200461690278154</TD>
+						<TD>* bet Psc</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>196</TD>
+						<TD>4.376</TD>
+						<TD>4.486</TD>
+						<TD>3.92</TD>
+						<TD>4.764</TD>
+						<TD>4.808</TD>
+						<TD>4.75</TD>
+					</TR>
+					<TR>
+						<TD>1429187</TD>
+						<TD>335.3794796063487</TD>
+						<TD>12.205184116664206</TD>
+						<TD>*  31 Peg</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>183</TD>
+						<TD>4.72</TD>
+						<TD>4.81</TD>
+						<TD>4.07</TD>
+						<TD>4.818</TD>
+						<TD>4.803</TD>
+						<TD>4.685</TD>
+					</TR>
+					<TR>
+						<TD>1479450</TD>
+						<TD>331.9595998697295</TD>
+						<TD>21.702925520095643</TD>
+						<TD>*  25 Peg</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>86</TD>
+						<TD>5.707</TD>
+						<TD>5.783</TD>
+						<TD>5.27</TD>
+						<TD>5.876</TD>
+						<TD>5.984</TD>
+						<TD>5.978</TD>
+					</TR>
+					<TR>
+						<TD>1582625</TD>
+						<TD>319.47947940321046</TD>
+						<TD>34.89689692429907</TD>
+						<TD>* ups Cyg</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>265</TD>
+						<TD>4.32</TD>
+						<TD>4.43</TD>
+						<TD>3.5</TD>
+						<TD>4.701</TD>
+						<TD>4.54</TD>
+						<TD>4.478</TD>
+					</TR>
+					<TR>
+						<TD>1920840</TD>
+						<TD>185.14017500411228</TD>
+						<TD>-22.215900278252047</TD>
+						<TD>* zet Crv</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>51</TD>
+						<TD>5.11</TD>
+						<TD>5.22</TD>
+						<TD>4.73</TD>
+						<TD>5.313</TD>
+						<TD>5.336</TD>
+						<TD>5.318</TD>
+					</TR>
+					<TR>
+						<TD>2559645</TD>
+						<TD>239.54736955994176</TD>
+						<TD>-14.279358173206615</TD>
+						<TD>*  48 Lib</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>359</TD>
+						<TD>4.867</TD>
+						<TD>4.943</TD>
+						<TD>4.58</TD>
+						<TD>5.098</TD>
+						<TD>4.829</TD>
+						<TD>4.591</TD>
+					</TR>
+					<TR>
+						<TD>2579741</TD>
+						<TD>249.2897460601493</TD>
+						<TD>-10.567091516525538</TD>
+						<TD>* zet Oph</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>1451</TD>
+						<TD>2.595</TD>
+						<TD>2.578</TD>
+						<TD>1.72</TD>
+						<TD>2.533</TD>
+						<TD>2.667</TD>
+						<TD>2.684</TD>
+					</TR>
+					<TR>
+						<TD>2669974</TD>
+						<TD>270.0658260282945</TD>
+						<TD>4.368615639027771</TD>
+						<TD>*  66 Oph</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>279</TD>
+						<TD>4.684</TD>
+						<TD>4.784</TD>
+						<TD>3.78</TD>
+						<TD>4.987</TD>
+						<TD>5.079</TD>
+						<TD>5.03</TD>
+					</TR>
+					<TR>
+						<TD>2790103</TD>
+						<TD>297.7671175596786</TD>
+						<TD>22.610048112766403</TD>
+						<TD>*  12 Vul</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>149</TD>
+						<TD>4.75</TD>
+						<TD>4.893</TD>
+						<TD>4.13</TD>
+						<TD>5.388</TD>
+						<TD>5.051</TD>
+						<TD>4.947</TD>
+					</TR>
+					<TR>
+						<TD>2827693</TD>
+						<TD>303.00292202884475</TD>
+						<TD>26.478806572916245</TD>
+						<TD>*  20 Vul</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>84</TD>
+						<TD>5.797</TD>
+						<TD>5.903</TD>
+						<TD>5.38</TD>
+						<TD>5.967</TD>
+						<TD>6.054</TD>
+						<TD>5.998</TD>
+					</TR>
+					<TR>
+						<TD>2828372</TD>
+						<TD>305.51429341777725</TD>
+						<TD>24.446099274861062</TD>
+						<TD>*  25 Vul</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>77</TD>
+						<TD>5.431</TD>
+						<TD>5.519</TD>
+						<TD>4.94</TD>
+						<TD>5.557</TD>
+						<TD>5.636</TD>
+						<TD>5.587</TD>
+					</TR>
+					<TR>
+						<TD>2900844</TD>
+						<TD>286.8255366015167</TD>
+						<TD>36.10015704291663</TD>
+						<TD>* iot Lyr</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>87</TD>
+						<TD>5.143</TD>
+						<TD>5.249</TD>
+						<TD>4.66</TD>
+						<TD>5.37</TD>
+						<TD>5.487</TD>
+						<TD>5.47</TD>
+					</TR>
+					<TR>
+						<TD>2926247</TD>
+						<TD>293.9512673272635</TD>
+						<TD>36.94454051777721</TD>
+						<TD>*  11 Cyg</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>55</TD>
+						<TD>5.949</TD>
+						<TD>6.028</TD>
+						<TD>5.42</TD>
+						<TD>6.072</TD>
+						<TD>6.163</TD>
+						<TD>6.143</TD>
+					</TR>
+					<TR>
+						<TD>2927622</TD>
+						<TD>299.979982366534</TD>
+						<TD>37.042885918472194</TD>
+						<TD>*  25 Cyg</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>124</TD>
+						<TD>5.009</TD>
+						<TD>5.139</TD>
+						<TD>4.33</TD>
+						<TD>5.413</TD>
+						<TD>5.484</TD>
+						<TD>5.486</TD>
+					</TR>
+					<TR>
+						<TD>2929904</TD>
+						<TD>302.35674659281494</TD>
+						<TD>36.839622150567465</TD>
+						<TD>*  28 Cyg</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>208</TD>
+						<TD>4.793</TD>
+						<TD>4.929</TD>
+						<TD>4.03</TD>
+						<TD>5.071</TD>
+						<TD>5.155</TD>
+						<TD>5.038</TD>
+					</TR>
+					<TR>
+						<TD>92953</TD>
+						<TD>312.31850597538937</TD>
+						<TD>47.05138567180532</TD>
+						<TD>BD+46  3062</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>6</TD>
+						<TD>9.65</TD>
+						<TD>9.52</TD>
+						<TD>10.44</TD>
+						<TD>8.942</TD>
+						<TD>8.885</TD>
+						<TD>8.799</TD>
+					</TR>
+					<TR>
+						<TD>116311</TD>
+						<TD>307.62852999999996</TD>
+						<TD>47.864090555555556</TD>
+						<TD>BD+47  3129</TD>
+						<TD>1998A&amp;A...335L..65H</TD>
+						<TD>20</TD>
+						<TD>9.57</TD>
+						<TD>9.27</TD>
+						<TD>8.95</TD>
+						<TD>8.058</TD>
+						<TD>7.854</TD>
+						<TD>7.624</TD>
+					</TR>
+					<TR>
+						<TD>157490</TD>
+						<TD>325.63999401466924</TD>
+						<TD>58.24422262985989</TD>
+						<TD>BD+57  2376</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>10</TD>
+						<TD>10.03</TD>
+						<TD>9.76</TD>
+						<TD>9.7</TD>
+						<TD>8.773</TD>
+						<TD>8.592</TD>
+						<TD>8.439</TD>
+					</TR>
+					<TR>
+						<TD>158498</TD>
+						<TD>332.2149016707028</TD>
+						<TD>61.693803226805514</TD>
+						<TD>BD+60  2349</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>6</TD>
+						<TD>9.34</TD>
+						<TD>9.26</TD>
+						<TD>8.91</TD>
+						<TD>8.871</TD>
+						<TD>8.924</TD>
+						<TD>8.942</TD>
+					</TR>
+					<TR>
+						<TD>2956737</TD>
+						<TD>309.0758603099324</TD>
+						<TD>37.41744910527754</TD>
+						<TD>BD+36  4145</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>25</TD>
+						<TD>9.47</TD>
+						<TD>8.96</TD>
+						<TD>9.23</TD>
+						<TD>7.573</TD>
+						<TD>7.456</TD>
+						<TD>7.434</TD>
+					</TR>
+					<TR>
+						<TD>25266</TD>
+						<TD>24.012854263413438</TD>
+						<TD>47.11447114441714</TD>
+						<TD>HD   9709</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>26</TD>
+						<TD>7.02</TD>
+						<TD>7.07</TD>
+						<TD>6.59</TD>
+						<TD>7.056</TD>
+						<TD>7.107</TD>
+						<TD>7.088</TD>
+					</TR>
+					<TR>
+						<TD>29257</TD>
+						<TD>45.04956043132736</TD>
+						<TD>38.13174071396552</TD>
+						<TD>HR   894</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>58</TD>
+						<TD>6.061</TD>
+						<TD>6.119</TD>
+						<TD>5.46</TD>
+						<TD>6.127</TD>
+						<TD>6.13</TD>
+						<TD>6.104</TD>
+					</TR>
+					<TR>
+						<TD>31019</TD>
+						<TD>313.5927270407291</TD>
+						<TD>40.70295946527472</TD>
+						<TD>HR  8009</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>51</TD>
+						<TD>6.615</TD>
+						<TD>6.696</TD>
+						<TD>6.22</TD>
+						<TD>6.694</TD>
+						<TD>6.733</TD>
+						<TD>6.701</TD>
+					</TR>
+					<TR>
+						<TD>53164</TD>
+						<TD>304.35490363130054</TD>
+						<TD>39.59353977749931</TD>
+						<TD>HD 193182</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>58</TD>
+						<TD>6.488</TD>
+						<TD>6.554</TD>
+						<TD>6.25</TD>
+						<TD>6.509</TD>
+						<TD>6.513</TD>
+						<TD>6.461</TD>
+					</TR>
+					<TR>
+						<TD>59304</TD>
+						<TD>314.1449103444707</TD>
+						<TD>44.92472356263877</TD>
+						<TD>HR  8023</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>293</TD>
+						<TD>5.981</TD>
+						<TD>5.966</TD>
+						<TD>5.16</TD>
+						<TD>5.796</TD>
+						<TD>5.831</TD>
+						<TD>5.857</TD>
+					</TR>
+					<TR>
+						<TD>62716</TD>
+						<TD>316.07588828201835</TD>
+						<TD>46.53132994888866</TD>
+						<TD>HD 200830</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>6</TD>
+						<TD>8.69</TD>
+						<TD>8.61</TD>
+						<TD>8.4</TD>
+						<TD>8.329</TD>
+						<TD>8.337</TD>
+						<TD>8.334</TD>
+					</TR>
+					<TR>
+						<TD>77814</TD>
+						<TD>342.1995655214856</TD>
+						<TD>54.41489277235112</TD>
+						<TD>HR  8682</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>61</TD>
+						<TD>6.048</TD>
+						<TD>6.131</TD>
+						<TD>5.54</TD>
+						<TD>6.201</TD>
+						<TD>6.303</TD>
+						<TD>6.31</TD>
+					</TR>
+					<TR>
+						<TD>80662</TD>
+						<TD>0.8631138846801092</TD>
+						<TD>55.55089821388881</TD>
+						<TD>HD 225095</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>30</TD>
+						<TD>7.91</TD>
+						<TD>7.95</TD>
+						<TD>7.15</TD>
+						<TD>7.266</TD>
+						<TD>7.225</TD>
+						<TD>7.09</TD>
+					</TR>
+					<TR>
+						<TD>85479</TD>
+						<TD>34.14998007149285</TD>
+						<TD>49.81987203194415</TD>
+						<TD>HD  13867</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>22</TD>
+						<TD>7.72</TD>
+						<TD>7.71</TD>
+						<TD>7.24</TD>
+						<TD>7.605</TD>
+						<TD>7.66</TD>
+						<TD>7.655</TD>
+					</TR>
+					<TR>
+						<TD>96672</TD>
+						<TD>326.643272624765</TD>
+						<TD>52.12414732944329</TD>
+						<TD>HD 207329</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>41</TD>
+						<TD>7.89</TD>
+						<TD>7.6</TD>
+						<TD>7.33</TD>
+						<TD>6.844</TD>
+						<TD>6.805</TD>
+						<TD>6.751</TD>
+					</TR>
+					<TR>
+						<TD>96928</TD>
+						<TD>323.6144286182677</TD>
+						<TD>51.698464388749386</TD>
+						<TD>HR  8259</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>48</TD>
+						<TD>6.145</TD>
+						<TD>6.164</TD>
+						<TD>5.73</TD>
+						<TD>6.002</TD>
+						<TD>6.009</TD>
+						<TD>6.067</TD>
+					</TR>
+					<TR>
+						<TD>119011</TD>
+						<TD>319.93725902747013</TD>
+						<TD>53.95149408860914</TD>
+						<TD>HD 203356</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>12</TD>
+						<TD>8.34</TD>
+						<TD>8.08</TD>
+						<TD>8.2</TD>
+						<TD>7.41</TD>
+						<TD>7.359</TD>
+						<TD>7.329</TD>
+					</TR>
+					<TR>
+						<TD>132312</TD>
+						<TD>13.064386021006403</TD>
+						<TD>60.08994698833311</TD>
+						<TD>HD   4931</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>14</TD>
+						<TD>9.01</TD>
+						<TD>8.72</TD>
+						<TD>9.27</TD>
+						<TD>7.682</TD>
+						<TD>7.599</TD>
+						<TD>7.484</TD>
+					</TR>
+					<TR>
+						<TD>141669</TD>
+						<TD>52.888066782119125</TD>
+						<TD>47.862415900835224</TD>
+						<TD>HD  21641</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>69</TD>
+						<TD>6.746</TD>
+						<TD>6.773</TD>
+						<TD>6.47</TD>
+						<TD>6.722</TD>
+						<TD>6.754</TD>
+						<TD>6.766</TD>
+					</TR>
+					<TR>
+						<TD>153523</TD>
+						<TD>301.35692536395635</TD>
+						<TD>46.67181886499925</TD>
+						<TD>HD 190944</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>33</TD>
+						<TD>8.54</TD>
+						<TD>8.36</TD>
+						<TD>7.82</TD>
+						<TD>7.579</TD>
+						<TD>7.419</TD>
+						<TD>7.153</TD>
+					</TR>
+					<TR>
+						<TD>156708</TD>
+						<TD>324.74007838713385</TD>
+						<TD>57.48903884805414</TD>
+						<TD>HR  8281</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>377</TD>
+						<TD>5.83</TD>
+						<TD>5.62</TD>
+						<TD>5.09</TD>
+						<TD>5.207</TD>
+						<TD>5.254</TD>
+						<TD>5.215</TD>
+					</TR>
+					<TR>
+						<TD>158120</TD>
+						<TD>325.6007697820425</TD>
+						<TD>57.73605472013848</TD>
+						<TD>HD 206773</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>113</TD>
+						<TD>7.06</TD>
+						<TD>6.927</TD>
+						<TD>6.3</TD>
+						<TD>6.072</TD>
+						<TD>5.91</TD>
+						<TD>5.567</TD>
+					</TR>
+					<TR>
+						<TD>167315</TD>
+						<TD>19.61289022409244</TD>
+						<TD>61.892914787638375</TD>
+						<TD>HD   7720</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>19</TD>
+						<TD>9.37</TD>
+						<TD>8.86</TD>
+						<TD>9.29</TD>
+						<TD>7.505</TD>
+						<TD>7.338</TD>
+						<TD>7.261</TD>
+					</TR>
+					<TR>
+						<TD>196746</TD>
+						<TD>310.3550091840874</TD>
+						<TD>54.20942335277759</TD>
+						<TD>HD 197434</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>13</TD>
+						<TD>8.11</TD>
+						<TD>8.01</TD>
+						<TD>7.86</TD>
+						<TD>7.582</TD>
+						<TD>7.556</TD>
+						<TD>7.464</TD>
+					</TR>
+					<TR>
+						<TD>220263</TD>
+						<TD>328.8791656633895</TD>
+						<TD>65.3208094993011</TD>
+						<TD>HR  8375</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>103</TD>
+						<TD>5.842</TD>
+						<TD>5.939</TD>
+						<TD>5.05</TD>
+						<TD>6.046</TD>
+						<TD>6.141</TD>
+						<TD>6.159</TD>
+					</TR>
+					<TR>
+						<TD>227197</TD>
+						<TD>49.24896864068423</TD>
+						<TD>60.06749071986011</TD>
+						<TD>HD  20134</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>49</TD>
+						<TD>7.54</TD>
+						<TD>7.47</TD>
+						<TD>8.859</TD>
+						<TD>7.189</TD>
+						<TD>7.191</TD>
+						<TD>7.193</TD>
+					</TR>
+					<TR>
+						<TD>228754</TD>
+						<TD>57.60446902470015</TD>
+						<TD>52.481902918749824</TD>
+						<TD>HD  23800</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>56</TD>
+						<TD>7.2</TD>
+						<TD>6.98</TD>
+						<TD>8.403</TD>
+						<TD>6.165</TD>
+						<TD>6.115</TD>
+						<TD>5.997</TD>
+					</TR>
+					<TR>
+						<TD>253878</TD>
+						<TD>24.342594033644648</TD>
+						<TD>74.3009557461877</TD>
+						<TD>HR   449</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>18</TD>
+						<TD>6.596</TD>
+						<TD>6.589</TD>
+						<TD>6.27</TD>
+						<TD>6.408</TD>
+						<TD>6.395</TD>
+						<TD>6.382</TD>
+					</TR>
+					<TR>
+						<TD>256386</TD>
+						<TD>59.35601583011736</TD>
+						<TD>63.07226227207914</TD>
+						<TD>HR  1204</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>64</TD>
+						<TD>4.893</TD>
+						<TD>4.946</TD>
+						<TD>4.78</TD>
+						<TD>5.04</TD>
+						<TD>5.128</TD>
+						<TD>5.04</TD>
+					</TR>
+					<TR>
+						<TD>286501</TD>
+						<TD>283.4362367015429</TD>
+						<TD>60.01787008097195</TD>
+						<TD>HD 175863</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>32</TD>
+						<TD>6.908</TD>
+						<TD>7.034</TD>
+						<TD>6.4</TD>
+						<TD>7.07</TD>
+						<TD>7.125</TD>
+						<TD>7.015</TD>
+					</TR>
+					<TR>
+						<TD>397693</TD>
+						<TD>104.13357463701965</TD>
+						<TD>46.27399630236065</TD>
+						<TD>HR  2568</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>53</TD>
+						<TD>5.763</TD>
+						<TD>5.841</TD>
+						<TD>5.29</TD>
+						<TD>5.908</TD>
+						<TD>5.977</TD>
+						<TD>5.986</TD>
+					</TR>
+					<TR>
+						<TD>657560</TD>
+						<TD>55.28273945480596</TD>
+						<TD>37.580197411228376</TD>
+						<TD>HR  1113</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>68</TD>
+						<TD>5.479</TD>
+						<TD>5.541</TD>
+						<TD>5.09</TD>
+						<TD>5.617</TD>
+						<TD>5.721</TD>
+						<TD>5.687</TD>
+					</TR>
+					<TR>
+						<TD>730656</TD>
+						<TD>71.05425070870365</TD>
+						<TD>40.78645091818855</TD>
+						<TD>HR  1500</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>77</TD>
+						<TD>6.128</TD>
+						<TD>6.096</TD>
+						<TD>5.86</TD>
+						<TD>5.756</TD>
+						<TD>5.78</TD>
+						<TD>5.716</TD>
+					</TR>
+					<TR>
+						<TD>813903</TD>
+						<TD>83.97534041666665</TD>
+						<TD>-5.628425555555556</TD>
+						<TD>HD  37115</TD>
+						<TD>1998A&amp;A...335L..65H</TD>
+						<TD>69</TD>
+						<TD>7.04</TD>
+						<TD>7.16</TD>
+						<TD>6.45</TD>
+						<TD>7.145</TD>
+						<TD>7.204</TD>
+						<TD>7.131</TD>
+					</TR>
+					<TR>
+						<TD>825944</TD>
+						<TD>84.4727231531666</TD>
+						<TD>0.9686073776388892</TD>
+						<TD>HD  37330</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>24</TD>
+						<TD>7.31</TD>
+						<TD>7.38</TD>
+						<TD>6.76</TD>
+						<TD>7.628</TD>
+						<TD>7.671</TD>
+						<TD>7.685</TD>
+					</TR>
+					<TR>
+						<TD>837892</TD>
+						<TD>88.49936988107085</TD>
+						<TD>26.42252922499993</TD>
+						<TD>HD  39478</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>24</TD>
+						<TD>8.31</TD>
+						<TD>8.25</TD>
+						<TD>7.51</TD>
+						<TD>7.811</TD>
+						<TD>7.691</TD>
+						<TD>7.563</TD>
+					</TR>
+					<TR>
+						<TD>876749</TD>
+						<TD>93.91740471230318</TD>
+						<TD>6.066165689722221</TD>
+						<TD>HR  2231</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>67</TD>
+						<TD>5.936</TD>
+						<TD>6.05</TD>
+						<TD>5.42</TD>
+						<TD>6.285</TD>
+						<TD>6.336</TD>
+						<TD>6.381</TD>
+					</TR>
+					<TR>
+						<TD>880117</TD>
+						<TD>94.03204871921974</TD>
+						<TD>-16.61800603361017</TD>
+						<TD>HR  2249</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>51</TD>
+						<TD>5.795</TD>
+						<TD>5.959</TD>
+						<TD>5.0</TD>
+						<TD>6.293</TD>
+						<TD>6.346</TD>
+						<TD>6.401</TD>
+					</TR>
+					<TR>
+						<TD>887975</TD>
+						<TD>97.78984560926628</TD>
+						<TD>11.251376950833176</TD>
+						<TD>HR  2370</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>120</TD>
+						<TD>6.03</TD>
+						<TD>6.14</TD>
+						<TD>5.2</TD>
+						<TD>6.042</TD>
+						<TD>5.973</TD>
+						<TD>5.782</TD>
+					</TR>
+					<TR>
+						<TD>894276</TD>
+						<TD>96.08574553132308</TD>
+						<TD>-12.961938593194356</TD>
+						<TD>HR  2309</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>44</TD>
+						<TD>6.037</TD>
+						<TD>6.12</TD>
+						<TD>5.41</TD>
+						<TD>6.207</TD>
+						<TD>6.302</TD>
+						<TD>6.269</TD>
+					</TR>
+					<TR>
+						<TD>912492</TD>
+						<TD>99.14721396875156</TD>
+						<TD>-5.211141871666652</TD>
+						<TD>HR  2418</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>69</TD>
+						<TD>5.44</TD>
+						<TD>5.57</TD>
+						<TD>5.05</TD>
+						<TD>5.604</TD>
+						<TD>5.623</TD>
+						<TD>5.607</TD>
+					</TR>
+					<TR>
+						<TD>925938</TD>
+						<TD>103.6751784459547</TD>
+						<TD>-1.7564876448611109</TD>
+						<TD>HR  2577</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>73</TD>
+						<TD>6.711</TD>
+						<TD>6.27</TD>
+						<TD>6.42</TD>
+						<TD>4.303</TD>
+						<TD>3.546</TD>
+						<TD>3.326</TD>
+					</TR>
+					<TR>
+						<TD>959721</TD>
+						<TD>108.74963601237664</TD>
+						<TD>-11.870408271388579</TD>
+						<TD>HD  56039</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>7</TD>
+						<TD>8.21</TD>
+						<TD>8.28</TD>
+						<TD>7.77</TD>
+						<TD>8.365</TD>
+						<TD>8.402</TD>
+						<TD>8.462</TD>
+					</TR>
+					<TR>
+						<TD>991665</TD>
+						<TD>114.4116711169482</TD>
+						<TD>-14.440762610555014</TD>
+						<TD>HR  2932</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>39</TD>
+						<TD>6.505</TD>
+						<TD>6.526</TD>
+						<TD>6.22</TD>
+						<TD>6.36</TD>
+						<TD>6.363</TD>
+						<TD>6.323</TD>
+					</TR>
+					<TR>
+						<TD>1490170</TD>
+						<TD>351.18913996724206</TD>
+						<TD>25.49638883624479</TD>
+						<TD>HD 220582</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>12</TD>
+						<TD>7.31</TD>
+						<TD>7.38</TD>
+						<TD>6.85</TD>
+						<TD>7.451</TD>
+						<TD>7.529</TD>
+						<TD>7.557</TD>
+					</TR>
+					<TR>
+						<TD>1511434</TD>
+						<TD>359.70514851392767</TD>
+						<TD>32.38170574166665</TD>
+						<TD>HR  9068</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>46</TD>
+						<TD>6.401</TD>
+						<TD>6.524</TD>
+						<TD>5.84</TD>
+						<TD>6.675</TD>
+						<TD>6.769</TD>
+						<TD>6.791</TD>
+					</TR>
+					<TR>
+						<TD>1552686</TD>
+						<TD>338.9678517662411</TD>
+						<TD>39.63432861110923</TD>
+						<TD>HR  8603</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>142</TD>
+						<TD>5.58</TD>
+						<TD>5.73</TD>
+						<TD>4.68</TD>
+						<TD>5.779</TD>
+						<TD>5.846</TD>
+						<TD>5.7</TD>
+					</TR>
+					<TR>
+						<TD>1553531</TD>
+						<TD>345.2281183685696</TD>
+						<TD>38.707843923055485</TD>
+						<TD>HR  8758</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>83</TD>
+						<TD>6.44</TD>
+						<TD>6.555</TD>
+						<TD>5.78</TD>
+						<TD>6.7</TD>
+						<TD>6.821</TD>
+						<TD>6.845</TD>
+					</TR>
+					<TR>
+						<TD>1680555</TD>
+						<TD>149.77626536550918</TD>
+						<TD>-23.950769354431014</TD>
+						<TD>HR  3946</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>67</TD>
+						<TD>6.11</TD>
+						<TD>6.21</TD>
+						<TD>5.43</TD>
+						<TD>6.315</TD>
+						<TD>6.351</TD>
+						<TD>6.232</TD>
+					</TR>
+					<TR>
+						<TD>1721059</TD>
+						<TD>155.49750298951807</TD>
+						<TD>-18.0344807633251</TD>
+						<TD>HD  89884</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>31</TD>
+						<TD>7.0</TD>
+						<TD>7.131</TD>
+						<TD>6.46</TD>
+						<TD>7.28</TD>
+						<TD>7.281</TD>
+						<TD>7.244</TD>
+					</TR>
+					<TR>
+						<TD>1738317</TD>
+						<TD>157.74932258630534</TD>
+						<TD>-13.588470026233772</TD>
+						<TD>HR  4123</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>71</TD>
+						<TD>5.562</TD>
+						<TD>5.592</TD>
+						<TD>5.41</TD>
+						<TD>5.521</TD>
+						<TD>5.517</TD>
+						<TD>5.517</TD>
+					</TR>
+					<TR>
+						<TD>2585776</TD>
+						<TD>275.8006771754586</TD>
+						<TD>-12.014751913494674</TD>
+						<TD>HR  6881</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>61</TD>
+						<TD>5.711</TD>
+						<TD>5.705</TD>
+						<TD>5.46</TD>
+						<TD>5.606</TD>
+						<TD>5.592</TD>
+						<TD>5.526</TD>
+					</TR>
+					<TR>
+						<TD>2611636</TD>
+						<TD>281.13891626546393</TD>
+						<TD>-7.110603393333317</TD>
+						<TD>HD 173219</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>67</TD>
+						<TD>7.99</TD>
+						<TD>7.88</TD>
+						<TD>7.26</TD>
+						<TD>7.141</TD>
+						<TD>7.048</TD>
+						<TD>6.805</TD>
+					</TR>
+					<TR>
+						<TD>2631648</TD>
+						<TD>309.8052115054524</TD>
+						<TD>-2.4129734476364986</TD>
+						<TD>HR  7890</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>38</TD>
+						<TD>6.133</TD>
+						<TD>6.221</TD>
+						<TD>5.7</TD>
+						<TD>6.348</TD>
+						<TD>6.395</TD>
+						<TD>6.356</TD>
+					</TR>
+					<TR>
+						<TD>2640210</TD>
+						<TD>281.23297447975216</TD>
+						<TD>-0.37343535722222204</TD>
+						<TD>HD 173371</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>36</TD>
+						<TD>6.859</TD>
+						<TD>6.885</TD>
+						<TD>6.56</TD>
+						<TD>6.798</TD>
+						<TD>6.805</TD>
+						<TD>6.782</TD>
+					</TR>
+					<TR>
+						<TD>2644961</TD>
+						<TD>297.38939158758495</TD>
+						<TD>-1.1010349180555234</TD>
+						<TD>HD 187350</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>22</TD>
+						<TD>8.2</TD>
+						<TD>8.14</TD>
+						<TD>7.53</TD>
+						<TD>7.739</TD>
+						<TD>7.654</TD>
+						<TD>7.405</TD>
+					</TR>
+					<TR>
+						<TD>2718808</TD>
+						<TD>281.0381508762812</TD>
+						<TD>11.215309787916635</TD>
+						<TD>HD 173292</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>9</TD>
+						<TD>8.61</TD>
+						<TD>8.6</TD>
+						<TD>8.04</TD>
+						<TD>8.482</TD>
+						<TD>8.566</TD>
+						<TD>8.428</TD>
+					</TR>
+					<TR>
+						<TD>2770285</TD>
+						<TD>291.97526613396616</TD>
+						<TD>20.24738579847329</TD>
+						<TD>HD 183261</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>19</TD>
+						<TD>6.838</TD>
+						<TD>6.875</TD>
+						<TD>6.11</TD>
+						<TD>6.86</TD>
+						<TD>6.95</TD>
+						<TD>6.975</TD>
+					</TR>
+					<TR>
+						<TD>2784025</TD>
+						<TD>275.3657063878787</TD>
+						<TD>25.05677797777737</TD>
+						<TD>HD 168957</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>42</TD>
+						<TD>6.894</TD>
+						<TD>6.983</TD>
+						<TD>6.35</TD>
+						<TD>7.084</TD>
+						<TD>7.173</TD>
+						<TD>7.202</TD>
+					</TR>
+					<TR>
+						<TD>2787053</TD>
+						<TD>286.1604339351362</TD>
+						<TD>23.329281851527718</TD>
+						<TD>HD 177648</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>36</TD>
+						<TD>7.32</TD>
+						<TD>7.234</TD>
+						<TD>6.85</TD>
+						<TD>6.838</TD>
+						<TD>6.83</TD>
+						<TD>6.783</TD>
+					</TR>
+					<TR>
+						<TD>2868052</TD>
+						<TD>278.80627164927785</TD>
+						<TD>34.458022114305145</TD>
+						<TD>HR  6984</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>70</TD>
+						<TD>5.984</TD>
+						<TD>6.088</TD>
+						<TD>5.44</TD>
+						<TD>6.063</TD>
+						<TD>6.092</TD>
+						<TD>6.025</TD>
+					</TR>
+					<TR>
+						<TD>2929253</TD>
+						<TD>303.3874589759218</TD>
+						<TD>36.32838181819405</TD>
+						<TD>HD 192445</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>55</TD>
+						<TD>7.15</TD>
+						<TD>7.23</TD>
+						<TD>6.39</TD>
+						<TD>7.133</TD>
+						<TD>7.08</TD>
+						<TD>6.915</TD>
+					</TR>
+					<TR>
+						<TD>2956712</TD>
+						<TD>307.4490154089491</TD>
+						<TD>36.980380833611655</TD>
+						<TD>HD 195407</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>57</TD>
+						<TD>8.13</TD>
+						<TD>7.8</TD>
+						<TD>7.47</TD>
+						<TD>7.304</TD>
+						<TD>7.302</TD>
+						<TD>7.292</TD>
+					</TR>
+					<TR>
+						<TD>127944</TD>
+						<TD>359.5307160330335</TD>
+						<TD>61.19578441472146</TD>
+						<TD>HIP 118163</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>16</TD>
+						<TD>11.32</TD>
+						<TD>11.08</TD>
+						<TD>10.81</TD>
+						<TD>10.408</TD>
+						<TD>10.338</TD>
+						<TD>10.357</TD>
+					</TR>
+					<TR>
+						<TD>771345</TD>
+						<TD>78.63446706693006</TD>
+						<TD>-8.201638364722209</TD>
+						<TD>NAME RIGEL</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>643</TD>
+						<TD>0.09</TD>
+						<TD>0.12</TD>
+						<TD>-0.55</TD>
+						<TD>0.206</TD>
+						<TD>0.176</TD>
+						<TD>0.213</TD>
+					</TR>
+					<TR>
+						<TD>6446</TD>
+						<TD>359.69349707243725</TD>
+						<TD>46.4131779917929</TD>
+						<TD>V* LQ And</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>111</TD>
+						<TD>6.45</TD>
+						<TD>6.542</TD>
+						<TD>5.84</TD>
+						<TD>6.588</TD>
+						<TD>6.617</TD>
+						<TD>6.545</TD>
+					</TR>
+					<TR>
+						<TD>14360</TD>
+						<TD>320.71312048849416</TD>
+						<TD>40.697244317779266</TD>
+						<TD>HD 203731</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>28</TD>
+						<TD>7.67</TD>
+						<TD>7.52</TD>
+						<TD>6.92</TD>
+						<TD>7.143</TD>
+						<TD>7.032</TD>
+						<TD>6.906</TD>
+					</TR>
+					<TR>
+						<TD>19851</TD>
+						<TD>347.3197715522069</TD>
+						<TD>49.65061346999966</TD>
+						<TD>HD 218674</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>73</TD>
+						<TD>6.713</TD>
+						<TD>6.758</TD>
+						<TD>6.17</TD>
+						<TD>6.708</TD>
+						<TD>6.772</TD>
+						<TD>6.726</TD>
+					</TR>
+					<TR>
+						<TD>31039</TD>
+						<TD>313.84629977129515</TD>
+						<TD>40.30002786277736</TD>
+						<TD>HD 199356</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>43</TD>
+						<TD>7.295</TD>
+						<TD>7.157</TD>
+						<TD>6.52</TD>
+						<TD>6.344</TD>
+						<TD>6.199</TD>
+						<TD>5.877</TD>
+					</TR>
+					<TR>
+						<TD>32849</TD>
+						<TD>322.31185317673896</TD>
+						<TD>44.33812580611019</TD>
+						<TD>HD 204722</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>39</TD>
+						<TD>7.61</TD>
+						<TD>7.63</TD>
+						<TD>6.81</TD>
+						<TD>7.654</TD>
+						<TD>7.643</TD>
+						<TD>7.524</TD>
+					</TR>
+					<TR>
+						<TD>52195</TD>
+						<TD>305.8256873005807</TD>
+						<TD>40.759055060414056</TD>
+						<TD>HD 194279</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>149</TD>
+						<TD>7.92</TD>
+						<TD>7.09</TD>
+						<TD>8.0</TD>
+						<TD>4.637</TD>
+						<TD>4.192</TD>
+						<TD>4.002</TD>
+					</TR>
+					<TR>
+						<TD>52335</TD>
+						<TD>305.7650570833333</TD>
+						<TD>39.49723833333333</TD>
+						<TD>V* V1972 Cyg</TD>
+						<TD>1998A&amp;A...335L..65H</TD>
+						<TD>64</TD>
+						<TD>11.5</TD>
+						<TD>10.6</TD>
+						<TD>11.62</TD>
+						<TD>6.979</TD>
+						<TD>5.8</TD>
+						<TD>4.679</TD>
+					</TR>
+					<TR>
+						<TD>58986</TD>
+						<TD>315.2955350315245</TD>
+						<TD>46.155772666249085</TD>
+						<TD>*  60 Cyg</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>144</TD>
+						<TD>5.217</TD>
+						<TD>5.417</TD>
+						<TD>4.23</TD>
+						<TD>5.86</TD>
+						<TD>5.952</TD>
+						<TD>5.993</TD>
+					</TR>
+					<TR>
+						<TD>63139</TD>
+						<TD>315.20774003431853</TD>
+						<TD>46.578586742916166</TD>
+						<TD>HD 200269</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>16</TD>
+						<TD>7.17</TD>
+						<TD>7.28</TD>
+						<TD>6.69</TD>
+						<TD>7.454</TD>
+						<TD>7.509</TD>
+						<TD>7.553</TD>
+					</TR>
+					<TR>
+						<TD>63165</TD>
+						<TD>317.49429872043174</TD>
+						<TD>45.502555167635464</TD>
+						<TD>HR  8103</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>70</TD>
+						<TD>6.47</TD>
+						<TD>6.61</TD>
+						<TD>5.81</TD>
+						<TD>6.798</TD>
+						<TD>6.901</TD>
+						<TD>6.915</TD>
+					</TR>
+					<TR>
+						<TD>75106</TD>
+						<TD>335.0946287553003</TD>
+						<TD>51.86100130124881</TD>
+						<TD>HD 212044</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>65</TD>
+						<TD>7.02</TD>
+						<TD>6.98</TD>
+						<TD>6.11</TD>
+						<TD>7.623</TD>
+						<TD>7.702</TD>
+						<TD>7.692</TD>
+					</TR>
+					<TR>
+						<TD>80299</TD>
+						<TD>356.47941838705293</TD>
+						<TD>54.73539769472221</TD>
+						<TD>HD 223036</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>12</TD>
+						<TD>8.51</TD>
+						<TD>8.5</TD>
+						<TD>7.79</TD>
+						<TD>7.791</TD>
+						<TD>7.651</TD>
+						<TD>7.434</TD>
+					</TR>
+					<TR>
+						<TD>92338</TD>
+						<TD>310.35797975307673</TD>
+						<TD>45.280338806527574</TD>
+						<TD>NAME DENEB</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>640</TD>
+						<TD>1.34</TD>
+						<TD>1.25</TD>
+						<TD>1.11</TD>
+						<TD>1.139</TD>
+						<TD>0.902</TD>
+						<TD>1.01</TD>
+					</TR>
+					<TR>
+						<TD>94120</TD>
+						<TD>314.95648818480277</TD>
+						<TD>47.520950445690595</TD>
+						<TD>CCDM J20598+4731A</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>400</TD>
+						<TD>4.69</TD>
+						<TD>4.74</TD>
+						<TD>3.75</TD>
+						<TD>4.657</TD>
+						<TD>4.46</TD>
+						<TD>4.345</TD>
+					</TR>
+					<TR>
+						<TD>97452</TD>
+						<TD>329.62400304201475</TD>
+						<TD>54.48488269638871</TD>
+						<TD>HD 235679</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>39</TD>
+						<TD>9.2</TD>
+						<TD>8.94</TD>
+						<TD>8.66</TD>
+						<TD>7.977</TD>
+						<TD>7.861</TD>
+						<TD>7.697</TD>
+					</TR>
+					<TR>
+						<TD>98435</TD>
+						<TD>332.3448208333333</TD>
+						<TD>55.75671777777778</TD>
+						<TD>BD+55  2693</TD>
+						<TD>1998A&amp;A...335L..65H</TD>
+						<TD>49</TD>
+						<TD>11.1</TD>
+						<TD>10.9</TD>
+						<TD>10.88</TD>
+						<TD>9.601</TD>
+						<TD>9.219</TD>
+						<TD>8.555</TD>
+					</TR>
+					<TR>
+						<TD>103307</TD>
+						<TD>350.5436000533498</TD>
+						<TD>56.34822528805494</TD>
+						<TD>HD 220300</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>18</TD>
+						<TD>8.01</TD>
+						<TD>7.93</TD>
+						<TD>7.6</TD>
+						<TD>7.445</TD>
+						<TD>7.408</TD>
+						<TD>7.286</TD>
+					</TR>
+					<TR>
+						<TD>105260</TD>
+						<TD>2.904777724377145</TD>
+						<TD>58.21182886736111</TD>
+						<TD>HD    698</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>67</TD>
+						<TD>7.26</TD>
+						<TD>7.08</TD>
+						<TD>6.86</TD>
+						<TD>6.49</TD>
+						<TD>6.43</TD>
+						<TD>6.332</TD>
+					</TR>
+					<TR>
+						<TD>118713</TD>
+						<TD>321.1264083373668</TD>
+						<TD>55.36673352263851</TD>
+						<TD>HD 204116</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>41</TD>
+						<TD>7.99</TD>
+						<TD>7.55</TD>
+						<TD>7.96</TD>
+						<TD>6.207</TD>
+						<TD>5.962</TD>
+						<TD>5.631</TD>
+					</TR>
+					<TR>
+						<TD>133815</TD>
+						<TD>19.359551604447965</TD>
+						<TD>57.63208145499939</TD>
+						<TD>HD   7636</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>51</TD>
+						<TD>6.93</TD>
+						<TD>6.891</TD>
+						<TD>6.06</TD>
+						<TD>6.465</TD>
+						<TD>6.299</TD>
+						<TD>6.103</TD>
+					</TR>
+					<TR>
+						<TD>136609</TD>
+						<TD>34.215486592882044</TD>
+						<TD>57.05524391124998</TD>
+						<TD>HR   654</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>178</TD>
+						<TD>6.695</TD>
+						<TD>6.499</TD>
+						<TD>6.08</TD>
+						<TD>5.776</TD>
+						<TD>5.705</TD>
+						<TD>5.61</TD>
+					</TR>
+					<TR>
+						<TD>154810</TD>
+						<TD>312.1365548776094</TD>
+						<TD>53.90610321069316</TD>
+						<TD>HD 198512</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>40</TD>
+						<TD>8.48</TD>
+						<TD>8.14</TD>
+						<TD>8.14</TD>
+						<TD>7.674</TD>
+						<TD>7.556</TD>
+						<TD>7.345</TD>
+					</TR>
+					<TR>
+						<TD>158747</TD>
+						<TD>329.8319543588482</TD>
+						<TD>60.297664668887585</TD>
+						<TD>HD 209145</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>30</TD>
+						<TD>7.92</TD>
+						<TD>7.67</TD>
+						<TD>7.45</TD>
+						<TD>6.848</TD>
+						<TD>6.71</TD>
+						<TD>6.486</TD>
+					</TR>
+					<TR>
+						<TD>163531</TD>
+						<TD>357.47133135353397</TD>
+						<TD>62.214092177080516</TD>
+						<TD>HD 223501</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>34</TD>
+						<TD>7.74</TD>
+						<TD>7.74</TD>
+						<TD>7.14</TD>
+						<TD>7.736</TD>
+						<TD>7.768</TD>
+						<TD>7.669</TD>
+					</TR>
+					<TR>
+						<TD>164372</TD>
+						<TD>0.8571422208770378</TD>
+						<TD>63.64052166444386</TD>
+						<TD>HR  9097</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>117</TD>
+						<TD>6.526</TD>
+						<TD>6.269</TD>
+						<TD>6.07</TD>
+						<TD>5.41</TD>
+						<TD>5.336</TD>
+						<TD>5.269</TD>
+					</TR>
+					<TR>
+						<TD>168566</TD>
+						<TD>25.503863340331502</TD>
+						<TD>61.79544512013833</TD>
+						<TD>BD+61   310</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>17</TD>
+						<TD>9.81</TD>
+						<TD>9.29</TD>
+						<TD>9.68</TD>
+						<TD>7.539</TD>
+						<TD>7.349</TD>
+						<TD>7.058</TD>
+					</TR>
+					<TR>
+						<TD>171177</TD>
+						<TD>28.928561022531735</TD>
+						<TD>59.27344999055538</TD>
+						<TD>HD  11606</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>59</TD>
+						<TD>7.08</TD>
+						<TD>7.02</TD>
+						<TD>6.22</TD>
+						<TD>6.457</TD>
+						<TD>6.33</TD>
+						<TD>6.139</TD>
+					</TR>
+					<TR>
+						<TD>172041</TD>
+						<TD>32.16907999087394</TD>
+						<TD>58.42360104958319</TD>
+						<TD>V* V472 Per</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>162</TD>
+						<TD>6.242</TD>
+						<TD>5.725</TD>
+						<TD>6.48</TD>
+						<TD>4.062</TD>
+						<TD>4.095</TD>
+						<TD>3.646</TD>
+					</TR>
+					<TR>
+						<TD>173662</TD>
+						<TD>36.316788146681546</TD>
+						<TD>56.609820454166666</TD>
+						<TD>V* V554 Per</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>204</TD>
+						<TD>6.492</TD>
+						<TD>6.269</TD>
+						<TD>5.91</TD>
+						<TD>5.57</TD>
+						<TD>5.489</TD>
+						<TD>5.416</TD>
+					</TR>
+					<TR>
+						<TD>176284</TD>
+						<TD>34.76855275157897</TD>
+						<TD>57.13549755791662</TD>
+						<TD>V* V520 Per</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>162</TD>
+						<TD>6.983</TD>
+						<TD>6.543</TD>
+						<TD>6.64</TD>
+						<TD>5.558</TD>
+						<TD>5.426</TD>
+						<TD>5.295</TD>
+					</TR>
+					<TR>
+						<TD>196705</TD>
+						<TD>306.386710786689</TD>
+						<TD>54.68420095999937</TD>
+						<TD>HD 194883</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>31</TD>
+						<TD>7.32</TD>
+						<TD>7.36</TD>
+						<TD>6.73</TD>
+						<TD>7.3</TD>
+						<TD>7.335</TD>
+						<TD>7.233</TD>
+					</TR>
+					<TR>
+						<TD>197312</TD>
+						<TD>312.7916108443888</TD>
+						<TD>55.48874601833292</TD>
+						<TD>HD 198895</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>36</TD>
+						<TD>8.78</TD>
+						<TD>8.33</TD>
+						<TD>8.58</TD>
+						<TD>6.981</TD>
+						<TD>6.816</TD>
+						<TD>6.655</TD>
+					</TR>
+					<TR>
+						<TD>198239</TD>
+						<TD>318.6895153782242</TD>
+						<TD>59.76102848027728</TD>
+						<TD>HD 239618</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>24</TD>
+						<TD>9.01</TD>
+						<TD>8.66</TD>
+						<TD>8.53</TD>
+						<TD>7.583</TD>
+						<TD>7.437</TD>
+						<TD>7.241</TD>
+					</TR>
+					<TR>
+						<TD>219968</TD>
+						<TD>319.8425843634801</TD>
+						<TD>64.87185613985814</TD>
+						<TD>*   6 Cep</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>130</TD>
+						<TD>5.139</TD>
+						<TD>5.185</TD>
+						<TD>4.56</TD>
+						<TD>4.828</TD>
+						<TD>4.774</TD>
+						<TD>4.589</TD>
+					</TR>
+					<TR>
+						<TD>224562</TD>
+						<TD>33.80404097913836</TD>
+						<TD>64.02445046013905</TD>
+						<TD>HD  13590</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>35</TD>
+						<TD>8.25</TD>
+						<TD>7.9</TD>
+						<TD>7.84</TD>
+						<TD>7.136</TD>
+						<TD>6.995</TD>
+						<TD>6.832</TD>
+					</TR>
+					<TR>
+						<TD>228267</TD>
+						<TD>54.50431811447649</TD>
+						<TD>55.17085674527739</TD>
+						<TD>HD  22298</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>44</TD>
+						<TD>8.09</TD>
+						<TD>7.69</TD>
+						<TD>9.546</TD>
+						<TD>6.406</TD>
+						<TD>6.29</TD>
+						<TD>6.042</TD>
+					</TR>
+					<TR>
+						<TD>242648</TD>
+						<TD>47.225744176093805</TD>
+						<TD>62.38459712041562</TD>
+						<TD>HD  19243</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>73</TD>
+						<TD>6.713</TD>
+						<TD>6.503</TD>
+						<TD>7.778</TD>
+						<TD>5.609</TD>
+						<TD>5.489</TD>
+						<TD>5.255</TD>
+					</TR>
+					<TR>
+						<TD>255637</TD>
+						<TD>49.9969694643681</TD>
+						<TD>65.65229172109207</TD>
+						<TD>HR   985</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>180</TD>
+						<TD>4.621</TD>
+						<TD>4.728</TD>
+						<TD>3.92</TD>
+						<TD>5.048</TD>
+						<TD>5.074</TD>
+						<TD>5.048</TD>
+					</TR>
+					<TR>
+						<TD>257710</TD>
+						<TD>64.92554166666666</TD>
+						<TD>55.999361111111114</TD>
+						<TD>V* CI Cam</TD>
+						<TD>2003yCat.2246....0C</TD>
+						<TD>162</TD>
+						<TD>12.41</TD>
+						<TD>11.77</TD>
+						<TD>12.13</TD>
+						<TD>7.502</TD>
+						<TD>5.74</TD>
+						<TD>4.323</TD>
+					</TR>
+					<TR>
+						<TD>274388</TD>
+						<TD>281.679535360259</TD>
+						<TD>52.98796186902002</TD>
+						<TD>HR  7084</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>159</TD>
+						<TD>5.8</TD>
+						<TD>5.9</TD>
+						<TD>5.06</TD>
+						<TD>5.87</TD>
+						<TD>5.805</TD>
+						<TD>5.786</TD>
+					</TR>
+					<TR>
+						<TD>322827</TD>
+						<TD>267.5138991279445</TD>
+						<TD>48.39415550374965</TD>
+						<TD>* z Her</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>120</TD>
+						<TD>6.79</TD>
+						<TD>6.89</TD>
+						<TD>6.38</TD>
+						<TD>6.854</TD>
+						<TD>6.913</TD>
+						<TD>6.947</TD>
+					</TR>
+					<TR>
+						<TD>336047</TD>
+						<TD>91.16003621311931</TD>
+						<TD>46.585111846943775</TD>
+						<TD>HD  40978</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>31</TD>
+						<TD>7.192</TD>
+						<TD>7.29</TD>
+						<TD>6.44</TD>
+						<TD>7.129</TD>
+						<TD>7.044</TD>
+						<TD>6.899</TD>
+					</TR>
+					<TR>
+						<TD>495760</TD>
+						<TD>238.87746734631148</TD>
+						<TD>42.566192608724734</TD>
+						<TD>*   4 Her</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>132</TD>
+						<TD>5.64</TD>
+						<TD>5.74</TD>
+						<TD>5.23</TD>
+						<TD>5.821</TD>
+						<TD>5.887</TD>
+						<TD>5.85</TD>
+					</TR>
+					<TR>
+						<TD>673751</TD>
+						<TD>58.846154791795435</TD>
+						<TD>31.04583506638874</TD>
+						<TD>CCDM J03554+3103A</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>741</TD>
+						<TD>6.84</TD>
+						<TD>6.72</TD>
+						<TD>6.09</TD>
+						<TD>6.149</TD>
+						<TD>6.073</TD>
+						<TD>5.92</TD>
+					</TR>
+					<TR>
+						<TD>741050</TD>
+						<TD>75.49221855278613</TD>
+						<TD>43.82330720472197</TD>
+						<TD>V* eps Aur</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>453</TD>
+						<TD>3.527</TD>
+						<TD>3.039</TD>
+						<TD>3.86</TD>
+						<TD>1.88</TD>
+						<TD>1.702</TD>
+						<TD>1.533</TD>
+					</TR>
+					<TR>
+						<TD>742558</TD>
+						<TD>73.94102172282948</TD>
+						<TD>30.551190742391793</TD>
+						<TD>HD  31293</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>655</TD>
+						<TD>7.18</TD>
+						<TD>7.06</TD>
+						<TD>7.18</TD>
+						<TD>5.936</TD>
+						<TD>5.062</TD>
+						<TD>4.23</TD>
+					</TR>
+					<TR>
+						<TD>755095</TD>
+						<TD>78.30555713275145</TD>
+						<TD>40.19353105166642</TD>
+						<TD>HD  33604</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>48</TD>
+						<TD>7.36</TD>
+						<TD>7.38</TD>
+						<TD>6.68</TD>
+						<TD>7.44</TD>
+						<TD>7.457</TD>
+						<TD>7.485</TD>
+					</TR>
+					<TR>
+						<TD>771814</TD>
+						<TD>77.2865964548009</TD>
+						<TD>-8.754080788194445</TD>
+						<TD>* lam Eri</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>238</TD>
+						<TD>4.067</TD>
+						<TD>4.249</TD>
+						<TD>3.17</TD>
+						<TD>4.854</TD>
+						<TD>4.832</TD>
+						<TD>4.713</TD>
+					</TR>
+					<TR>
+						<TD>786267</TD>
+						<TD>81.11923634279408</TD>
+						<TD>-2.3971475397222215</TD>
+						<TD>CCDM J05245-0223AB</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>340</TD>
+						<TD>3.21</TD>
+						<TD>3.38</TD>
+						<TD>2.27</TD>
+						<TD>3.967</TD>
+						<TD>3.997</TD>
+						<TD>3.9</TD>
+					</TR>
+					<TR>
+						<TD>797112</TD>
+						<TD>82.9209773821006</TD>
+						<TD>9.225988230694435</TD>
+						<TD>HD  36376</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>9</TD>
+						<TD>7.55</TD>
+						<TD>7.51</TD>
+						<TD>7.32</TD>
+						<TD>7.078</TD>
+						<TD>6.999</TD>
+						<TD>6.759</TD>
+					</TR>
+					<TR>
+						<TD>819398</TD>
+						<TD>85.58277168403012</TD>
+						<TD>43.059591789165864</TD>
+						<TD>HD  37657</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>47</TD>
+						<TD>7.25</TD>
+						<TD>7.25</TD>
+						<TD>6.66</TD>
+						<TD>6.814</TD>
+						<TD>6.753</TD>
+						<TD>6.593</TD>
+					</TR>
+					<TR>
+						<TD>822533</TD>
+						<TD>85.91274722131637</TD>
+						<TD>25.439544284861043</TD>
+						<TD>V* V1165 Tau</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>58</TD>
+						<TD>6.83</TD>
+						<TD>6.82</TD>
+						<TD>6.15</TD>
+						<TD>6.389</TD>
+						<TD>6.29</TD>
+						<TD>6.014</TD>
+					</TR>
+					<TR>
+						<TD>822996</TD>
+						<TD>85.83125736262751</TD>
+						<TD>23.204373219860525</TD>
+						<TD>HR  1961</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>82</TD>
+						<TD>6.157</TD>
+						<TD>6.227</TD>
+						<TD>5.51</TD>
+						<TD>5.771</TD>
+						<TD>5.803</TD>
+						<TD>5.703</TD>
+					</TR>
+					<TR>
+						<TD>871670</TD>
+						<TD>94.68966086382211</TD>
+						<TD>15.281181182499463</TD>
+						<TD>V* V1308 Ori</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>187</TD>
+						<TD>13.28</TD>
+						<TD>11.95</TD>
+						<TD>12.89</TD>
+						<TD>8.762</TD>
+						<TD>7.84</TD>
+						<TD>6.623</TD>
+					</TR>
+					<TR>
+						<TD>887520</TD>
+						<TD>96.81574008449942</TD>
+						<TD>14.889227305416668</TD>
+						<TD>HD  45314</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>108</TD>
+						<TD>6.69</TD>
+						<TD>6.598</TD>
+						<TD>5.91</TD>
+						<TD>5.906</TD>
+						<TD>5.761</TD>
+						<TD>5.534</TD>
+					</TR>
+					<TR>
+						<TD>889287</TD>
+						<TD>97.63724131571813</TD>
+						<TD>5.867001356666699</TD>
+						<TD>HD  45910</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>188</TD>
+						<TD>6.97</TD>
+						<TD>6.74</TD>
+						<TD>6.43</TD>
+						<TD>5.147</TD>
+						<TD>4.741</TD>
+						<TD>4.413</TD>
+					</TR>
+					<TR>
+						<TD>894606</TD>
+						<TD>97.0725913948987</TD>
+						<TD>-13.053093082361064</TD>
+						<TD>HD  45677</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>264</TD>
+						<TD>8.09</TD>
+						<TD>8.05</TD>
+						<TD>6.89</TD>
+						<TD>7.242</TD>
+						<TD>6.347</TD>
+						<TD>4.778</TD>
+					</TR>
+					<TR>
+						<TD>903759</TD>
+						<TD>100.24441512044264</TD>
+						<TD>9.895756366805493</TD>
+						<TD>CCDM J06410+0953AB</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>631</TD>
+						<TD>4.4</TD>
+						<TD>4.64</TD>
+						<TD>3.36</TD>
+						<TD>5.202</TD>
+						<TD>5.322</TD>
+						<TD>5.34</TD>
+					</TR>
+					<TR>
+						<TD>923619</TD>
+						<TD>102.94063579578818</TD>
+						<TD>5.0844063308335254</TD>
+						<TD>HD  50083</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>70</TD>
+						<TD>6.98</TD>
+						<TD>6.92</TD>
+						<TD>6.22</TD>
+						<TD>6.619</TD>
+						<TD>6.535</TD>
+						<TD>6.292</TD>
+					</TR>
+					<TR>
+						<TD>928516</TD>
+						<TD>102.8891628360511</TD>
+						<TD>-6.966513946111042</TD>
+						<TD>HD  50138</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>149</TD>
+						<TD>6.606</TD>
+						<TD>6.583</TD>
+						<TD>6.28</TD>
+						<TD>5.856</TD>
+						<TD>5.093</TD>
+						<TD>4.147</TD>
+					</TR>
+					<TR>
+						<TD>937334</TD>
+						<TD>104.42875617732679</TD>
+						<TD>17.90200988083297</TD>
+						<TD>HD  51354</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>33</TD>
+						<TD>7.02</TD>
+						<TD>7.15</TD>
+						<TD>6.29</TD>
+						<TD>7.2</TD>
+						<TD>7.183</TD>
+						<TD>7.047</TD>
+					</TR>
+					<TR>
+						<TD>942592</TD>
+						<TD>105.72823613202098</TD>
+						<TD>-4.239232685555458</TD>
+						<TD>V* V637 Mon</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>146</TD>
+						<TD>4.79</TD>
+						<TD>4.99</TD>
+						<TD>3.84</TD>
+						<TD>5.389</TD>
+						<TD>5.476</TD>
+						<TD>5.498</TD>
+					</TR>
+					<TR>
+						<TD>944805</TD>
+						<TD>105.45629070865044</TD>
+						<TD>-11.300922743749734</TD>
+						<TD>CCDM J07018-1118AB</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>157</TD>
+						<TD>6.6</TD>
+						<TD>6.58</TD>
+						<TD>5.88</TD>
+						<TD>6.243</TD>
+						<TD>6.156</TD>
+						<TD>6.038</TD>
+					</TR>
+					<TR>
+						<TD>947042</TD>
+						<TD>105.08067979002577</TD>
+						<TD>-22.11906115763974</TD>
+						<TD>CCDM J07003-2207AP</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>64</TD>
+						<TD>6.343</TD>
+						<TD>6.513</TD>
+						<TD>5.54</TD>
+						<TD>6.884</TD>
+						<TD>6.987</TD>
+						<TD>6.988</TD>
+					</TR>
+					<TR>
+						<TD>947270</TD>
+						<TD>106.84411253148718</TD>
+						<TD>-23.840719747916914</TD>
+						<TD>HR  2690</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>100</TD>
+						<TD>5.61</TD>
+						<TD>5.71</TD>
+						<TD>4.72</TD>
+						<TD>5.862</TD>
+						<TD>5.844</TD>
+						<TD>5.641</TD>
+					</TR>
+					<TR>
+						<TD>963128</TD>
+						<TD>108.70272444795872</TD>
+						<TD>-26.772669362079665</TD>
+						<TD>* ome CMa</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>265</TD>
+						<TD>3.87</TD>
+						<TD>4.028</TD>
+						<TD>2.95</TD>
+						<TD>4.543</TD>
+						<TD>4.494</TD>
+						<TD>4.374</TD>
+					</TR>
+					<TR>
+						<TD>963312</TD>
+						<TD>108.56338298709886</TD>
+						<TD>-26.352508665137673</TD>
+						<TD>CCDM J07143-2621AB</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>187</TD>
+						<TD>4.45</TD>
+						<TD>4.65</TD>
+						<TD>3.76</TD>
+						<TD>5.04</TD>
+						<TD>4.977</TD>
+						<TD>4.88</TD>
+					</TR>
+					<TR>
+						<TD>970629</TD>
+						<TD>111.11520039119979</TD>
+						<TD>15.517196134722202</TD>
+						<TD>HR  2817</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>94</TD>
+						<TD>6.261</TD>
+						<TD>6.448</TD>
+						<TD>5.39</TD>
+						<TD>6.395</TD>
+						<TD>6.398</TD>
+						<TD>6.291</TD>
+					</TR>
+					<TR>
+						<TD>976763</TD>
+						<TD>111.16744754118542</TD>
+						<TD>-16.201472611534296</TD>
+						<TD>HR  2825</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>168</TD>
+						<TD>5.16</TD>
+						<TD>5.2</TD>
+						<TD>4.68</TD>
+						<TD>5.418</TD>
+						<TD>5.456</TD>
+						<TD>5.417</TD>
+					</TR>
+					<TR>
+						<TD>978175</TD>
+						<TD>111.74784260694675</TD>
+						<TD>-23.0860215747209</TD>
+						<TD>HR  2855</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>156</TD>
+						<TD>5.45</TD>
+						<TD>5.56</TD>
+						<TD>4.51</TD>
+						<TD>5.477</TD>
+						<TD>5.378</TD>
+						<TD>5.14</TD>
+					</TR>
+					<TR>
+						<TD>986691</TD>
+						<TD>114.27388615508566</TD>
+						<TD>16.90424866499999</TD>
+						<TD>HD  60848</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>94</TD>
+						<TD>6.712</TD>
+						<TD>6.921</TD>
+						<TD>5.51</TD>
+						<TD>7.044</TD>
+						<TD>7.071</TD>
+						<TD>6.965</TD>
+					</TR>
+					<TR>
+						<TD>991777</TD>
+						<TD>114.01622321005392</TD>
+						<TD>-14.492772496388291</TD>
+						<TD>HR  2921</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>104</TD>
+						<TD>5.589</TD>
+						<TD>5.656</TD>
+						<TD>4.87</TD>
+						<TD>5.51</TD>
+						<TD>5.5</TD>
+						<TD>5.205</TD>
+					</TR>
+					<TR>
+						<TD>1026062</TD>
+						<TD>119.26664369115005</TD>
+						<TD>2.950845315416664</TD>
+						<TD>HD  65079</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>39</TD>
+						<TD>7.62</TD>
+						<TD>7.77</TD>
+						<TD>6.93</TD>
+						<TD>8.02</TD>
+						<TD>7.917</TD>
+						<TD>7.806</TD>
+					</TR>
+					<TR>
+						<TD>1027034</TD>
+						<TD>120.18389284890803</TD>
+						<TD>-2.8819205608332443</TD>
+						<TD>HR  3135</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>107</TD>
+						<TD>6.44</TD>
+						<TD>6.51</TD>
+						<TD>5.63</TD>
+						<TD>6.479</TD>
+						<TD>6.428</TD>
+						<TD>6.252</TD>
+					</TR>
+					<TR>
+						<TD>1054476</TD>
+						<TD>122.08066009881485</TD>
+						<TD>-23.617789758609373</TD>
+						<TD>HD  67698</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>18</TD>
+						<TD>6.45</TD>
+						<TD>6.53</TD>
+						<TD>6.02</TD>
+						<TD>6.562</TD>
+						<TD>6.575</TD>
+						<TD>6.465</TD>
+					</TR>
+					<TR>
+						<TD>1457578</TD>
+						<TD>320.8974408135746</TD>
+						<TD>14.050178004444167</TD>
+						<TD>HD 203699</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>49</TD>
+						<TD>6.75</TD>
+						<TD>6.86</TD>
+						<TD>6.18</TD>
+						<TD>6.852</TD>
+						<TD>6.898</TD>
+						<TD>6.82</TD>
+					</TR>
+					<TR>
+						<TD>1525309</TD>
+						<TD>323.9353219697652</TD>
+						<TD>29.745526128749987</TD>
+						<TD>HD 205618</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>28</TD>
+						<TD>8.13</TD>
+						<TD>8.16</TD>
+						<TD>7.25</TD>
+						<TD>7.858</TD>
+						<TD>7.787</TD>
+						<TD>7.488</TD>
+					</TR>
+					<TR>
+						<TD>1586618</TD>
+						<TD>343.946096409349</TD>
+						<TD>43.559286701944316</TD>
+						<TD>HD 216851</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>33</TD>
+						<TD>8.02</TD>
+						<TD>7.97</TD>
+						<TD>7.55</TD>
+						<TD>7.665</TD>
+						<TD>7.614</TD>
+						<TD>7.455</TD>
+					</TR>
+					<TR>
+						<TD>1586709</TD>
+						<TD>345.4802691403503</TD>
+						<TD>42.325981498865346</TD>
+						<TD>* omi And</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>371</TD>
+						<TD>3.552</TD>
+						<TD>3.633</TD>
+						<TD>3.0</TD>
+						<TD>3.827</TD>
+						<TD>3.841</TD>
+						<TD>3.886</TD>
+					</TR>
+					<TR>
+						<TD>2481729</TD>
+						<TD>238.48276681904753</TD>
+						<TD>-23.97809783336605</TD>
+						<TD>HR  5907</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>123</TD>
+						<TD>5.36</TD>
+						<TD>5.4</TD>
+						<TD>4.77</TD>
+						<TD>5.437</TD>
+						<TD>5.418</TD>
+						<TD>5.365</TD>
+					</TR>
+					<TR>
+						<TD>2501827</TD>
+						<TD>277.3416093325391</TD>
+						<TD>-25.256604492639454</TD>
+						<TD>HR  6929</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>80</TD>
+						<TD>6.66</TD>
+						<TD>6.59</TD>
+						<TD>5.98</TD>
+						<TD>6.461</TD>
+						<TD>6.48</TD>
+						<TD>6.474</TD>
+					</TR>
+					<TR>
+						<TD>2529806</TD>
+						<TD>246.75597911769373</TD>
+						<TD>-18.45624827334196</TD>
+						<TD>* chi Oph</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>490</TD>
+						<TD>4.7</TD>
+						<TD>4.42</TD>
+						<TD>3.95</TD>
+						<TD>3.404</TD>
+						<TD>3.149</TD>
+						<TD>2.885</TD>
+					</TR>
+					<TR>
+						<TD>2540459</TD>
+						<TD>287.06959460348094</TD>
+						<TD>-19.290286891804993</TD>
+						<TD>HR  7249</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>116</TD>
+						<TD>5.484</TD>
+						<TD>5.57</TD>
+						<TD>4.65</TD>
+						<TD>5.392</TD>
+						<TD>5.386</TD>
+						<TD>5.313</TD>
+					</TR>
+					<TR>
+						<TD>2554675</TD>
+						<TD>286.19972839524326</TD>
+						<TD>-18.70755146416609</TD>
+						<TD>HD 177291</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>13</TD>
+						<TD>9.02</TD>
+						<TD>8.66</TD>
+						<TD>8.82</TD>
+						<TD>7.09</TD>
+						<TD>6.635</TD>
+						<TD>6.425</TD>
+					</TR>
+					<TR>
+						<TD>2585757</TD>
+						<TD>274.5245604275468</TD>
+						<TD>-12.242581223611042</TD>
+						<TD>HD 167971</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>211</TD>
+						<TD>8.05</TD>
+						<TD>7.45</TD>
+						<TD>7.87</TD>
+						<TD>5.52</TD>
+						<TD>5.315</TD>
+						<TD>5.138</TD>
+					</TR>
+					<TR>
+						<TD>2604462</TD>
+						<TD>302.7919884205943</TD>
+						<TD>-8.842344724305551</TD>
+						<TD>HR  7709</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>53</TD>
+						<TD>6.288</TD>
+						<TD>6.445</TD>
+						<TD>5.42</TD>
+						<TD>6.793</TD>
+						<TD>6.933</TD>
+						<TD>6.947</TD>
+					</TR>
+					<TR>
+						<TD>2609443</TD>
+						<TD>265.9854134131299</TD>
+						<TD>-6.269098472363998</TD>
+						<TD>V* XX Oph</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>116</TD>
+						<TD>9.81</TD>
+						<TD>8.95</TD>
+						<TD>10.51</TD>
+						<TD>4.862</TD>
+						<TD>3.487</TD>
+						<TD>2.971</TD>
+					</TR>
+					<TR>
+						<TD>2610814</TD>
+						<TD>277.3570521566988</TD>
+						<TD>-6.077025099999999</TD>
+						<TD>V* V431 Sct</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>109</TD>
+						<TD>12.67</TD>
+						<TD>11.6</TD>
+						<TD>12.55</TD>
+						<TD>9.309</TD>
+						<TD>8.159</TD>
+						<TD>6.208</TD>
+					</TR>
+					<TR>
+						<TD>2670654</TD>
+						<TD>275.36834287481724</TD>
+						<TD>5.435720070555555</TD>
+						<TD>HR  6873</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>97</TD>
+						<TD>6.099</TD>
+						<TD>6.147</TD>
+						<TD>5.47</TD>
+						<TD>6.128</TD>
+						<TD>6.171</TD>
+						<TD>6.156</TD>
+					</TR>
+					<TR>
+						<TD>2675294</TD>
+						<TD>292.6380132520387</TD>
+						<TD>3.444405377221577</TD>
+						<TD>HR  7415</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>104</TD>
+						<TD>6.067</TD>
+						<TD>6.089</TD>
+						<TD>5.69</TD>
+						<TD>5.96</TD>
+						<TD>5.897</TD>
+						<TD>5.814</TD>
+					</TR>
+					<TR>
+						<TD>2691794</TD>
+						<TD>296.06605955322686</TD>
+						<TD>7.58822248527774</TD>
+						<TD>HD 186456</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>20</TD>
+						<TD>8.21</TD>
+						<TD>8.15</TD>
+						<TD>7.65</TD>
+						<TD>7.963</TD>
+						<TD>7.906</TD>
+						<TD>7.808</TD>
+					</TR>
+					<TR>
+						<TD>2747950</TD>
+						<TD>270.1152386237924</TD>
+						<TD>19.50578511277733</TD>
+						<TD>HR  6720</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>55</TD>
+						<TD>6.37</TD>
+						<TD>6.43</TD>
+						<TD>5.96</TD>
+						<TD>6.507</TD>
+						<TD>6.566</TD>
+						<TD>6.552</TD>
+					</TR>
+					<TR>
+						<TD>2756580</TD>
+						<TD>304.29073608497254</TD>
+						<TD>15.872670153749754</TD>
+						<TD>HD 192954</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>22</TD>
+						<TD>7.37</TD>
+						<TD>7.47</TD>
+						<TD>6.99</TD>
+						<TD>7.544</TD>
+						<TD>7.602</TD>
+						<TD>7.498</TD>
+					</TR>
+					<TR>
+						<TD>2772233</TD>
+						<TD>295.70114670281873</TD>
+						<TD>17.968267556110376</TD>
+						<TD>HD 186272</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>14</TD>
+						<TD>7.88</TD>
+						<TD>7.78</TD>
+						<TD>7.36</TD>
+						<TD>7.141</TD>
+						<TD>7.146</TD>
+						<TD>7.081</TD>
+					</TR>
+					<TR>
+						<TD>2825671</TD>
+						<TD>297.7697412013324</TD>
+						<TD>27.716906220555536</TD>
+						<TD>HD 187851</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>23</TD>
+						<TD>7.836</TD>
+						<TD>7.761</TD>
+						<TD>7.24</TD>
+						<TD>7.462</TD>
+						<TD>7.469</TD>
+						<TD>7.476</TD>
+					</TR>
+					<TR>
+						<TD>2841651</TD>
+						<TD>278.34599402682574</TD>
+						<TD>30.8920901686095</TD>
+						<TD>HR  6971</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>47</TD>
+						<TD>6.437</TD>
+						<TD>6.538</TD>
+						<TD>5.96</TD>
+						<TD>6.63</TD>
+						<TD>6.743</TD>
+						<TD>6.746</TD>
+					</TR>
+					<TR>
+						<TD>2848830</TD>
+						<TD>297.1744851305014</TD>
+						<TD>29.402328607361074</TD>
+						<TD>HD 187399</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>85</TD>
+						<TD>7.138</TD>
+						<TD>7.012</TD>
+						<TD>6.82</TD>
+						<TD>6.352</TD>
+						<TD>6.263</TD>
+						<TD>6.158</TD>
+					</TR>
+					<TR>
+						<TD>2868583</TD>
+						<TD>282.51998019923906</TD>
+						<TD>33.36266944013876</TD>
+						<TD>V* bet Lyr</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>796</TD>
+						<TD>3.52</TD>
+						<TD>3.52</TD>
+						<TD>2.85</TD>
+						<TD>3.367</TD>
+						<TD>3.351</TD>
+						<TD>3.192</TD>
+					</TR>
+					<TR>
+						<TD>2873405</TD>
+						<TD>299.1314166666667</TD>
+						<TD>31.105588888888892</TD>
+						<TD>V* V2028 Cyg</TD>
+						<TD>2000A&amp;A...355L..27H</TD>
+						<TD>49</TD>
+						<TD>11.98</TD>
+						<TD>10.92</TD>
+						<TD>11.68</TD>
+						<TD>7.096</TD>
+						<TD>6.1</TD>
+						<TD>5.379</TD>
+					</TR>
+					<TR>
+						<TD>2873926</TD>
+						<TD>301.15072789231994</TD>
+						<TD>32.218597743752625</TD>
+						<TD>V* V1768 Cyg</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>281</TD>
+						<TD>6.097</TD>
+						<TD>5.659</TD>
+						<TD>5.76</TD>
+						<TD>4.416</TD>
+						<TD>4.258</TD>
+						<TD>4.041</TD>
+					</TR>
+					<TR>
+						<TD>2906380</TD>
+						<TD>304.2007575129545</TD>
+						<TD>32.37983145152463</TD>
+						<TD>HD 193009</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>55</TD>
+						<TD>7.25</TD>
+						<TD>7.16</TD>
+						<TD>6.41</TD>
+						<TD>6.62</TD>
+						<TD>6.534</TD>
+						<TD>6.357</TD>
+					</TR>
+					<TR>
+						<TD>2907271</TD>
+						<TD>308.2713060208032</TD>
+						<TD>31.657031216098613</TD>
+						<TD>HD 195907</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>38</TD>
+						<TD>7.85</TD>
+						<TD>7.82</TD>
+						<TD>7.11</TD>
+						<TD>7.456</TD>
+						<TD>7.43</TD>
+						<TD>7.279</TD>
+					</TR>
+					<TR>
+						<TD>2925400</TD>
+						<TD>291.90165131934657</TD>
+						<TD>37.941196829722216</TD>
+						<TD>HR  7403</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>85</TD>
+						<TD>6.175</TD>
+						<TD>6.294</TD>
+						<TD>5.46</TD>
+						<TD>6.253</TD>
+						<TD>6.183</TD>
+						<TD>6.046</TD>
+					</TR>
+					<TR>
+						<TD>2929506</TD>
+						<TD>301.5414516985571</TD>
+						<TD>35.38600132458298</TD>
+						<TD>V* V448 Cyg</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>119</TD>
+						<TD>8.45</TD>
+						<TD>8.16</TD>
+						<TD>7.89</TD>
+						<TD>6.937</TD>
+						<TD>6.848</TD>
+						<TD>6.734</TD>
+					</TR>
+					<TR>
+						<TD>2954232</TD>
+						<TD>305.93487246976815</TD>
+						<TD>37.476448221387656</TD>
+						<TD>HR  7807</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>106</TD>
+						<TD>5.689</TD>
+						<TD>5.859</TD>
+						<TD>4.82</TD>
+						<TD>6.174</TD>
+						<TD>6.228</TD>
+						<TD>6.165</TD>
+					</TR>
+					<TR>
+						<TD>2957660</TD>
+						<TD>310.59301391255303</TD>
+						<TD>35.45619542944308</TD>
+						<TD>HR  7927</TD>
+						<TD>2007A&amp;A...474..653V</TD>
+						<TD>78</TD>
+						<TD>6.517</TD>
+						<TD>6.671</TD>
+						<TD>5.82</TD>
+						<TD>6.886</TD>
+						<TD>6.914</TD>
+						<TD>6.854</TD>
+					</TR>
+				</TABLEDATA>
+			</DATA>
+		</TABLE>
+	</RESOURCE>
+</VOTABLE>
