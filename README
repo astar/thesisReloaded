@@ -1,9 +1,65 @@
 -*- mode: org; -*-
 
 * TODO
+
+** Color transformation
+   [[http://arxiv.org/pdf/0711.4356v1.pdf]]
+
+** Download segue1 [2/10]
+   - [ ] segcluster
+   - [ ] segclusterf
+   - [ ] seglowlat
+   - [ ] seglowlatf
+   - [ ] segpointed
+   - [ ] segpointedf
+   - [ ] segtest
+   - [ ] segtestf
+   - [X] segue
+   - [X] seguefaint
+
+** Download segue2 [1/2]
+   - [ ] segcluster
+   - [X] segue2
+
+
+** List of programs in surveys
+   SELECT p.programname 
+   FROM SpecPhotoAll s, platex p
+   WHERE s.specObjID is not null
+   AND s.plateid = p.plateid
+   AND p.survey = 'segue1'
+   group by p.survey,p.programname
+   order by p.survey, p.programname
+
+
   not in database 3533121815952072704
 
 * DONE
+** SDSS Caveats
+   [[http://www.sdss.org/dr7/products/spectra/index.html#caveats]]
+
+** Getting Started with SEGUE
+   [[http://www.sdss3.org/surveys/segue2.php#GettingStarted]]
+** Avoiding Duplicates
+   as described here [[http://www.sdss3.org/dr8/algorithms/segueii/segue_sqlcookbook.php#Tables]]
+   object with sciencePrimary = 1 should by unique. The list of non/unique objects could be obtained via
+
+   SELECT p.programname,sciencePrimary, count(*)
+   FROM SpecPhotoAll s, platex p
+   WHERE s.specObjID is not null
+   AND s.plateid = p.plateid
+   and p.survey like 'segue%'
+   group by p.programname,sciencePrimary 
+   order by p.programname,sciencePrimary 
+
+
+
+** Tables decriptions of DR8 SEGUE
+   [[http://www.sdss3.org/dr8/algorithms/segueii/segue_sqlcookbook.php#Tables]]
+
+** transform log ot copy script to get corrupted fits
+   sed -E 's:^../segue/([^ ]*)(.*):cp ../segue/\1 ../corrupt_segue/\1:' ../log/corrupt_segue.log > copy_corrupt_segue.sh
+** corrupt.py also write naxis2 and difference between # of corrupted pixels and naxis2
 ** get ubv for Be stars from simbad
 *** tap and adq in simbad
     [[http://simbad.u-strasbg.fr/simbad/images/tables.png][simbad tables]]
