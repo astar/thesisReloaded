@@ -26,9 +26,9 @@ def main():
         print '(%i/%i) %s %s' % (idx + 1, nFiles, file, status)
 
 def line(file, header, z):
-    deli = ' '
+    deli = ','
     r = ''
-    items = [file, str(z), str(header['MJD']),str(header['PLATEID']),str(header['FIBERID'])]
+    items = [file, str(z), str(header['MJD']),str(header['PLATEID']),str(header['FIBERID']),str(header['NAXIS2']),str(header['NAXIS2'] - int(z))]
     r = deli.join(items)
     return r + '\n'
 
