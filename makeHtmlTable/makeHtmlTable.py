@@ -1,4 +1,8 @@
 #!/usr/bin/python
+# generate html table from input files
+# usage:
+#       ./makeHtmlTable.py '../data/corrupt_segue_small/*.png' test
+# generate html; table of directory ../data/corrupt_segue_small named test.html
 
 import os, sys, glob
 
@@ -76,7 +80,9 @@ def makeTag(name):
     return tag
 
 def listdir(d):
-    return glob.glob(d + '/*.png')
+    print d 
+#    return glob.glob(d + '/*.png')
+    return glob.glob(d)
 
 
 if __name__ == "__main__":
