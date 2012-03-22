@@ -1,25 +1,52 @@
 #!/usr/bin/python
-import sys, pyfits, numpy as np, pylab as p, matplotlib.pyplot as plt, os
+import sys, pyfits, numpy as np, pylab as p, matplotlib.pyplot as plt, os, glob
+
+def main():
+
 
 #show position of some lines
-Halpha = 6564.614
-type = 3 # type of the spectrum 1 = ond, 2 = dr7 , 3 = dr8 
-save = 0
+    Halpha = 6564.614
+    type = 3 # type of the spectrum 1 = ond, 2 = dr7 , 3 = dr8 
+    save = 1
 
-if len(sys.argv) > 1:
-    file = sys.argv[1]
-else:
-    print 'This utility plot fits file passed as argument'
-if len(sys.argv) == 3:
-    type = int(sys.argv[2])
+    if len(sys.argv) > 1:
+        file = sys.argv[1]
+    else:
+        print 'This utility plot fits file passed as argument'
+    if len(sys.argv) == 3:
+        type = int(sys.argv[2])
 
-if len(sys.argv) == 4:
-    save = int(sys.argv[3])
+    if len(sys.argv) == 4:
+        save = int(sys.argv[3])
+
+
+    nFiles, files = listdir(file)
+    print nFiles
+    print files
+    for file in files:
+        processFile(file,type, save, Halpha)
+
+
+def processFile(file, type, save, Halpha):
+
+    print file
+    print type
+        
+    data = read(file,type)
+
+
+    x = data[0,:]
+    y = data[1,:]
+    ra = 50
+    xr = x[(x < Halpha + ra) & (x > Halpha - ra)]
+    yr = y[(x < Halpha + ra) & (x > Halpha - ra)]
+    
+    plot2(file,Halpha,[x, xr ],[y, yr], save)
 
 
 
-print file
-print type
+def listdir(d):
+    return len(glob.glob(d)), glob.glob(d)
 
 def readParam(file, param):
     """ Read fits file. Retrun valeu of parameter """
@@ -79,7 +106,7 @@ def plot(file,xdata,ydata,spLine):
 
     #plt.show()
 
-def plot2(file, spLine, xx,yy):
+def plot2(file, spLine, xx,yy, save):
     """ Plot the result with shared axes"""
     fig = plt.figure()
     nsp = len(xx)
@@ -116,21 +143,13 @@ def plot2(file, spLine, xx,yy):
     basename = os.path.basename(file)
     ax[0].set_title(basename)
     if save:
-        filename = os.path.splitext(basename)[0] + '.svg'
+        filename = os.path.splitext(basename)[0] + '.png'
         plt.savefig(filename)
     else:
         plt.draw()
         plt.show()
 
-data = read(file,type)
-#plot(file, data[0,:], data[1,:], Halpha)
 
-x = data[0,:]
-y = data[1,:]
-ra = 50
-xr = x[(x < Halpha + ra) & (x > Halpha - ra)]
-yr = y[(x < Halpha + ra) & (x > Halpha - ra)]
-
-plot2(file,6563,[x, xr ],[y, yr])
-
+if __name__ == "__main__":
+    main()
 
