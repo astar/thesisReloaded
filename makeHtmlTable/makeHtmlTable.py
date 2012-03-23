@@ -4,7 +4,7 @@
 #       ./makeHtmlTable.py '../data/corrupt_segue_small/*.png' test
 # generate html; table of directory ../data/corrupt_segue_small named test.html
 
-import os, sys, glob
+import os, sys, glob, re
 
 
 
@@ -16,8 +16,8 @@ def main():
     else:
         sys.exit(1)
     
-    files = listdir(dir)
-    nFiles = len(files)
+    nFiles, files = listdir(dir)
+
 
 
     links = list(map(makeTag, files))
@@ -74,15 +74,14 @@ def make_head_foot(program, nFiles, table):
 def makeTag(name):
     base_name = os.path.basename(name)
     name_no_ext = os.path.splitext(base_name)[0]
+    name_no_ext = re.sub('.*_.*_','', name_no_ext)
     link = 'http://skyserver.sdss3.org/dr8/en/tools/explore/obj.asp?sid=%s' % name_no_ext
-    tag = '<a href="%s"><img src="%s/%s" width = "300" border="0" alt="Spectrum of %s"></a>' % (link, 'segue2', base_name, name_no_ext)
+    tag = '<a href="%s"><img src="%s/%s" width = "300" border="0" alt="Spectrum of %s"></a>' % (link, 'thm', base_name, name_no_ext)
 
     return tag
 
 def listdir(d):
-    print d 
-#    return glob.glob(d + '/*.png')
-    return glob.glob(d)
+    return len(glob.glob(d)), glob.glob(d)
 
 
 if __name__ == "__main__":

@@ -15,6 +15,7 @@ def main():
         srcDest = map(getNames, data)
         map(makeLink, srcDest)
 
+
 def makeLink(srcDest):
     if not os.path.islink(srcDest[1]):
         src = os.path.join('..', srcDest[0])
@@ -29,7 +30,8 @@ def getNames(name):
 
 def readFile(file):
     data = np.genfromtxt(file, dtype=None, delimiter=',', names=None)
-    return data['f0']
+    #return only spectra which are not fully corrupted
+    return data[data['f6'] != 0]['f0']
 
 def listdir(d):
     return len(glob.glob(d)), glob.glob(d)

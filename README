@@ -1,24 +1,34 @@
 -*- mode: org; -*-
 
+* Problems
+** pf.py gets only 1846 from 1984 corrupted spectra (killed! after that)
+ 
 * TODO
+** Use Object Oriented Database for parametres storage  ?
+*** [[http://www.sqlalchemy.org/]]
+*** [[http://code.google.com/p/pykesto/wiki/WhyNotTheAlternatives]]
+** Analyzator fits --> web
+** Color indexes
+** SQL group by # specter (science primary ..etc)
 
 ** Color transformation
    [[http://arxiv.org/pdf/0711.4356v1.pdf]]
 
-** Download segue1 [2/10]
-   - [ ] segcluster
-   - [ ] segclusterf
-   - [ ] seglowlat
-   - [ ] seglowlatf
-   - [ ] segpointed
-   - [ ] segpointedf
-   - [ ] segtest
-   - [ ] segtestf
+
+** Download segue1 [10/10]
+   - [X] segcluster
+   - [X] segclusterf
+   - [X] seglowlat
+   - [X] seglowlatf
+   - [X] segpointed
+   - [X] segpointedf
+   - [X] segtest
+   - [X] segtestf
    - [X] segue
    - [X] seguefaint
 
-** Download segue2 [1/2]
-   - [ ] segcluster
+** Download segue2 [2/2]
+   - [X] segcluster
    - [X] segue2
 
 
@@ -35,6 +45,24 @@
   not in database 3533121815952072704
 
 * DONE
+** Processed corrupted spectra segue1 [10/10]
+   - [X] segcluster
+   - [X] segclusterf
+   - [X] seglowlat
+   - [X] seglowlatf
+   - [X] segpointed
+   - [X] segpointedf
+   - [X] segtest
+   - [X] segtestf
+   - [X] segue
+   - [X] seguefaint
+
+** Processed spectra segue2 [2/2]
+   - [X] segcluster
+   - [X] segue2
+
+   Results in log/
+
 ** SDSS Caveats
    [[http://www.sdss.org/dr7/products/spectra/index.html#caveats]]
 
