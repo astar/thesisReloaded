@@ -1,8 +1,5 @@
 -*- mode: org; -*-
 
-* Problems
-** pf.py gets only 1846 from 1984 corrupted spectra (killed! after that)
- 
 * TODO
 ** Use Object Oriented Database for parametres storage  ?
 *** [[http://www.sqlalchemy.org/]]
@@ -14,22 +11,6 @@
 ** Color transformation
    [[http://arxiv.org/pdf/0711.4356v1.pdf]]
 
-
-** Download segue1 [10/10]
-   - [X] segcluster
-   - [X] segclusterf
-   - [X] seglowlat
-   - [X] seglowlatf
-   - [X] segpointed
-   - [X] segpointedf
-   - [X] segtest
-   - [X] segtestf
-   - [X] segue
-   - [X] seguefaint
-
-** Download segue2 [2/2]
-   - [X] segcluster
-   - [X] segue2
 
 
 ** List of programs in surveys
@@ -62,6 +43,23 @@
    - [X] segue2
 
    Results in log/
+
+** Download segue1 [10/10]
+   - [X] segcluster
+   - [X] segclusterf
+   - [X] seglowlat
+   - [X] seglowlatf
+   - [X] segpointed
+   - [X] segpointedf
+   - [X] segtest
+   - [X] segtestf
+   - [X] segue
+   - [X] seguefaint
+
+** Download segue2 [2/2]
+   - [X] segcluster
+   - [X] segue2
+
 
 ** SDSS Caveats
    [[http://www.sdss.org/dr7/products/spectra/index.html#caveats]]
@@ -592,3 +590,12 @@ AND id in (
 | segue                   |  115200 |
 | segue2                  |  133760 |
 | legacy                  | 1232640 |
+
+* Problems
+** SOLVED 
+   pf.py gets only 1846 from 1984 corrupted spectra (killed! after that)
+   
+* Solutions
+** python differenxe two list
+   c3 = set(c1).difference(set(c2))
+  
