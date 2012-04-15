@@ -1,0 +1,17 @@
+survey,programname,fsobjects
+segue1,segcluster,9600
+segue1,segclusterf,5120
+segue1,seglowlat,8960
+segue1,seglowlatf,7040
+segue1,segpointed,10240
+segue1,segpointedf,10240
+segue1,segtest,7040
+segue1,segtestf,2560
+segue1,segue,115200
+segue1,seguefaint,106880
+segue2,segue2,133760
+segue2,segcluster,1280
+sdss,southern,85760
+sdss,apbias,1920
+sdss,commissioning,1920
+sdss,disk,8645
