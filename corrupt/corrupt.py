@@ -1,23 +1,34 @@
 #!/usr/bin/python
-""" Check fits file for some sequence of zeros in sigam around Halpha line. 
-This should corespond to the corrupted spectrum """
+""" Check fits file for some sequence of zeros in sigam around Halpha line.
+This should corespond to the corrupted spectrum
+
+TODO pass logFile as parametr to fucnction dirlist """
 
 
 import sys, pyfits, numpy as np, os, glob
 
 Halpha = 6564.614
 range = 5
+ext = "fits"
+sep = ','
 
 def main():
 
-    if len(sys.argv) > 1:
-        dir = sys.argv[1] 
-        logFile = sys.argv[2]
-    else:
+    if len(sys.argv) != 3:
         sys.exit(1)
-    
-    files = listdir(dir)
+
+    root = sys.argv[1]
+    logName = sys.argv[2]
+
+
+    dirs = listdir(os.path.join(root,'*'))
+    map(checkDir, dirs)
+
+def checkDir(dir, logFile ='corrupt', e=ext):
+    files = listdir(os.path.join(os.path.join(dir,'*' + e)))
     nFiles = len(files)
+
+    print files
     for idx, file in enumerate(files):
         (data, header) = fitsInfo(file)
         (c, status) = corrupt(data)
@@ -33,7 +44,7 @@ def line(file, header, z):
     return r + '\n'
 
 
-    
+
 
 def fitsInfo(file):
     hdu = pyfits.open(file)
@@ -41,13 +52,13 @@ def fitsInfo(file):
     header = hdu[1].header
     data = pyfits.getdata(file)
     return data, header
-    
+
 def corrupt(data):
     """Check fits file for zeros in inverse varience """
     sigma = data.field('inverse_variance')
     x = data.field('wavelength')
-    
-    
+
+
     sigma2 = sigma[(x < Halpha + range) & (x > Halpha - range)]
 
     if not sigma2.any():
@@ -59,13 +70,13 @@ def corrupt(data):
         return True, str(z)
     return False, 'ok'
 
-def log(logFile, line):            
+def log(logFile, line):
         f = open(logFile + '.log','a')
         f.write(line)
         f.close()
 
 def listdir(d):
-    return glob.glob(d + '/*.fits')
+    return glob.glob(d)
 
 def zeros(sigma,x, Halpha):
     """ Test how many zeros are to the left """

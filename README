@@ -73,6 +73,10 @@
   not in database 3533121815952072704
 
 * DONE
+** run corrupt.py on segue1, segue2, sdss
+** modified corrupt.py to check subdirectories
+** dirlist program for checking download statu
+** downloaded fits from sdss survey
 ** Processed corrupted spectra segue1 [10/10]
    - [X] segcluster
    - [X] segclusterf
