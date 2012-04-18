@@ -1,27 +1,32 @@
 -*- mode: org; -*-
 
 * TODO
-** Download rest of the programs of sdss
+** Finish program ema (EmissionManualAnalyzer)
+*** Multiple spectra per one star
+*** Download fits
+*** Get votable
+
+** Download rest of the programs of sdss [31/31]
    survey	programname	Column1
-- [ ] sdss	apbias	1920
-- [ ] sdss	commissioning	1920
-- [ ] sdss	disk	10240
-- [ ] sdss	fstars	5120
-- [ ] sdss	hyades	640
+- [X] sdss	apbias	1920
+- [X] sdss	commissioning	1920
+- [X] sdss	disk	10240
+- [X] sdss	fstars	5120
+- [X] sdss	hyades	640
 - [X] sdss	legacy	1232640
-- [ ] sdss	lowz	5760
-- [ ] sdss	lowz_loveday	640
-- [ ] sdss	lowz_lrg	28160
-- [ ] sdss	m31_fstars	1920
-- [ ] sdss	msturnoff	5120
-- [ ] sdss	orion	5120
-- [ ] sdss	perseus	1280
-- [ ] sdss	photoz	12160
-- [ ] sdss	preboss	6400
-- [ ] sdss	premarvels_preselection	12800
-- [ ] sdss	reddening	5760
+- [X] sdss	lowz	5760
+- [X] sdss	lowz_loveday	640
+- [X] sdss	lowz_lrg	28160
+- [X] sdss	m31_fstars	1920
+- [X] sdss	msturnoff	5120
+- [X] sdss	orion	5120
+- [X] sdss	perseus	1280
+- [X] sdss	photoz	12160
+- [X] sdss	preboss	6400
+- [X] sdss	premarvels_preselection	12800
+- [X] sdss	reddening	5760
 - [X] sdss	southern	85760
-- [ ] sdss	taurus	1920
+- [X] sdss	taurus	1920
 - [X] segue1	segcluster	9600
 - [X] segue1	segclusterf	5120
 - [X] segue1	seglowlat	8960
@@ -641,7 +646,7 @@ AND id in (
 | segue                   |  115200 |
 | segue2                  |  133760 |
 | legacy                  | 1232640 |
-
+    
 * Problems
 ** SOLVED 
    pf.py gets only 1846 from 1984 corrupted spectra (killed! after that)

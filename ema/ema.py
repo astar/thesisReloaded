@@ -11,7 +11,7 @@ ema (emission manual analyzer)
 """
 
 __author__ = 'Jaroslav Vazny (jaroslav.vazny@gmail.com)'
-__copyright__ = 'Copyright (c) 2009-2010 Joe Author'
+__copyright__ = 'Copyright (c) 20012-3012 Astar'
 __vcs_id__ = '$Id$'
 __version__ = '1.2.3' #Versioning: http://www.python.org/dev/peps/pep-0386/
 
@@ -19,16 +19,18 @@ __version__ = '1.2.3' #Versioning: http://www.python.org/dev/peps/pep-0386/
 import matplotlib.pyplot as plt
 import numpy as np
 import sys
-
+import re
 
 class Spectra():
     """ manipulate spectra """
 
     def __init__(self):
         self.stars = ['a', 'b', 'c', 'd', 'e']
-        self.current = Spectrum()
+
+
         self.position = 0
         self.get_spectra()
+        self.current = self.spectrum[self.position]
 
     def next(self):
         if self.position < len(self.stars) - 1:
@@ -48,6 +50,20 @@ class Spectra():
             y = x**i
             self.spectrum.append(Spectrum(star, i, i+1, x, y))
 
+    def open_file(self, name):
+        try:
+            f = open(name, "r+")
+            text = f.read()
+            f.close()
+            return text
+        except IOError:
+            print "Could not open file!"
+
+    def parse_fits(self, text):
+        """ extract file names form votable """
+        fits = re.findall(
+            'http://ssaproxy.asu.cas.cz/getproduct/ccd700/data/.{,30}fits', text)
+        return fits
 
 class Spectrum():
     """ individual spectrum of a star """
@@ -65,6 +81,7 @@ class Plot():
         self.fig = plt.figure()
         self.connection_id = self.fig.canvas.mpl_connect(
             'button_press_event', self.onclick)
+        self.click()
 
     def plot(self, x, y, info):
         plt.clf()
@@ -80,9 +97,9 @@ class Plot():
         if event.button == 3:
             self.spectra.previous()
 
-        self.test()
+        self.click()
 
-    def test(self):
+    def click(self):
 
         # test data
         self.name = self.spectra.current.name
@@ -92,6 +109,16 @@ class Plot():
         print self.name, self.x, self.y
         self.plot(self.x, self.y, self.info)
 
+class TestClass:
+    my_spectra = Spectra()
+    test_file = 'votable.xml'
+    def test_open_file(self):
+        assert self.my_spectra.open_file(self.test_file)
+
+    def test_parse_fits(self):
+        text = self.my_spectra.open_file(self.test_file)
+        fits = self.my_spectra.parse_fits(text)
+        assert len(fits) == 265
 
 
 def main():
