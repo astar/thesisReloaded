@@ -18,6 +18,7 @@ __version__ = '1.2.3' #Versioning: http://www.python.org/dev/peps/pep-0386/
 
 import matplotlib.pyplot as plt
 import numpy as np
+import shutil as s
 import sys
 import csv
 import re
@@ -84,6 +85,17 @@ class File():
         except IOError:
             print "Could not open file!"
 
+class Dir():
+    def __init__(self, name):
+        self.name = name
+
+def remove_dir(self):
+    if not os.path.exists(dir):
+        try:
+            s.rmtree(name)
+
+        except IOError:
+            print "Could not remove dir %s!" % name
 
 
 class Star():
@@ -101,8 +113,14 @@ class Star():
         self.get_spectra()
 
 
+    def download_spectra(self, dir, files):
+        # delete temp dir for download
+
+        print files
+
 
     def get_spectra(self):
+        self.download_spectra('/tmp/',self.files)
         self.spectrum = []
         for f in self.files:
             # test data
