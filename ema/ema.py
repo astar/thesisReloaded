@@ -136,10 +136,13 @@ class Plot():
         self.click()
 
     def plot(self, x, y, info):
+        self.ax.plot(x,y)
+
+
+    def clear(self):
         plt.clf()
         self.ax = self.fig.add_subplot(111)
-        self.ax.plot(x,y)
-        plt.show()
+
 
     def onclick(self, event):
         if event.button == 1:
@@ -153,15 +156,21 @@ class Plot():
 
     def click(self):
 
+
         # test data
         self.name = self.stars.current.name
         self.ra = self.stars.current.ra
         self.dec = self.stars.current.dec
-        self.x = self.stars.current.spectrum[0].x
-        self.y = self.stars.current.spectrum[0].y
         self.info = ['name', 'ra = 100', 'dec = 200']
         print self.name, self.ra, self.dec
-        self.plot(self.x, self.y, self.info)
+        self.clear()
+
+        for spectrum in self.stars.current.spectrum:
+            self.x = spectrum.x
+            self.y = spectrum.y
+            self.plot(self.x, self.y, self.info)
+        plt.show()
+
 
 class TestClass:
     test_file = 'votable.xml'
@@ -171,13 +180,14 @@ class TestClass:
         assert self.my_file.open_file()
 
     def test_parse_votable(self):
+        my_star = Star(self.test_file,'kacenka', '10', '20')
         text = self.my_file.open_file()
-        fits = self.my_star.parse_votable(text)
-        assert len(fits) == 265
+        fits = my_star.parse_votable(text)
+        assert len(fits) == 6
 
 
 def main():
-    test_file = 'votable.xml'
+
     my_stars = Stars('stars.csv')
     my_plot = Plot(my_stars)
 
