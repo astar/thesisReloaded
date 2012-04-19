@@ -153,7 +153,7 @@ class Star():
 
     def get_votable():
         """ Downlad votable from ssa server """
-
+#http://ssaproxy.stel/ccd700/q/pssa/ssap.xml?POS=279.2347,38.7836&SIZE=0.16&REQUEST=queryData&_TDENC=true&band=6500e-10/6700e-10&format=fits' -O votable.xml
 
     def parse_votable(self, text):
         """ extract file names form votable """

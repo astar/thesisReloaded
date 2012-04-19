@@ -6,6 +6,16 @@
 *** Download fits
 *** Get votable
 
+** Use ema to classify ond fits
+*** categories
+**** emission
+**** emisson sometimes
+**** pcygni
+**** pcygni sometimes
+**** pcygni never
+**** emission never
+
+
 ** Download rest of the programs of sdss [31/31]
    survey	programname	Column1
 - [X] sdss	apbias	1920
