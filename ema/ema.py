@@ -19,7 +19,8 @@ __version__ = '1.2.3' #Versioning: http://www.python.org/dev/peps/pep-0386/
 import matplotlib.pyplot as plt
 import numpy as np
 import shutil as s
-import urllib
+import urllib2
+import pyfits
 import sys
 import csv
 import re
@@ -81,7 +82,6 @@ class File():
             f = csv.reader(open(self.name, "rU"))
             data = []
             data.extend(f)
-            print data
             return data
 
         except IOError:
@@ -126,35 +126,54 @@ class Star():
         self.my_dir = Dir(dir)
         self.my_dir.remove() # delete temp dir for download with old files
         self.my_dir.create() # create new one
-        for f in files:
+        self.download_names = []
+
+        for url in files:
+            download_name = url.split('/').pop() #last part
+            download_name = download_name.split('?')[0] # just *.fits
+            download_name = os.path.join(dir, download_name)
+            self.download_names.append(download_name)
+
             try:
-                filename, msg = urllib.urlretrieve(f, os.path.join(dir, f.split('/').pop()))
-            except URLError:
+                    s = urllib2.urlopen(url)
+                    content = s.read()
+                    s.close()
+                    d = open(download_name,'w')
+                    d.write(content)
+                    d.close()
+            except IOError:
                 print "Could not download file %s!" % f
 
     def get_spectra(self):
-        self.download_spectra('download',self.files)
+
+        self.download_spectra('download', self.files)
         self.spectrum = []
-        for f in self.files:
-            # test data
-            x = np.arange(100)
-            y = np.random.rand(100)
-            self.spectrum.append(Spectrum(f, x, y))
+        for f in self.download_names:
+            self.spectrum.append(Spectrum(f))
 
     def parse_votable(self, text):
         """ extract file names form votable """
         fits = re.findall(
-            'http://ssaproxy.asu.cas.cz/getproduct/ccd700/data/.{,30}fits', text)
+        'http://ssaproxy.asu.cas.cz/getproduct/ccd700/data/.{,40}fits[^<]{,50}',
+            text)
         return fits
 
 
 
 class Spectrum():
     """ individual spectrum of a star """
-    def __init__(self, name='', x=[], y=[]):
+    def __init__(self, name):
         self.name = name
-        self.x = x
-        self.y = y
+        self.load()
+
+    def load(self):
+        print self.name
+        hdu = pyfits.open(self.name)
+        data = hdu[1].data
+        self.x = data.field('WAVE')
+        self.y = data.field('FLUX')
+
+
 
 
 class Plot():
