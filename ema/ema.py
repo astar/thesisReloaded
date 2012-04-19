@@ -19,9 +19,11 @@ __version__ = '1.2.3' #Versioning: http://www.python.org/dev/peps/pep-0386/
 import matplotlib.pyplot as plt
 import numpy as np
 import shutil as s
+import urllib
 import sys
 import csv
 import re
+import os
 
 class Stars():
     """ """
@@ -89,18 +91,25 @@ class Dir():
     def __init__(self, name):
         self.name = name
 
-def remove_dir(self):
-    if not os.path.exists(dir):
-        try:
-            s.rmtree(name)
+    def remove(self):
+        if  os.path.exists(self.name):
+            try:
+                s.rmtree(self.name)
 
-        except IOError:
-            print "Could not remove dir %s!" % name
+            except IOError:
+                print "Could not remove dir %s!" % name
+
+    def create(self):
+        if not os.path.exists(self.name):
+            try:
+                os.makedirs(self.name)
+
+            except IOError:
+                print "Could not remove dir %s!" % name
 
 
 class Star():
     """  """
-
 
     def __init__(self, file_name, name, ra, dec):
         self.file_name = file_name
@@ -114,13 +123,17 @@ class Star():
 
 
     def download_spectra(self, dir, files):
-        # delete temp dir for download
-
-        print files
-
+        self.my_dir = Dir(dir)
+        self.my_dir.remove() # delete temp dir for download with old files
+        self.my_dir.create() # create new one
+        for f in files:
+            try:
+                filename, msg = urllib.urlretrieve(f, os.path.join(dir, f.split('/').pop()))
+            except URLError:
+                print "Could not download file %s!" % f
 
     def get_spectra(self):
-        self.download_spectra('/tmp/',self.files)
+        self.download_spectra('download',self.files)
         self.spectrum = []
         for f in self.files:
             # test data
@@ -202,6 +215,12 @@ class TestClass:
         text = self.my_file.open_file()
         fits = my_star.parse_votable(text)
         assert len(fits) == 6
+    def tes_dir(self):
+        my_dir = Dir('test')
+        my_dir.create()
+        my_dir.remove()
+
+
 
 
 def main():
