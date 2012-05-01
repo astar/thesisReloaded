@@ -37,7 +37,7 @@ class Stars():
         self.get_stars()
         self.position = 0
         self.current = self.star[self.position]
-        print 'current %s' % self.current.name
+        
     def next(self):
         if self.position < len(self.csv_data) - 1:
             self.position += 1
@@ -59,7 +59,8 @@ class Stars():
             dec  = d[2]
             file_name = self.get_file_name()
             self.star.append(Star(file_name, name, ra, dec))
-
+            print 'added star: {} file: {}'.format(name, file_name)
+            
     def get_file_name(self):
         return 'votable.xml'
 
@@ -73,7 +74,7 @@ class File():
     def open_file(self):
         try:
             f = open(self.name, "r+")
-            print 'openning file %s' % self.name
+
             text = f.read()
             f.close()
             return text
@@ -187,11 +188,13 @@ class Plot():
         self.fig = plt.figure()
         plt.autoscale(enable=True, axis='both', tight=None)
         self.fig.subplots_adjust(left=0.25, bottom=0.25)
-#        self.connection_id = self.fig.canvas.mpl_connect(
+        self.click()
+        #        self.connection_id = self.fig.canvas.mpl_connect(
 #            'button_press_event', self.onclick)
         # set the maximum separation to the median of the first star
-        self.clear()
+#        self.clear()
 
+    def show_buttons(self):
         # sep slider
         self.sep_max = round(np.median(self.stars.star[0].spectrum[0].y)*3)
         self.axcolor = 'lightgoldenrodyellow'
@@ -199,16 +202,39 @@ class Plot():
         self.sep = widgets.Slider(self.axfreq, 'Sep', 0.1, 1, valinit=0.2)
         self.sep.on_changed(self.update)
 
+        # buttons
+        self.axprev = plt.axes([0.49, 0.03, 0.1, 0.055])
+        self.axnext = plt.axes([0.59, 0.03, 0.1, 0.055])
+        self.axexit = plt.axes([0.70, 0.03, 0.1, 0.055])
+        self.bnext = widgets.Button(self.axnext, 'Next')
+        self.bnext.on_clicked(self.nex)
+        self.bprev = widgets.Button(self.axprev, 'Previous')
+        self.bprev.on_clicked(self.prev)
+        self.bexit = widgets.Button(self.axexit, 'Exit')
+        self.bexit.on_clicked(sys.exit)
 
+    def show_legend(self):
+        plt.title(self.name)
+
+
+    def nex(self, event):
+        self.stars.next()
         self.click()
 
+        
+    def prev(self, event):
+        self.stars.previous()
+        self.click()
+
+        
     def update(self, val):
         s = self.sep.val
         self.separate(s)
-        plt.draw()
+
 
 
     def plot(self, x, y, info):
+
         self.ax.plot(x,y)
 
 
@@ -216,10 +242,10 @@ class Plot():
     def clear(self):
         plt.clf()
         self.ax = self.fig.add_subplot(111)
+        print "clear is called"
 
 
-
-    def onclick(self, event):
+  #  def onclick(self, event):
   #      if event.button == 1:
  #           self.stars.next()
 #        elif event.button == 2:
@@ -228,16 +254,20 @@ class Plot():
 #            # self.stars.previous()
 #            self.separate()
 
-        self.click()
+#        self.click()
 
     def click(self):
+        self.clear()
 
         self.name = self.stars.current.name
         self.ra = self.stars.current.ra
         self.dec = self.stars.current.dec
         self.info = ['name', 'ra = 100', 'dec = 200']
+        print 'current %s' % self.name
 
-
+        self.show_buttons()
+        self.show_legend()
+        
         for i, spectrum in enumerate(self.stars.current.spectrum):
             self.x = spectrum.x
             self.y = spectrum.y
