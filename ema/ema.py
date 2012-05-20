@@ -27,6 +27,9 @@ import csv
 import re
 import os
 
+
+
+
 class Stars():
     """ """
 
@@ -91,6 +94,15 @@ class File():
         except IOError:
             print "Could not open file!"
 
+    def append(self, line):
+        try:
+            f = open(self.name, "a")
+            f.write(line)
+            return True
+
+        except IOError:
+            print "Could append to file!"
+
 class Dir():
     def __init__(self, name):
         self.name = name
@@ -111,6 +123,14 @@ class Dir():
             except IOError:
                 print "Could not remove dir %s!" % name
 
+class Category():
+    """ Manipulate category of the spectra, create, move """
+    def __init__(self):
+        self.category = ['1', '2', '3', '4', '5']
+        for c in category:
+            self.cat_dir = Dir(c)
+            self.cat_dir.remove()
+            self.cat_dir.create()
 
 class Star():
     """  """
@@ -186,6 +206,7 @@ class Plot():
 
         self.stars = stars
         self.fig = plt.figure()
+        self.fig.canvas.mpl_connect('key_press_event', self.press)
         plt.autoscale(enable=True, axis='both', tight=None)
         self.fig.subplots_adjust(left=0.25, bottom=0.25)
         self.click()
@@ -213,6 +234,16 @@ class Plot():
         self.bexit = widgets.Button(self.axexit, 'Exit')
         self.bexit.on_clicked(sys.exit)
 
+    def press(self, event):
+        """ call function to move spectrum into category """
+
+        if event.key in ['1', '2', '3', '4', '5']:
+            print event.key
+        else:
+            print 'This category is no defined'
+
+
+            
     def show_legend(self):
         plt.title(self.name)
 
@@ -267,6 +298,7 @@ class Plot():
 
         self.show_buttons()
         self.show_legend()
+
         
         for i, spectrum in enumerate(self.stars.current.spectrum):
             self.x = spectrum.x
