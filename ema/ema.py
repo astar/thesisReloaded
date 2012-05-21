@@ -103,6 +103,24 @@ class File():
         except IOError:
             print "Could append to file!"
 
+    def move(self, dest):
+        try:          
+            s.move(self.name, dest)
+            return True
+
+        except IOError:
+            print "Could not move  file to dir!"
+    
+    def remove(self):
+        try:
+            os.remove(self.name)
+            return True
+        except IOError:
+            print "Could not remove file!"
+
+
+
+
 class Dir():
     def __init__(self, name):
         self.name = name
@@ -122,16 +140,34 @@ class Dir():
 
             except IOError:
                 print "Could not remove dir %s!" % name
-
-class Category():
-    """ Manipulate category of the spectra, create, move """
+class Categories():
     def __init__(self):
+        self.file = File('categories.txt')
+        self.file.remove()
         self.category = ['1', '2', '3', '4', '5']
-        for c in category:
+        for c in self.category:
             self.cat_dir = Dir(c)
             self.cat_dir.remove()
             self.cat_dir.create()
 
+class Category():
+    """ Manipulate category of the spectra, create, move """
+    def __init__(self, files, star, name):
+        self.name = name
+        self.star = star
+        self.files = files
+
+    def move(self, category):
+        """ move star to category """
+        for f in self.files:
+            self.spectrum_file = File(f)
+            self.spectrum_file.move(category)
+            print 'file {} moved into category {}'.format(f, category)
+
+        self.cat_file = File('categories.txt')
+        self.cat_file.append(self.star + '\t' + category)
+
+        
 class Star():
     """  """
 
@@ -144,6 +180,7 @@ class Star():
         self.file_text = star_file.open_file()
         self.files = self.parse_votable(self.file_text)
         self.get_spectra()
+        self.category = Category(self.download_names, self.name, 'None')
 
     def download_spectra(self, dir, files):
         self.my_dir = Dir(dir)
@@ -239,6 +276,8 @@ class Plot():
 
         if event.key in ['1', '2', '3', '4', '5']:
             print event.key
+            self.stars.current.category.move(event.key)
+            
         else:
             print 'This category is no defined'
 
@@ -348,7 +387,7 @@ class TestClass():
 
 def main():
 
-
+    my_cat = Categories()
     my_stars = Stars('stars.csv')
     my_plot = Plot(my_stars)
 
