@@ -60,15 +60,9 @@ class Stars():
             name = d[0]
             ra   = d[1]
             dec  = d[2]
-            file_name = self.get_file_name()
-            self.star.append(Star(file_name, name, ra, dec))
-            print 'added star: {} file: {}'.format(name, file_name)
+            self.star.append(Star(name, ra, dec))
+            print 'added star: {}'.format(name)
             
-    def get_file_name(self):
-        return 'votable.xml'
-
-
-
 
 class File():
     def __init__(self, name):
@@ -82,7 +76,7 @@ class File():
             f.close()
             return text
         except IOError:
-            print "Could not open file!"
+            print "Could not open file {}!".format(self.name)
 
     def open_csv(self):
         try:
@@ -97,7 +91,7 @@ class File():
     def append(self, line):
         try:
             f = open(self.name, "a")
-            f.write(line)
+            f.write(line + '\n')
             return True
 
         except IOError:
@@ -113,10 +107,32 @@ class File():
     
     def remove(self):
         try:
-            os.remove(self.name)
+            if os.path.isfile(self.name):
+                os.remove(self.name)
             return True
         except IOError:
             print "Could not remove file!"
+
+    def remove_pattern(self):
+        try:
+            for f in os.listdir('.'):
+                if re.search(self.name, f):
+                    os.remove(f)
+                    print 'removing {}'.format(f)
+            return True
+        except IOError:
+            print "Could not remove file!"
+
+    def download(self, url):
+        try:
+            s = urllib2.urlopen(url)
+            content = s.read()
+            s.close()
+            d = open(self.name,'w')
+            d.write(content)
+            d.close()
+        except IOError:
+            print "Could not download file" 
 
 
 
@@ -140,10 +156,13 @@ class Dir():
 
             except IOError:
                 print "Could not remove dir %s!" % name
-class Categories():
+class Init():
+    """ Clean working direcory and prepare categories """
     def __init__(self):
         self.file = File('categories.txt')
+        self.xml  = File('.*.xml')
         self.file.remove()
+        self.xml.remove_pattern()
         self.category = ['1', '2', '3', '4', '5']
         for c in self.category:
             self.cat_dir = Dir(c)
@@ -160,39 +179,47 @@ class Category():
     def move(self, category):
         """ move star to category """
         for f in self.files:
-            self.spectrum_file = File(f)
-            self.spectrum_file.move(category)
-            print 'file {} moved into category {}'.format(f, category)
+            spectrum_file = File(f)
+            star_dir = Dir(os.path.join(category, self.star))
+            star_dir.create()
+            cat_path = os.path.join(category, self.star)
+            cat_path = os.path.join(cat_path, os.path.basename(f))
+            spectrum_file.move(cat_path)
+        
+        print 'star {} moved into category {}'.format(self.star, category)
 
         self.cat_file = File('categories.txt')
         self.cat_file.append(self.star + '\t' + category)
 
-        
+         
 class Star():
     """  """
 
-    def __init__(self, file_name, name, ra, dec):
-        self.file_name = file_name
+    def __init__(self, name, ra, dec):
+        self.file_name = name + '.xml'
         star_file = File(self.file_name)
         self.name = name
         self.ra = ra
         self.dec = dec
+        self.get_votable(ra, dec) 
         self.file_text = star_file.open_file()
         self.files = self.parse_votable(self.file_text)
         self.get_spectra()
         self.category = Category(self.download_names, self.name, 'None')
 
     def download_spectra(self, dir, files):
-        self.my_dir = Dir(dir)
+        self.my_dir = Dir(os.path.join(dir,self.name))
         self.my_dir.remove() # delete temp dir for download with old files
         self.my_dir.create() # create new one
         self.download_names = []
 
         for url in files:
-            download_name = url.split('/').pop() #last part
-            download_name = download_name.split('?')[0] # just *.fits
-            download_name = os.path.join(dir, download_name)
+            file_name = url.split('/').pop() #last part
+            file_name = file_name.split('?')[0] # just *.fits
+            download_name = os.path.join(dir, self.name)
+            download_name = os.path.join(download_name, file_name)
             self.download_names.append(download_name)
+            print url
             try:
                     s = urllib2.urlopen(url)
                     content = s.read()
@@ -209,16 +236,23 @@ class Star():
         for f in self.download_names:
             self.spectrum.append(Spectrum(f))
 
-    def get_votable():
+    def get_votable(self, ra, dec):
         """ Downlad votable from ssa server """
-#http://ssaproxy.stel/ccd700/q/pssa/ssap.xml?POS=279.2347,38.7836&SIZE=0.16&REQUEST=queryData&_TDENC=true&band=6500e-10/6700e-10&format=fits' -O votable.xml
+        url = 'http://ssaproxy.asu.cas.cz/ccd700/q/pssa/ssap.xml?POS={},{}&SIZE=0.16&REQUEST=queryData&_TDENC=true&band=6500e-10/6700e-10&format=fits'
+        url = url.format(ra, dec)
+        print ra, dec, url
+        url_file = File(self.file_name)
+        url_file.download(url)
 
     def parse_votable(self, text):
         """ extract file names form votable """
-        fits = re.findall(
+        try:
+            fits = re.findall(
         'http://ssaproxy.asu.cas.cz/getproduct/ccd700/data/.{,40}fits[^<]{,50}',
             text)
-        return fits
+            return fits
+        except:
+            print "Cannot read votable"
 
 
 
@@ -277,6 +311,7 @@ class Plot():
         if event.key in ['1', '2', '3', '4', '5']:
             print event.key
             self.stars.current.category.move(event.key)
+            self.nex(1) # go to next star after moving current to category
             
         else:
             print 'This category is no defined'
@@ -284,7 +319,8 @@ class Plot():
 
             
     def show_legend(self):
-        plt.title(self.name)
+        legend = 'Star: ' + self.name + '\n' + 'RA: ' + self.ra + '\n' + 'DEC: ' + self.dec
+        plt.text(-6, 16, legend, fontsize=18, ha='center', va='top')
 
 
     def nex(self, event):
@@ -303,7 +339,7 @@ class Plot():
 
 
 
-    def plot(self, x, y, info):
+    def plot(self, x, y):
 
         self.ax.plot(x,y)
 
@@ -312,7 +348,7 @@ class Plot():
     def clear(self):
         plt.clf()
         self.ax = self.fig.add_subplot(111)
-        print "clear is called"
+
 
 
   #  def onclick(self, event):
@@ -332,7 +368,6 @@ class Plot():
         self.name = self.stars.current.name
         self.ra = self.stars.current.ra
         self.dec = self.stars.current.dec
-        self.info = ['name', 'ra = 100', 'dec = 200']
         print 'current %s' % self.name
 
         self.show_buttons()
@@ -342,7 +377,7 @@ class Plot():
         for i, spectrum in enumerate(self.stars.current.spectrum):
             self.x = spectrum.x
             self.y = spectrum.y
-            self.plot(self.x, self.y, self.info)
+            self.plot(self.x, self.y)
 
         self.update(self.sep.val)
         plt.show()
@@ -386,8 +421,8 @@ class TestClass():
 
 
 def main():
-
-    my_cat = Categories()
+    
+    Init()
     my_stars = Stars('stars.csv')
     my_plot = Plot(my_stars)
 

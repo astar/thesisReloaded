@@ -2,10 +2,7 @@
 
 * TODO
 ** Finish program ema (EmissionManualAnalyzer)
-*** Multiple spectra per one star
-*** Download fits
-*** Get votable
-
+*** download votable.xml for stars from server
 ** Use ema to classify ond fits
 *** categories
 **** emission
@@ -88,6 +85,10 @@
   not in database 3533121815952072704
 
 * DONE
+** ema
+*** ready for real test!!!
+*** download spectra into download/star/*.fits
+*** moving inot categories
 ** run corrupt.py on segue1, segue2, sdss
 ** modified corrupt.py to check subdirectories
 ** dirlist program for checking download statu
