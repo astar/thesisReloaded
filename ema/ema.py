@@ -22,6 +22,7 @@ import numpy as np
 import shutil as s
 import urllib2
 import pyfits
+import glob
 import sys
 import csv
 import re
@@ -33,16 +34,15 @@ import os
 class Stars():
     """ """
 
-    def __init__(self, file_name):
-        self.file_name = file_name
-        stars_file = File(self.file_name)
-        self.csv_data = stars_file.open_csv()
-        self.get_stars()
+    def __init__(self, dir_name):
+        self.dir_name = dir_name
+ 
+        self.get_stars(self.dir_name)
         self.position = 0
         self.current = self.star[self.position]
         
     def next(self):
-        if self.position < len(self.csv_data) - 1:
+        if self.position < self.number_of_stars - 1:
             self.position += 1
             self.current = self.star[self.position]
 
@@ -53,16 +53,16 @@ class Stars():
 
 
 
-    def get_stars(self):
+    def get_stars(self, dir):
         self.star = []
-#        print self.csv_data
-        for d in self.csv_data:
-            name = d[0]
-            ra   = d[1]
-            dec  = d[2]
-            star_tmp = Star(name, ra, dec)
+        tmp_dir = Dir(os.path.join(dir,'*'))
+        stars = tmp_dir.list()
+        self.number_of_stars = len(stars)
+        for s in stars:
+            name = os.path.basename(s)
+            star_tmp = Star(name, dir)
             self.star.append(star_tmp)
-            print 'added star: {}'.format(name)
+
 
 
             
@@ -150,7 +150,7 @@ class Dir():
                 s.rmtree(self.name)
 
             except IOError:
-                print "Could not remove dir %s!" % name
+                print "Could not remove dir %s!" % self.name
 
     def create(self):
         if not os.path.exists(self.name):
@@ -158,7 +158,15 @@ class Dir():
                 os.makedirs(self.name)
 
             except IOError:
-                print "Could not remove dir %s!" % name
+                print "Could not remove dir %s!" % self.name
+    def list(self):
+        try:
+            return glob.glob(self.name)
+        except IOError:
+                print "Could not list dir %s!" % self.name
+
+  
+
 class Init():
     """ Clean working direcory and prepare categories """
     def __init__(self):
@@ -198,70 +206,28 @@ class Category():
 class Star():
     """  """
 
-    def __init__(self, name, ra, dec):
-        self.file_name = name + '.xml'
-        star_file = File(self.file_name)
+    def __init__(self, name, dir):
         self.name = name
-        self.ra = ra
-        self.dec = dec
-        self.get_votable(ra, dec) 
-        self.file_text = star_file.open_file()
-        self.files = self.parse_votable(self.file_text)
+        tmp_dir = os.path.join(dir, name)
+        tmp_dir = os.path.join(tmp_dir,'*.fits')
+        self.star_dir = Dir(tmp_dir)
+
+
+        self.files = self.star_dir.list()
+        self.number_of_files = len(self.files)
+        print 'added star: {} with {} spectra'.format(self.name, str(self.number_of_files))
         if self.files:
             self.get_spectra()
-            self.category = Category(self.download_names, self.name, 'None')
+            self.category = Category(self.files, self.name, 'None')
 
 
 
-    def download_spectra(self, dir, files):
-        self.my_dir = Dir(os.path.join(dir,self.name))
-        self.my_dir.remove() # delete temp dir for download with old files
-        self.my_dir.create() # create new one
-        self.download_names = []
 
-        for url in files:
-            file_name = url.split('/').pop() #last part
-            file_name = file_name.split('?')[0] # just *.fits
-            download_name = os.path.join(dir, self.name)
-            download_name = os.path.join(download_name, file_name)
-
-#            print url
-            try:
-                    s = urllib2.urlopen(url)
-                    content = s.read()
-                    s.close()
-                    d = open(download_name,'w')
-                    d.write(content)
-                    d.close()
-                    self.download_names.append(download_name)
-
-            except IOError:
-                print "Could not download file %s!" % url
-                pass
 
     def get_spectra(self):
-        self.download_spectra('download', self.files)
         self.spectrum = []
-        for f in self.download_names:
+        for f in self.files:
             self.spectrum.append(Spectrum(f))
-
-    def get_votable(self, ra, dec):
-        """ Downlad votable from ssa server """
-        url = 'http://ssaproxy.asu.cas.cz/ccd700/q/pssa/ssap.xml?POS={},{}&SIZE=0.16&REQUEST=queryData&_TDENC=true&band=6500e-10/6700e-10&format=fits'
-        url = url.format(float(ra)*15, dec)
-        print ra, dec, url
-        url_file = File(self.file_name)
-        url_file.download(url)
-
-    def parse_votable(self, text):
-        """ extract file names form votable """
-        try:
-            fits = re.findall(
-        'http://ssaproxy.asu.cas.cz/getproduct/ccd700/data/.{,40}fits[^<]{,50}',
-            text)
-            return fits
-        except:
-            print "Cannot read votable"
 
 
 
@@ -298,7 +264,8 @@ class Plot():
 
     def show_buttons(self):
         # sep slider
-        self.sep_max = round(np.median(self.stars.star[0].spectrum[0].y)*3)
+        if self.stars.current.number_of_files:
+            self.sep_max = round(np.median(self.stars.current.spectrum[0].y)*3)
         self.axcolor = 'lightgoldenrodyellow'
         self.axfreq = plt.axes([0.3, 0.1, 0.5, 0.03], axisbg=self.axcolor)
         self.sep = widgets.Slider(self.axfreq, 'Sep', 0.1, 1, valinit=0.2)
@@ -330,8 +297,7 @@ class Plot():
 
             
     def show_legend(self):
-        legend = 'Star: ' + self.name + '\n' + 'RA: ' + \
-        self.ra + '\n' + 'DEC: ' + self.dec + '\n' + 'spectra: ' + self.number_of_spec 
+        legend = 'Star: ' + self.name +  '\n' + 'spectra: ' + self.number_of_spec 
         plt.text(-6.5, 16, legend, fontsize=14, ha='left', va='top')
 
 
@@ -366,37 +332,27 @@ class Plot():
 
 
 
-  #  def onclick(self, event):
-  #      if event.button == 1:
- #           self.stars.next()
-#        elif event.button == 2:
-#            sys.exit(0)
-#        if event.button == 3:
-#            # self.stars.previous()
-#            self.separate()
-
-#        self.click()
 
     def click(self):
         self.clear()
 
         self.name = self.stars.current.name
-        self.ra = self.stars.current.ra
-        self.dec = self.stars.current.dec
         self.number_of_spec = str(len(self.stars.current.files))
         print 'current %s' % self.name
 
         self.show_buttons()
         self.show_legend()
 
-        
-        for i, spectrum in enumerate(self.stars.current.spectrum):
-            self.x = spectrum.x
-            self.y = spectrum.y
-            self.plot(self.x, self.y)
+        if self.stars.current.number_of_files:
+            for i, spectrum in enumerate(self.stars.current.spectrum):
+                self.x = spectrum.x
+                self.y = spectrum.y
+                self.plot(self.x, self.y)
 
-        self.update(self.sep.val)
-        plt.show()
+            self.update(self.sep.val)
+            plt.show()
+        else:
+            self.nex(1)
 
     def separate(self, s):
         """ Separate charts  """
@@ -439,7 +395,7 @@ class TestClass():
 def main():
     
     Init()
-    my_stars = Stars('stars.csv')
+    my_stars = Stars('download')
     my_plot = Plot(my_stars)
 
 #    my_plot.test()
