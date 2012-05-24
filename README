@@ -1,8 +1,19 @@
 -*- mode: org; -*-
+* log
+** <2012-05-22 Tue> 
+*** pollux.asu.cas.cz doesnot work!
+*** tapsh seems the way to go!
+    http://vo.ari.uni-heidelberg.de/soft/tapsh
+    http://docs.g-vo.org/tapsh-manual.html
+
+    pyfits has to be install via aptitude not pip
+
+*** simbad TAP
+    http://simbad.u-strasbg.fr/simbad/sim-tap
 
 * TODO
 ** Finish program ema (EmissionManualAnalyzer)
-*** download votable.xml for stars from server
+
 ** Use ema to classify ond fits
 *** categories
 **** emission
@@ -87,6 +98,7 @@
 * DONE
 ** ema
 *** ready for real test!!!
+*** download votable.xml for stars from server
 *** download spectra into download/star/*.fits
 *** moving inot categories
 ** run corrupt.py on segue1, segue2, sdss

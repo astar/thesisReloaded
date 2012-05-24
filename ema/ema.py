@@ -60,8 +60,11 @@ class Stars():
             name = d[0]
             ra   = d[1]
             dec  = d[2]
-            self.star.append(Star(name, ra, dec))
+            star_tmp = Star(name, ra, dec)
+            self.star.append(star_tmp)
             print 'added star: {}'.format(name)
+
+
             
 
 class File():
@@ -163,7 +166,7 @@ class Init():
         self.xml  = File('.*.xml')
         self.file.remove()
         self.xml.remove_pattern()
-        self.category = ['1', '2', '3', '4', '5']
+        self.category = ['1', '2', '3', '4', '5', '6', '7']
         for c in self.category:
             self.cat_dir = Dir(c)
             self.cat_dir.remove()
@@ -204,8 +207,11 @@ class Star():
         self.get_votable(ra, dec) 
         self.file_text = star_file.open_file()
         self.files = self.parse_votable(self.file_text)
-        self.get_spectra()
-        self.category = Category(self.download_names, self.name, 'None')
+        if self.files:
+            self.get_spectra()
+            self.category = Category(self.download_names, self.name, 'None')
+
+
 
     def download_spectra(self, dir, files):
         self.my_dir = Dir(os.path.join(dir,self.name))
@@ -218,8 +224,8 @@ class Star():
             file_name = file_name.split('?')[0] # just *.fits
             download_name = os.path.join(dir, self.name)
             download_name = os.path.join(download_name, file_name)
-            self.download_names.append(download_name)
-            print url
+
+#            print url
             try:
                     s = urllib2.urlopen(url)
                     content = s.read()
@@ -227,8 +233,11 @@ class Star():
                     d = open(download_name,'w')
                     d.write(content)
                     d.close()
+                    self.download_names.append(download_name)
+
             except IOError:
-                print "Could not download file %s!" % f
+                print "Could not download file %s!" % url
+                pass
 
     def get_spectra(self):
         self.download_spectra('download', self.files)
@@ -239,7 +248,7 @@ class Star():
     def get_votable(self, ra, dec):
         """ Downlad votable from ssa server """
         url = 'http://ssaproxy.asu.cas.cz/ccd700/q/pssa/ssap.xml?POS={},{}&SIZE=0.16&REQUEST=queryData&_TDENC=true&band=6500e-10/6700e-10&format=fits'
-        url = url.format(ra, dec)
+        url = url.format(float(ra)*15, dec)
         print ra, dec, url
         url_file = File(self.file_name)
         url_file.download(url)
@@ -266,6 +275,7 @@ class Spectrum():
 #        print self.name
         hdu = pyfits.open(self.name)
         data = hdu[1].data
+        hdu.close()
         self.x = data.field('WAVE')
         self.y = data.field('FLUX')
 
@@ -277,7 +287,7 @@ class Plot():
 
         self.stars = stars
         self.fig = plt.figure()
-        self.fig.canvas.mpl_connect('key_press_event', self.press)
+        self.fig.canvas.mpl_connect('key_press_event', self.move_into_category)
         plt.autoscale(enable=True, axis='both', tight=None)
         self.fig.subplots_adjust(left=0.25, bottom=0.25)
         self.click()
@@ -305,12 +315,13 @@ class Plot():
         self.bexit = widgets.Button(self.axexit, 'Exit')
         self.bexit.on_clicked(sys.exit)
 
-    def press(self, event):
+    def move_into_category(self, event):
         """ call function to move spectrum into category """
 
-        if event.key in ['1', '2', '3', '4', '5']:
+        if event.key in ['1', '2', '3', '4', '5', '6', '7']:
             print event.key
             self.stars.current.category.move(event.key)
+            self.fig.savefig(os.path.join(event.key, self.stars.current.name) + '.png')
             self.nex(1) # go to next star after moving current to category
             
         else:
@@ -319,8 +330,9 @@ class Plot():
 
             
     def show_legend(self):
-        legend = 'Star: ' + self.name + '\n' + 'RA: ' + self.ra + '\n' + 'DEC: ' + self.dec
-        plt.text(-6, 16, legend, fontsize=18, ha='center', va='top')
+        legend = 'Star: ' + self.name + '\n' + 'RA: ' + \
+        self.ra + '\n' + 'DEC: ' + self.dec + '\n' + 'spectra: ' + self.number_of_spec 
+        plt.text(-6.5, 16, legend, fontsize=14, ha='left', va='top')
 
 
     def nex(self, event):
@@ -342,8 +354,11 @@ class Plot():
     def plot(self, x, y):
 
         self.ax.plot(x,y)
-
-
+        self.ax.set_xlabel("$Wavelenght [\\AA]$")
+        self.ax.set_ylabel("ADU")
+        #self.ax.axvline( x = 6563, y = 1, color = 'g', ls ='--')
+        
+        
 
     def clear(self):
         plt.clf()
@@ -368,6 +383,7 @@ class Plot():
         self.name = self.stars.current.name
         self.ra = self.stars.current.ra
         self.dec = self.stars.current.dec
+        self.number_of_spec = str(len(self.stars.current.files))
         print 'current %s' % self.name
 
         self.show_buttons()
