@@ -175,10 +175,12 @@ class Init():
         self.file.remove()
         self.xml.remove_pattern()
         self.category = ['1', '2', '3', '4', '5', '6', '7']
-        for c in self.category:
-            self.cat_dir = Dir(c)
-            self.cat_dir.remove()
-            self.cat_dir.create()
+        remove = 0
+        if remove:
+            for c in self.category:
+                self.cat_dir = Dir(c)
+ #               self.cat_dir.remove()
+                self.cat_dir.create()
 
 class Category():
     """ Manipulate category of the spectra, create, move """
