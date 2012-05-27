@@ -1,8 +1,9 @@
 #!/usr/bin/python
 # generate html table from input files
 # usage:
-#       ./makeHtmlTable.py '../data/corrupt_segue_small/*.png' test
+#       ./makeHtmlTable.py '../data/corrupt_segue_small/*.png' test 1
 # generate html; table of directory ../data/corrupt_segue_small named test.html
+# last argument loca specify if the local or link to the sdss is followed after click on thumbnail
 
 import os, sys, glob, re
 
@@ -13,14 +14,19 @@ def main():
     if len(sys.argv) > 1:
         dir = sys.argv[1]
         program = sys.argv[2]
+        if len(sys.argv) == 4:
+            local =  sys.argv[3]# link to local picture instead of sdss web
+        else:
+            local = 0
     else:
         sys.exit(1)
     
+
     nFiles, files = listdir(dir)
 
 
-
-    links = list(map(makeTag, files))
+    l = [local for x in files] # prasarna mp needs local value for every file
+    links = list(map(makeTag, files, l))
     fileName = program
     table = get_html_tbl(links,4)
     page = make_head_foot(program, nFiles, table)
@@ -71,11 +77,15 @@ def make_head_foot(program, nFiles, table):
 
     return page
 
-def makeTag(name):
+def makeTag(name, local):
     base_name = os.path.basename(name)
     name_no_ext = os.path.splitext(base_name)[0]
     name_no_ext = re.sub('.*_.*_','', name_no_ext)
-    link = 'http://skyserver.sdss3.org/dr8/en/tools/explore/obj.asp?sid=%s' % name_no_ext
+#    import pdb; pdb.set_trace()
+    if local:
+        link = name
+    else:
+        link = 'http://skyserver.sdss3.org/dr8/en/tools/explore/obj.asp?sid=%s' % name_no_ext
     tag = '<a href="%s"><img src="%s/%s" width = "300" border="0" alt="Spectrum of %s"></a>' % (link, 'thm', base_name, name_no_ext)
 
     return tag
