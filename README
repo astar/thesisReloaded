@@ -102,7 +102,7 @@
 
 ** web pages of classified trainnig sample of ond spectra
    for i in ?; do mkdir $i/thm;done
-
+   [[http://physics.muni.cz/~vazny/wiki/index.php/OndTrainningSample]]
 
 
 ** ema
