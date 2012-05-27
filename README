@@ -96,6 +96,15 @@
   not in database 3533121815952072704
 
 * DONE
+
+** Classification of ONdrejov spectra
+   divided into 7 categories
+
+** web pages of classified trainnig sample of ond spectra
+   for i in ?; do mkdir $i/thm;done
+
+
+
 ** ema
 *** ready for real test!!!
 *** download votable.xml for stars from server
