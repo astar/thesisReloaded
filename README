@@ -1,5 +1,10 @@
 -*- mode: org; -*-
 * log
+** <2012-06-01 Fri>
+*** Ondrejov
+    Stazeni celeho ond archivu
+    analyza
+ 
 ** <2012-05-22 Tue> 
 *** pollux.asu.cas.cz doesnot work!
 *** tapsh seems the way to go!
@@ -96,8 +101,13 @@
   not in database 3533121815952072704
 
 * DONE
-
-** Classification of ONdrejov spectra
+** Solved? problem with crashing ema_local
+** Downloaded all spectra from Ondrejov
+** Check download directory vs name in th fits
+   def obj(name):
+       hdu = pyfits.open(name)
+       f.write(hdu[0].header['OBJECT']+ ','+ name.split('/')[1] + '\n')
+** Classification of Ondrejov spectra
    divided into 7 categories
 
 ** web pages of classified trainnig sample of ond spectra
