@@ -360,7 +360,9 @@ class Plot():
         """ Separate charts  """
         temp_max = []
         for i, line in enumerate(self.ax.lines):
-            line.set_ydata(self.y + i*s*self.sep_max)
+#            line.set_ydata(self.y + i*s*self.sep_max)
+            line.set_ydata(line.get_ydata()+i*0.05 )
+
             temp_max.append(np.max(line.get_ydata()))
 
 
