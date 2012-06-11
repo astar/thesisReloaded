@@ -305,8 +305,14 @@ class Plot():
 
             
     def show_legend(self):
-        legend = 'Star: ' + self.name +  '\n' + 'spectra: ' + self.number_of_spec 
-        plt.text(-6.5, 16, legend, fontsize=14, ha='left', va='top')
+        legend = 'Star: ' + self.name +  '\n' + 'spectra: ' + self.number_of_spec
+
+        if self.mode == 'show':
+            xy = xy=(-4, 14)
+        else:
+            xy=(0.05, 0.85)
+
+        plt.annotate(legend, xy, xycoords='axes fraction')
 
 
     def nex(self, event):
@@ -348,7 +354,8 @@ class Plot():
         self.number_of_spec = str(len(self.stars.current.files))
         print 'current %s' % self.name
 
-        self.show_buttons()
+        if self.mode == 'show':
+            self.show_buttons()
         self.show_legend()
 
         if self.stars.current.number_of_files:
@@ -357,8 +364,9 @@ class Plot():
                 self.y = spectrum.y
                 self.plot(self.x, self.y)
 
-            self.update(self.sep.val)
+
             if self.mode == 'show':
+                self.update(self.sep.val)
                 plt.show()
             else:
                 self.fig.savefig(self.stars.current.name + '.png')
