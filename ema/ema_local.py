@@ -21,6 +21,7 @@ import matplotlib.widgets as widgets
 import numpy as np
 import shutil as s
 import urllib2
+import argparse
 import pyfits
 import glob
 import sys
@@ -251,18 +252,23 @@ class Spectrum():
 
 
 class Plot():
-    def __init__(self, stars):
+    def __init__(self, stars, mode, separation):
 
         self.stars = stars
+        self.mode = mode
+        self.separation = separation
         self.fig = plt.figure()
         self.fig.canvas.mpl_connect('key_press_event', self.move_into_category)
         plt.autoscale(enable=True, axis='both', tight=None)
         self.fig.subplots_adjust(left=0.25, bottom=0.25)
+
         self.click()
-        #        self.connection_id = self.fig.canvas.mpl_connect(
-#            'button_press_event', self.onclick)
-        # set the maximum separation to the median of the first star
-#        self.clear()
+        # iterate over all stars and save pictures
+        if self.mode == 'save':
+            for star in self.stars.star:
+                self.nex(1)
+
+            sys.exit
 
     def show_buttons(self):
         # sep slider
@@ -299,8 +305,14 @@ class Plot():
 
             
     def show_legend(self):
-        legend = 'Star: ' + self.name +  '\n' + 'spectra: ' + self.number_of_spec 
-        plt.text(-6.5, 16, legend, fontsize=14, ha='left', va='top')
+        legend = 'Star: ' + self.name +  '\n' + 'spectra: ' + self.number_of_spec
+
+        if self.mode == 'show':
+            xy = xy=(-4, 14)
+        else:
+            xy=(0.05, 0.85)
+
+        plt.annotate(legend, xy, xycoords='axes fraction')
 
 
     def nex(self, event):
@@ -342,7 +354,8 @@ class Plot():
         self.number_of_spec = str(len(self.stars.current.files))
         print 'current %s' % self.name
 
-        self.show_buttons()
+        if self.mode == 'show':
+            self.show_buttons()
         self.show_legend()
 
         if self.stars.current.number_of_files:
@@ -351,22 +364,27 @@ class Plot():
                 self.y = spectrum.y
                 self.plot(self.x, self.y)
 
-            self.update(self.sep.val)
-            plt.show()
+
+            if self.mode == 'show':
+                self.update(self.sep.val)
+                plt.show()
+            else:
+                self.fig.savefig(self.stars.current.name + '.png')
+                
         else:
             self.nex(1)
 
     def separate(self, s):
         """ Separate charts  """
         temp_max = []
-        for i, line in enumerate(self.ax.lines):
-#            line.set_ydata(self.y + i*s*self.sep_max)
-            line.set_ydata(line.get_ydata()+i*0.05 )
+        if self.separation == 'yes':
+            for i, line in enumerate(self.ax.lines):
+                #line.set_ydata(self.y + i*s*self.sep_max)
+                
+                line.set_ydata(line.get_ydata() + i*s)
+                temp_max.append(np.max(line.get_ydata()))
 
-            temp_max.append(np.max(line.get_ydata()))
-
-
-        self.ax.set_ylim([0,np.max(temp_max)])
+                self.ax.set_ylim([0,np.max(temp_max)])
 
         plt.draw()
 
@@ -397,10 +415,18 @@ class TestClass():
 
 
 def main():
+
+    #parse arguments
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-m', '--mode', help='modus operandi: show(default), save', default='show')
+    parser.add_argument('-s', '--separation', help='separate spectra: yes(default)/no', default='yes')
+    args = parser.parse_args()
+    mode = args.mode
+    separation = args.separation
     
     Init()
     my_stars = Stars('download')
-    my_plot = Plot(my_stars)
+    my_plot = Plot(my_stars, mode, separation)
 
 #    my_plot.test()
 
