@@ -14,4 +14,4 @@ else:
 
 hdu = pyfits.open(file)
 hdr = hdu[int(secondary)].header
-print '{},{},{}'.format(os.path.basename(file), hdr['RA'], hdr['DEC'])
+print '{},{},{},{}'.format(os.path.basename(file),hdr['OBJECT'], hdr['RA'], hdr['DEC'])
