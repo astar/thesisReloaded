@@ -18,6 +18,7 @@ __version__ = '1.2.3' #Versioning: http://www.python.org/dev/peps/pep-0386/
 
 import matplotlib.pyplot as plt
 import matplotlib.widgets as widgets
+import dateutil as dt
 import numpy as np
 import shutil as s
 import urllib2
@@ -37,11 +38,11 @@ class Stars():
 
     def __init__(self, dir_name):
         self.dir_name = dir_name
- 
+
         self.get_stars(self.dir_name)
         self.position = 0
         self.current = self.star[self.position]
-        
+
     def next(self):
         if self.position < self.number_of_stars - 1:
             self.position += 1
@@ -66,7 +67,7 @@ class Stars():
 
 
 
-            
+
 
 class File():
     def __init__(self, name):
@@ -102,13 +103,13 @@ class File():
             print "Could append to file!"
 
     def move(self, dest):
-        try:          
+        try:
             s.move(self.name, dest)
             return True
 
         except IOError:
             print "Could not move  file to dir!"
-    
+
     def remove(self):
         try:
             if os.path.isfile(self.name):
@@ -136,7 +137,7 @@ class File():
             d.write(content)
             d.close()
         except IOError:
-            print "Could not download file" 
+            print "Could not download file"
 
 
 
@@ -166,7 +167,7 @@ class Dir():
         except IOError:
                 print "Could not list dir %s!" % self.name
 
-  
+
 
 class Init():
     """ Clean working direcory and prepare categories """
@@ -199,13 +200,13 @@ class Category():
             cat_path = os.path.join(category, self.star)
             cat_path = os.path.join(cat_path, os.path.basename(f))
             spectrum_file.move(cat_path)
-        
+
         print 'star {} moved into category {}'.format(self.star, category)
 
         self.cat_file = File('categories.txt')
         self.cat_file.append(self.star + '\t' + category)
 
-         
+
 class Star():
     """  """
 
@@ -214,7 +215,7 @@ class Star():
         tmp_dir = os.path.join(dir, name)
         tmp_dir = os.path.join(tmp_dir,'*.fits')
         self.star_dir = Dir(tmp_dir)
-
+        self.dates = []
 
         self.files = self.star_dir.list()
         self.number_of_files = len(self.files)
@@ -222,7 +223,7 @@ class Star():
         if self.files:
             self.get_spectra()
             self.category = Category(self.files, self.name, 'None')
-
+            self.obs_days_diff = max(self.dates) - min(self.dates)
 
 
 
@@ -230,8 +231,9 @@ class Star():
     def get_spectra(self):
         self.spectrum = []
         for f in self.files:
-            self.spectrum.append(Spectrum(f))
-
+            s = Spectrum(f)
+            self.spectrum.append(s)
+            self.dates.append(s.date)
 
 
 class Spectrum():
@@ -244,6 +246,8 @@ class Spectrum():
 #        print self.name
         hdu = pyfits.open(self.name)
         data = hdu[1].data
+        hdr = hdu[0].header
+        self.date = dt.parser.parse(hdr['DATE-OBS'])
         hdu.close()
         self.x = data.field('WAVE')
         self.y = data.field('FLUX')
@@ -298,14 +302,18 @@ class Plot():
             self.stars.current.category.move(event.key)
             self.fig.savefig(os.path.join(event.key, self.stars.current.name) + '.png')
             self.nex(1) # go to next star after moving current to category
-            
+
         else:
             print 'This category is no defined'
 
 
-            
+
     def show_legend(self):
-        legend = 'Star: ' + self.name +  '\n' + 'spectra: ' + self.number_of_spec
+        legend = 'Star: ' + self.name +  '\n' + 'Spectra: ' + self.number_of_spec + '\n' + 'Diff days: ' + self.obs_days_diff
+
+
+        if self.mode == 'show':
+            self.show_buttons()
 
         if self.mode == 'show':
             xy = xy=(-4, 14)
@@ -319,12 +327,12 @@ class Plot():
         self.stars.next()
         self.click()
 
-        
+
     def prev(self, event):
         self.stars.previous()
         self.click()
 
-        
+
     def update(self, val):
         s = self.sep.val
         self.separate(s)
@@ -337,8 +345,8 @@ class Plot():
         self.ax.set_xlabel("$Wavelenght [\\AA]$")
         self.ax.set_ylabel("ADU")
         #self.ax.axvline( x = 6563, y = 1, color = 'g', ls ='--')
-        
-        
+
+
 
     def clear(self):
         plt.clf()
@@ -352,6 +360,7 @@ class Plot():
 
         self.name = self.stars.current.name
         self.number_of_spec = str(len(self.stars.current.files))
+        self.obs_days_diff = str(self.stars.current.obs_days_diff.days)
         print 'current %s' % self.name
 
         if self.mode == 'show':
@@ -370,7 +379,7 @@ class Plot():
                 plt.show()
             else:
                 self.fig.savefig(self.stars.current.name + '.png')
-                
+
         else:
             self.nex(1)
 
@@ -380,7 +389,7 @@ class Plot():
         if self.separation == 'yes':
             for i, line in enumerate(self.ax.lines):
                 #line.set_ydata(self.y + i*s*self.sep_max)
-                
+
                 line.set_ydata(line.get_ydata() + i*s)
                 temp_max.append(np.max(line.get_ydata()))
 
@@ -423,7 +432,7 @@ def main():
     args = parser.parse_args()
     mode = args.mode
     separation = args.separation
-    
+
     Init()
     my_stars = Stars('download')
     my_plot = Plot(my_stars, mode, separation)
