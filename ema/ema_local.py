@@ -63,7 +63,8 @@ class Stars():
         for s in stars:
             name = os.path.basename(s)
             star_tmp = Star(name, dir)
-            self.star.append(star_tmp)
+            if star_tmp.number_of_files:
+                self.star.append(star_tmp)
 
 
 
@@ -176,7 +177,7 @@ class Init():
         self.xml  = File('.*.xml')
         self.file.remove()
         self.xml.remove_pattern()
-        self.category = ['1', '2', '3', '4', '5', '6', '7']
+        self.category = ['0','1', '2', '3', '4', '5', '6', '7','8','9','x']
         remove = 0
         if remove:
             for c in self.category:
@@ -194,12 +195,17 @@ class Category():
     def move(self, category):
         """ move star to category """
         for f in self.files:
+
             spectrum_file = File(f)
             star_dir = Dir(os.path.join(category, self.star))
             star_dir.create()
             cat_path = os.path.join(category, self.star)
             cat_path = os.path.join(cat_path, os.path.basename(f))
             spectrum_file.move(cat_path)
+        #remove dir in download
+        import ipdb;ipdb.set_trace()
+        orig_dir = Dir(os.path.dirname(f))
+        orig_dir.remove()
 
         print 'star {} moved into category {}'.format(self.star, category)
 
@@ -219,14 +225,12 @@ class Star():
 
         self.files = self.star_dir.list()
         self.number_of_files = len(self.files)
-        print 'added star: {} with {} spectra'.format(self.name, str(self.number_of_files))
+
         if self.files:
             self.get_spectra()
             self.category = Category(self.files, self.name, 'None')
             self.obs_days_diff = max(self.dates) - min(self.dates)
-
-
-
+            print 'added star: {} with {} spectra'.format(self.name, str(self.number_of_files))
 
     def get_spectra(self):
         self.spectrum = []
@@ -297,7 +301,7 @@ class Plot():
     def move_into_category(self, event):
         """ call function to move spectrum into category """
 
-        if event.key in ['1', '2', '3', '4', '5', '6', '7']:
+        if event.key in ['0','1', '2', '3', '4', '5', '6', '7','8','9','x']:
             print event.key
             self.stars.current.category.move(event.key)
             self.fig.savefig(os.path.join(event.key, self.stars.current.name) + '.png')
@@ -316,7 +320,7 @@ class Plot():
             self.show_buttons()
 
         if self.mode == 'show':
-            xy = xy=(-4, 14)
+            xy = xy=(-6, 14)
         else:
             xy=(0.05, 0.85)
 
