@@ -1,5 +1,13 @@
 -*- mode: org; -*-
 * log
+** <2012-07-25 Wed>
+   examples of normalized spectras
+   [[http://physics.muni.cz/~vazny/thesisReloaded/sample_of_normalized_spectra/]]
+   
+   <2012-07-24 Tue>
+   script renormalized
+
+
 ** <2012-06-01 Fri>
 *** Ondrejov
     Stazeni celeho ond archivu
@@ -101,6 +109,8 @@
   not in database 3533121815952072704
 
 * DONE
+** all spectra sorted 
+   vazny@taurus.physics.muni.cz:public_html/thesisReloaded/trainning2/
 ** Solved? problem with crashing ema_local
 ** Downloaded all spectra from Ondrejov
 ** Check download directory vs name in th fits
