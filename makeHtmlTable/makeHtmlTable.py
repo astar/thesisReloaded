@@ -20,7 +20,7 @@ def main():
             local = 0
     else:
         sys.exit(1)
-    
+
 
     nFiles, files = listdir(dir)
 
@@ -50,14 +50,14 @@ def make_head_foot(program, nFiles, table):
     page = """
        <!doctype html>
        <html>
-       <head> 
+       <head>
        <meta charset="utf-8"/>
        <title></title>
-       
+
        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
        <link rel="stylesheet" href=""/>
        </head>
-       
+
        <body>
        <header>
        <h1>Program: %s. Number of Files: %i</h1>
@@ -86,7 +86,9 @@ def makeTag(name, local):
         link = name
     else:
         link = 'http://skyserver.sdss3.org/dr8/en/tools/explore/obj.asp?sid=%s' % name_no_ext
-    tag = '<a href="%s"><img src="%s/%s" width = "300" border="0" alt="Spectrum of %s"></a>' % (link, 'thm', base_name, name_no_ext)
+#    tag = '<a href="%s"><img src="%s/%s" width = "300" border="0" alt="Spectrum of %s"></a>' % (link, 'thm', base_name, name_no_ext)
+
+    tag = '<a href="%s"><img src="%s" width = "300" border="0" alt="Spectrum of %s"></a>' % (link, base_name, name_no_ext)
 
     return tag
 
@@ -96,6 +98,3 @@ def listdir(d):
 
 if __name__ == "__main__":
     main()
-
-
-    
