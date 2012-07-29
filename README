@@ -1,5 +1,23 @@
 -*- mode: org; -*-
 * log
+** <2012-07-29 Sun>
+
+   regex search in list 
+   [i for i, item in enumerate(ra) if re.search('pyfits', item)]
+
+   list of catalogs
+   http://stupendous.rit.edu/tass/catalogs/catalogs.html
+
+   good catalog?
+   http://www.aavso.org/apass/
+
+   convert ra, to degrees
+   [[http://www.atnf.csiro.au/people/Enno.Middelberg/python/python.html]]
+
+   scripts bin/dec2deg.py
+           bin/ra2deg.py
+   created library lib/convert.py 
+
 ** <2012-07-25 Wed>
    examples of normalized spectras
    [[http://physics.muni.cz/~vazny/thesisReloaded/sample_of_normalized_spectra/]]
