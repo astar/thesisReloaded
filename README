@@ -1,6 +1,12 @@
 -*- mode: org; -*-
 * log
+** <2012-08-01 Wed>
+   [[https://stelweb.asu.cas.cz/wiki/index.php/Correct_names.sql]]
+
 ** <2012-07-29 Sun>
+
+   gsc catalog
+   http://archive.stsci.edu/gsc/
 
    regex search in list 
    [i for i, item in enumerate(ra) if re.search('pyfits', item)]
