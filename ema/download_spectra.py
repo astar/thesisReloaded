@@ -243,7 +243,8 @@ class Star():
 
     def get_votable(self, ra, dec):
         """ Downlad votable from ssa server """
-        url = 'http://ssaproxy.asu.cas.cz/ccd700/q/pssa/ssap.xml?POS={},{}&SIZE=0.16&REQUEST=queryData&_TDENC=true&band=6500e-10/6700e-10&format=fits'
+#        url = 'http://ssaproxy.asu.cas.cz/ccd700/q/pssa/ssap.xml?POS={},{}&SIZE=0.016&REQUEST=queryData&FLUXCALIB=normalized&BAND=6500e-10/6700e-10&format=fits'
+        url = 'http://ssaproxy.asu.cas.cz/ccd700/q/pssa/ssap.xml?POS={},{}&SIZE=0.016&REQUEST=queryData&FLUXCALIB=normalized&BAND=6500e-10/6700e-10&format=fits'
         url = url.format(float(ra)*15, dec)
         print ra, dec, url
         url_file = File(self.file_name)

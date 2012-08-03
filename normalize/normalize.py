@@ -37,9 +37,9 @@ def main():
 
 #    import ipdb; ipdb.set_trace()
 
-    write_fits(file, ydata/f(xdata) )
+#    write_fits(file, ydata/f(xdata) )
     print file
-#   plot(file,xdata,ydata,ydata/f(xdata),6553)
+    plot(file,xdata,ydata,ydata/f(xdata),6553)
 
 
 def plot(file,xdata,ydata,f,spLine):

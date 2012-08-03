@@ -203,7 +203,7 @@ class Category():
             cat_path = os.path.join(cat_path, os.path.basename(f))
             spectrum_file.move(cat_path)
         #remove dir in download
-        import ipdb;ipdb.set_trace()
+        #import ipdb;ipdb.set_trace()
         orig_dir = Dir(os.path.dirname(f))
         orig_dir.remove()
 

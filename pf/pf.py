@@ -6,7 +6,7 @@ def main():
 
 #show position of some lines
     Halpha = 6564.614
-    type = 3 # type of the spectrum 1 = ond, 2 = dr7 , 3 = dr8 
+    type = 3 # type of the spectrum 1 = ond, 2 = dr7 , 3 = dr8
     save = 1
 
     if len(sys.argv) > 1:
@@ -31,7 +31,7 @@ def processFile(file, type, save, Halpha):
 
     print file
     print type
-        
+
     data = read(file,type)
 
 
@@ -40,7 +40,7 @@ def processFile(file, type, save, Halpha):
     ra = 50
     xr = x[(x < Halpha + ra) & (x > Halpha - ra)]
     yr = y[(x < Halpha + ra) & (x > Halpha - ra)]
-    
+
     plot2(file,Halpha,[x, xr ],[y, yr], save)
 
 
@@ -55,14 +55,14 @@ def readParam(file, param):
     return value
 
 def read(file,type):
-    """ Read fits file. Convert wavelength to angstroms """ 
+    """ Read fits file. Convert wavelength to angstroms """
     if type == 1:
         print file
         hdu = pyfits.open(file)
         data = hdu[1].data
         x = data.field('WAVE')
         y = data.field('FLUX')
-        return np.asarray([x, y])
+
 
     elif type == 2:
         data = pyfits.getdata(file)
@@ -87,11 +87,11 @@ def plot(file,xdata,ydata,spLine):
     ax = fig.add_subplot(111)
     graph = ax.plot(xdata,ydata, 'r')
     ax.set_title(file)
-    ax.set_xlabel("$Wavelenght [\\AA]$")                                                                            
+    ax.set_xlabel("$Wavelenght [\\AA]$")
     ax.set_ylabel("$Energy [10^{-17} erg/s/cm^2/\\AA]$")
     ax.axvline(x=spLine, color = 'g', ls ='--')
 
-    
+
 
 
     fig.savefig(file[:-4] + '.png')
@@ -115,12 +115,12 @@ def plot2(file, spLine, xx,yy, save):
     for x,y,s in zip(xx,yy,sp):
         subplot = int(str(nsp) + '1' + str(s))
         if s > 2:
-            ax.append(fig.add_subplot(subplot, sharex=ax[0],sharey=ax[0] ))
+
         else:
             ax.append(fig.add_subplot(subplot))
-            
+
         graph = ax[s-1].plot(x,y, 'r')
-        ax[s-1].set_xlabel("$Wavelenght [\\AA]$")                                                                          
+        ax[s-1].set_xlabel("$Wavelenght [\\AA]$")
         ax[s-1].set_ylabel("$Energy [10^{-17} erg/s/cm^2/\\AA]$")
         ax[s-1].axvline(x = spLine, color = 'g', ls ='--')
 
@@ -136,8 +136,8 @@ def plot2(file, spLine, xx,yy, save):
 # graph4 = ax4.plot(xxxx,yyyy, 'r')
 
 # ax3.set_xlabel("$Wavelenght [\\AA]$")
-    
-    #obj = readParam(file, 'OBJTYPE')    
+
+    #obj = readParam(file, 'OBJTYPE')
 #    ax[0].set_title(file + ' ' + obj )
 
     basename = os.path.basename(file)
@@ -152,4 +152,3 @@ def plot2(file, spLine, xx,yy, save):
 
 if __name__ == "__main__":
     main()
-

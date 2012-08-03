@@ -13,10 +13,3 @@ __version__ = '1.2.3' #Versioning: http://www.python.org/dev/peps/pep-0386/
 #
 ## Code goes here.
 #
-
-def test():
-    """ Testing Docstring"""
-    pass
-
-if __name__=='__main__':
-    test()
