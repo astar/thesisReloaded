@@ -1,5 +1,13 @@
 -*- mode: org; -*-
 * log
+** <2012-09-27 Thu>
+*** scp test_cluster form main --> normalize
+
+*** problems
+**** na maie neni pyfits (fitsio)
+**** na taurus nechdi novy fitsits
+**** data/test_   contains normalized files
+
 ** <2012-08-01 Wed>
    [[https://stelweb.asu.cas.cz/wiki/index.php/Correct_names.sql]]
 

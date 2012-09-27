@@ -13,8 +13,8 @@ __version__ = '1.2.3' #Versioning: http://www.python.org/dev/peps/pep-0386/
 
 
 import numpy as np
-import pyfits
 import sys
+import pyfits
 import csv
 import re
 import os
