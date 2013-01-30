@@ -57,6 +57,7 @@
     http://simbad.u-strasbg.fr/simbad/sim-tap
 
 * TODO
+** Make trainning3 visible on wiki and inform Pavla and Petr
 ** Finish program ema (EmissionManualAnalyzer)
 
 ** Use ema to classify ond fits
@@ -139,8 +140,11 @@
 
 
   not in database 3533121815952072704
-
+  
 * DONE
+** ab_normal script
+   check and move unnormalized fits
+   on taurus created trainnin3
 ** all spectra sorted 
    vazny@taurus.physics.muni.cz:public_html/thesisReloaded/trainning2/
 ** Solved? problem with crashing ema_local
