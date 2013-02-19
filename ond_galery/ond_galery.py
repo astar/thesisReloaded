@@ -5,6 +5,9 @@ import pyfits as pf
 import dateutil as dt
 import matplotlib.pyplot as plt
 import matplotlib.widgets as widgets
+sep1 = 40*'-'
+sep2 = 40*'='
+sep3 = 40*'*'
 
 def main():
     """
@@ -70,7 +73,6 @@ class Plot():
         self.frame = 1
         self.focus = False
         self.frames = int(math.ceil(category.count / float(self.graphs)))
-        #ax = [plt.subplot(self.rows, self.columns, actual) for actual in arange(category.count)]
         self.fig, self.axes = plt.subplots(self.rows, self.columns)
         self.fig.subplots_adjust(wspace=0,hspace=0)
         self.init_graphs()
@@ -118,9 +120,14 @@ class Plot():
             ax.set_position([0.1, 0.1, 0.85, 0.85])
             # load and plot rest of the spectra
             ax.star.load_spectra()
+            ax.star.statistics()
+            
             for sp  in ax.star.spectra:
                 l, = ax.plot(sp.x, sp.y)
-            
+
+            ax.axes.get_xaxis().set_visible(True)
+            ax.axes.get_yaxis().set_visible(True)
+
             for axis in event.canvas.figure.axes:
                 # Hide all the other axes...
                 if axis is not ax:
@@ -130,6 +137,9 @@ class Plot():
             self.focus = False
             try:
                 ax.set_position(ax._orig_position)
+                ax.axes.get_xaxis().set_visible(False)
+                ax.axes.get_yaxis().set_visible(False)
+
                 for axis in event.canvas.figure.axes:
                     axis.set_visible(True)
             except AttributeError:
@@ -164,14 +174,28 @@ class Star(list):
         self.spectra[0].read_spectrum()
 
     def load_spectra(self):
+        self.dates = []
         for sp in self.spectra:
             sp.read_spectrum()
-
+            self.dates.append(sp.date)
+        
+    def statistics(self):
+        """
+        """
+        print sep2
+        print "Star: {}".format(self.name)
+        print "#spectra: {}".format(self.count)
+        print "first: {}".format(min(self.dates))
+        print "last: {}".format(max(self.dates))
+        print "diff: {}".format(max(self.dates) - min(self.dates))
+        print sep2
+        
     def __init__(self, category, name):
         self.name = name
         self.thedir = os.path.join(category, name)
         self.files = self.file_list(self.thedir)
         self.spectra = [Spectrum(self.thedir, file) for file in self.files]
+
         self.count = len(self.files)
         print "\t Added star {} with {} members".format(self.name, self.count)
         self.preview()
@@ -179,7 +203,7 @@ class Star(list):
 
 class Spectrum(list):
     def read_spectrum(self):
-        print "reading {}".format(self.thefile)
+#        print "reading {}".format(self.thefile)
         hdu = pf.open(self.thefile)
         data = hdu[1].data
         self.hdr = hdu[0].header
