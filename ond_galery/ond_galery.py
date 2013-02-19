@@ -134,7 +134,7 @@ class Plot():
                 # Hide all the other axes...
                 if axis is not ax:
                     axis.set_visible(False)
-        elif event.button is 3:
+        elif event.button is 3 and self.focus:
             # On right click, restore the axes
             self.focus = False
             try:
@@ -162,6 +162,7 @@ class Category(list):
         self.dirs = self.dir_list(cat_path)
         self.stars = [Star(cat_path, star) for star in self.dirs]
         self.count = len(self.stars)
+        print sep2
         print "Added category {} with {} members".format(self.name, self.count)
     def __repr__(self):
         return str(self.name)
@@ -203,14 +204,15 @@ class Star(list):
         self.spectra = [Spectrum(self.thedir, file) for file in self.files]
 
         self.count = len(self.files)
-        print "\t Added star {} with {} members".format(self.name, self.count)
+        print sep1
+        print "Added star {} with {} members".format(self.name, self.count)
         self.preview()
         self.loaded = False
 
 
 class Spectrum(list):
     def read_spectrum(self):
-        print "reading {}".format(self.thefile)
+#        print "reading {}".format(self.thefile)
         hdu = pf.open(self.thefile)
         data = hdu[1].data
         self.hdr = hdu[0].header
