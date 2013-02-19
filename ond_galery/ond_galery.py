@@ -22,7 +22,13 @@ class Plot():
         ax.autoscale_view()
         plt.draw()
 
- 
+    def init_graphs(self):
+        self.ln = []
+        for ax in self.axes.flat:
+            l, = ax.plot([],[])
+            ax.autoscale(True)
+            self.ln.append(l)
+
     def populate_frame(self, val):
         """
         """
@@ -36,16 +42,15 @@ class Plot():
         #import ipdb; ipdb.set_trace()
 
         index = lower
-        for ax in self.axes.flat:
+        for l, ax in zip(self.ln, self.axes.flat):
             if index < upper:
                 star = self.category.stars[index]
 
                 # ln, = ax.plot([], [])
                 # ln.set_xdata = star.spectra[0].x
                 # ln.set_ydata = star.spectra[0].y
-                ln, = ax.plot([],[])
-                ln.set_xdata(star.spectra[0].x)
-                ln.set_ydata(star.spectra[0].y)
+                l.set_xdata(star.spectra[0].x)
+                l.set_ydata(star.spectra[0].y)
 
                 ax.set_title(star.name)
                 ax.title.set_visible(True)
@@ -70,10 +75,10 @@ class Plot():
         self.graphs = self.columns * self.rows
         self.frame = 1
         self.frames = int(math.ceil(category.count / float(self.graphs)))
-        print "plot will be {} x {}".format(self.rows, self.columns)
         #ax = [plt.subplot(self.rows, self.columns, actual) for actual in arange(category.count)]
         self.fig, self.axes = plt.subplots(self.rows, self.columns)
         self.fig.subplots_adjust(wspace=0,hspace=0)
+        self.init_graphs()
         self.populate_frame(1)
         self.fig.canvas.mpl_connect('button_press_event', self.on_click)
 
@@ -144,7 +149,6 @@ class Category(list):
         self.stars = [Star(cat_path, star) for star in self.dirs]
         self.count = len(self.stars)
         print "Added category {} with {} members".format(self.name, self.count)
-        print self.stars
     def __repr__(self):
         return str(self.name)
     __str__ = __repr__
@@ -162,13 +166,13 @@ class Star(list):
         self.files = self.file_list(self.thedir)
         self.spectra = [Spectrum(self.thedir, file) for file in self.files]
         self.count = len(self.files)
-        print "Added star {} with {} members".format(self.name, self.count)
+        print "\t Added star {} with {} members".format(self.name, self.count)
         self.preview()
 
 
 class Spectrum(list):
     def read_spectrum(self):
-        print "reading {}".format(self.thefile)
+#        print "reading {}".format(self.thefile)
         hdu = pf.open(self.thefile)
         data = hdu[1].data
         self.hdr = hdu[0].header
