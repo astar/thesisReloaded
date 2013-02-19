@@ -9,7 +9,7 @@ import matplotlib.widgets as widgets
 def main():
     """
     """
-    cat = Category('trainning3/3')
+    cat = Category('trainning3/9')
     Plot(cat)
     
 class Plot():
@@ -22,15 +22,32 @@ class Plot():
         ax.autoscale_view()
         plt.draw()
 
+ 
     def populate_frame(self, val):
         """
         """
-        for index, ax in enumerate(self.axes.flat):
-            if len(self.category.stars) > index:
+        # computer lower and upper limit per frame
+        lower = (self.frame - 1) * self.graphs
+        upper = lower + self.graphs - 1
 
+        text = 'Category {} with {} spectra. Page {}/{}'.format(self.category.name, self.category.count, self.frame, self.frames)
+        self.fig.text(0.5,0.975, text, horizontalalignment = 'center', verticalalignment = 'top')
+
+        #import ipdb; ipdb.set_trace()
+
+        index = lower
+        for ax in self.axes.flat:
+            if index < upper:
                 star = self.category.stars[index]
-                ax.plot(star.spectra[0].x, star.spectra[0].y)
-                ax.set_title = "test"
+
+                # ln, = ax.plot([], [])
+                # ln.set_xdata = star.spectra[0].x
+                # ln.set_ydata = star.spectra[0].y
+                ln, = ax.plot([],[])
+                ln.set_xdata(star.spectra[0].x)
+                ln.set_ydata(star.spectra[0].y)
+
+                ax.set_title(star.name)
                 ax.title.set_visible(True)
                 
             else:
@@ -40,13 +57,19 @@ class Plot():
             #some settings
             ax.axes.get_xaxis().set_visible(False)
             ax.axes.get_yaxis().set_visible(False)
-        
-
+            index += 1
+            
+            ax.relim()
+            ax.autoscale_view()
+            plt.draw()
         
     def __init__(self, category):
         self.category = category
         self.columns = 4
-        self.rows = int(math.ceil(category.count / float(self.columns)))
+        self.rows = 5
+        self.graphs = self.columns * self.rows
+        self.frame = 1
+        self.frames = int(math.ceil(category.count / float(self.graphs)))
         print "plot will be {} x {}".format(self.rows, self.columns)
         #ax = [plt.subplot(self.rows, self.columns, actual) for actual in arange(category.count)]
         self.fig, self.axes = plt.subplots(self.rows, self.columns)
@@ -64,19 +87,23 @@ class Plot():
         self.bprev.on_clicked(self.prev)
         self.bexit = widgets.Button(self.axexit, '(o)(o)')
         self.bexit.on_clicked(sys.exit)
-
+        
         plt.show()
         
     def next(self, event):
         """
         """
-        pass
-
+        if self.frame < self.frames:
+            self.frame +=1
+            self.populate_frame(self.frame)
+        
     def prev(self, event):
         """
         """
-        pass
-    
+        if self.frame > 1:
+            self.frame -=1
+            self.populate_frame(self.frame)
+        
     def on_click(self, event):
         """Enlarge or restore the selected axis."""
         ax = event.inaxes
