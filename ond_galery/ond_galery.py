@@ -119,12 +119,14 @@ class Plot():
             ax._orig_position = ax.get_position()
             ax.set_position([0.1, 0.1, 0.85, 0.85])
             # load and plot rest of the spectra
-            ax.star.load_spectra()
-            ax.star.statistics()
-            
-            for sp  in ax.star.spectra:
-                l, = ax.plot(sp.x, sp.y)
 
+
+
+            if ax.star.load_spectra():
+                for sp  in ax.star.spectra:
+                    l, = ax.plot(sp.x, sp.y)
+
+            ax.star.statistics()
             ax.axes.get_xaxis().set_visible(True)
             ax.axes.get_yaxis().set_visible(True)
 
@@ -174,10 +176,14 @@ class Star(list):
         self.spectra[0].read_spectrum()
 
     def load_spectra(self):
+        if self.loaded:
+            return False
         self.dates = []
         for sp in self.spectra:
             sp.read_spectrum()
             self.dates.append(sp.date)
+        self.loaded = True
+        return True
         
     def statistics(self):
         """
@@ -199,11 +205,12 @@ class Star(list):
         self.count = len(self.files)
         print "\t Added star {} with {} members".format(self.name, self.count)
         self.preview()
+        self.loaded = False
 
 
 class Spectrum(list):
     def read_spectrum(self):
-#        print "reading {}".format(self.thefile)
+        print "reading {}".format(self.thefile)
         hdu = pf.open(self.thefile)
         data = hdu[1].data
         self.hdr = hdu[0].header
