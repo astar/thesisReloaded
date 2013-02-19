@@ -9,25 +9,20 @@ import matplotlib.widgets as widgets
 def main():
     """
     """
-    cat = Category('trainning3/9')
+    cat = Category('trainning3/3')
     Plot(cat)
     
 class Plot():
-    def update(self, val):
-        frame = numpy.floor(sframe.val)
-        ln.set_xdata(xdata[frame])
-        ln.set_ydata((frame+1)* ydata[frame])
-        ax.set_title(frame)
-        ax.relim()
-        ax.autoscale_view()
-        plt.draw()
-
     def init_graphs(self):
         self.ln = []
+        self.tx = []
         for ax in self.axes.flat:
             l, = ax.plot([],[])
             ax.autoscale(True)
             self.ln.append(l)
+            self.tx.append(ax.text(0.3, 0.9, "", ha = 'center', va = 'center', transform=ax.transAxes, fontsize = 'small'))
+
+        self.title = self.fig.text(0.5,0.975, "", horizontalalignment = 'center', verticalalignment = 'top')
 
     def populate_frame(self, val):
         """
@@ -36,24 +31,22 @@ class Plot():
         lower = (self.frame - 1) * self.graphs
         upper = lower + self.graphs - 1
 
-        text = 'Category {} with {} spectra. Page {}/{}'.format(self.category.name, self.category.count, self.frame, self.frames)
-        self.fig.text(0.5,0.975, text, horizontalalignment = 'center', verticalalignment = 'top')
 
         #import ipdb; ipdb.set_trace()
-
         index = lower
-        for l, ax in zip(self.ln, self.axes.flat):
-            if index < upper:
-                star = self.category.stars[index]
+        text = 'Category {} with {} spectra. Page {}/{}'.format(self.category.name, self.category.count, self.frame, self.frames)
+        self.title.set_text(text)
+        
+        for t, l, ax in zip(self.tx, self.ln, self.axes.flat):
+            if index <= upper and index < len(self.category.stars):
+                if index > 170:
+                    import ipdb; ipdb.set_trace()
+                ax.star = self.category.stars[index]
 
-                # ln, = ax.plot([], [])
-                # ln.set_xdata = star.spectra[0].x
-                # ln.set_ydata = star.spectra[0].y
-                l.set_xdata(star.spectra[0].x)
-                l.set_ydata(star.spectra[0].y)
-
-                ax.set_title(star.name)
-                ax.title.set_visible(True)
+                l.set_xdata(ax.star.spectra[0].x)
+                l.set_ydata(ax.star.spectra[0].y)
+                t.set_text(ax.star.name)
+                
                 
             else:
                 # hide not used subplots
@@ -67,13 +60,15 @@ class Plot():
             ax.relim()
             ax.autoscale_view()
             plt.draw()
-        
+
+            
     def __init__(self, category):
         self.category = category
         self.columns = 4
         self.rows = 5
         self.graphs = self.columns * self.rows
         self.frame = 1
+        self.focus = False
         self.frames = int(math.ceil(category.count / float(self.graphs)))
         #ax = [plt.subplot(self.rows, self.columns, actual) for actual in arange(category.count)]
         self.fig, self.axes = plt.subplots(self.rows, self.columns)
@@ -116,16 +111,23 @@ class Plot():
         if ax is None:
             # Occurs when a region not in an axis is clicked...
             return
-        if event.button is 1 and ax.has_data():
+        if event.button is 1 and ax.has_data() and not self.focus:
             # On left click, zoom the selected axes
+            self.focus = True
             ax._orig_position = ax.get_position()
             ax.set_position([0.1, 0.1, 0.85, 0.85])
+            # load and plot rest of the spectra
+            ax.star.load_spectra()
+            for sp  in ax.star.spectra:
+                l, = ax.plot(sp.x, sp.y)
+            
             for axis in event.canvas.figure.axes:
                 # Hide all the other axes...
                 if axis is not ax:
                     axis.set_visible(False)
         elif event.button is 3:
             # On right click, restore the axes
+            self.focus = False
             try:
                 ax.set_position(ax._orig_position)
                 for axis in event.canvas.figure.axes:
@@ -160,6 +162,11 @@ class Star(list):
     
     def preview(self):
         self.spectra[0].read_spectrum()
+
+    def load_spectra(self):
+        for sp in self.spectra:
+            sp.read_spectrum()
+
     def __init__(self, category, name):
         self.name = name
         self.thedir = os.path.join(category, name)
@@ -172,7 +179,7 @@ class Star(list):
 
 class Spectrum(list):
     def read_spectrum(self):
-#        print "reading {}".format(self.thefile)
+        print "reading {}".format(self.thefile)
         hdu = pf.open(self.thefile)
         data = hdu[1].data
         self.hdr = hdu[0].header
