@@ -31,26 +31,39 @@ def main():
 
     fits =  glob(dir + '/*/*/*.fits')
     if mode == 'n':
-        normalized = [is_normalized(get_flux(f)) for f in fits]
-        ab_normal = [os.path.split(fits[i])[0] for i, x in enumerate(normalized) if not x]
+        ab_normal = [f for f in fits if not is_normalized(get_flux(f)) ]
+
     elif mode == 'e':
-        short_exposition = [is_exposition_short(get_exposition(f), limit) for f in fits]
-        ab_normal = [os.path.split(fits[i])[0] for i, x in enumerate(short_exposition) ]
+        ab_normal = [f for f in fits if is_exposition_short(get_exposition(f), limit) ]
+
     else:
         print 'Uknown modus operandi'
         sys.Exit(1)
         
     # create dest dir
-
     create_dir(dest)
-    ab_normal = list(set(ab_normal)) # remove duplicites
-    # move directory of abnormal spectrum
-    #import ipdb;ipdb.set_trace() 
-    [move(d, d.replace(dir, dest)) for d in ab_normal]
 
+    #make dirs
+    full_dest_dirs = [(os.path.split(f)[0]).replace(dir, dest) for f in ab_normal ]
+    #make them unique
+    full_dest_dirs = list(set(full_dest_dirs))
+    [create_dir(d) for d in full_dest_dirs]
+
+    #move abnormal files 
+    [move(d, d.replace(dir, dest)) for d in ab_normal]
+    print 'Moved {} abnormal files, into {} directory'.format(len(ab_normal),dest)
+    
+    #remove empty dirs
+    
+    dirs_to_check = [os.path.split(f)[0] for f in fits]
+    #make them unique
+    dirs_to_check = list(set(dirs_to_check))
+    
+    [remove_empty_dir(d) for d in dirs_to_check]
+    
     # move png
-    [move(s + '.png', (s + '.png').replace(dir, dest)) for s in ab_normal]
-      
+    #    [move(s + '.png', (s + '.png').replace(dir, dest)) for s in ab_normal]
+
 def get_flux(file):
     f = pf.open(file)
     hdu = f[1]
@@ -87,6 +100,15 @@ def remove_dir(name):
         except IOError:
             print "Could not remove dir %s!" % name
 
+
+def remove_empty_dir(name):
+    if  not os.listdir(name):
+        try:
+            s.rmtree(name)
+            
+        except IOError:
+            print "Could not remove dir %s!" % name
+            
 def move(src, dest):
     try:
 
