@@ -12,7 +12,7 @@ sep3 = 40*'*'
 def main():
     """
     """
-    cat = Category('trainning3/3')
+    cat = Category('trainning3/9')
     Plot(cat)
     
 class Plot():
@@ -78,6 +78,8 @@ class Plot():
         self.init_graphs()
         self.populate_frame(1)
         self.fig.canvas.mpl_connect('button_press_event', self.on_click)
+        self.fig.canvas.mpl_connect('pick_event', self.on_pick)
+        self.fig.canvas.mpl_connect('key_press_event', self.on_key)
 
         # buttons
         self.axprev = plt.axes([0.125, 0.03, 0.1, 0.055])
@@ -125,7 +127,7 @@ class Plot():
             if ax.star.load_spectra():
                 for sp  in ax.star.spectra:
                     l, = ax.plot(sp.x, sp.y)
-
+                    l.spectrum = sp
             ax.star.statistics()
             ax.axes.get_xaxis().set_visible(True)
             ax.axes.get_yaxis().set_visible(True)
@@ -152,6 +154,34 @@ class Plot():
             return
         event.canvas.draw()
 
+    def picked_points(self):
+        if self._picked_indices is None:
+            return None
+        else:
+            return [ [self._x_data[i], self._y_data[i]]
+                    for i in self._picked_indices ]
+
+    def on_pick(self, event):
+        import ipdb; ipdb.set_trace()
+        if not self._is_pick_started:
+            self._picked_indices = []
+            self._is_pick_started = True
+
+        for index in event.ind:
+            if index not in self._picked_indices:
+                self._picked_indices.append(index)
+        print self.picked_points()
+
+    def on_key(self, event):
+        """If the user presses the Escape key then stop picking points and
+        reset the list of picked points."""
+        if 'escape' == event.key:
+            self._is_pick_started = False
+            self._picked_indices = None
+        return
+
+
+
 class Category(list):
     
     def dir_list(self, thedir):
@@ -163,6 +193,7 @@ class Category(list):
         self.stars = [Star(cat_path, star) for star in self.dirs]
         self.count = len(self.stars)
         print sep2
+        import ipdb; ipdb.set_trace()
         print "Added category {} with {} members".format(self.name, self.count)
     def __repr__(self):
         return str(self.name)
