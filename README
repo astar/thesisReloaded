@@ -1,5 +1,10 @@
 -*- mode: org; -*-
 * log
+** <2013-02-23 Sat>
+   python web_galery.py trainning3/3
+   python ../makeHtmlTable/makeHtmlTable.py "3/*_preview.png"
+   sed "s/\_detail.png/\_detail.svg/g" 3.html > 3_svg.html
+
 ** <2012-09-27 Thu>
 *** scp test_cluster form main --> normalize
 
