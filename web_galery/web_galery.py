@@ -1,14 +1,16 @@
 import os
-import math
 import sys
 import pyfits as pf
+import numpy as np
 import dateutil as dt
 import matplotlib.pyplot as plt
 import matplotlib as mpl
-import matplotlib.widgets as widgets
+
 sep1 = 40*'-'
 sep2 = 40*'='
 sep3 = 40*'*'
+ISO_8601 = '%Y-%m-%d'
+h_alpha = 6563
 
 def main():
     """
@@ -52,12 +54,15 @@ class Star(list):
         fig, axes = plt.subplots(2)
         fig.subplots_adjust(wspace=0,hspace=0)
         for ax in axes: 
-            ax.get_xaxis().set_visible(False)
-            ax.get_yaxis().set_visible(False)
+#            ax.get_xaxis().set_visible(False)
+#            ax.get_yaxis().set_visible(False)
 
             for sp  in self.spectra:
                 l, = ax.plot(sp.x, sp.y)
 
+        #disable x on first
+        axes[0].get_xaxis().set_visible(False)
+        
         #zoom
         axes[1].set_xlim(6563 - 50, 6563 + 50)
 
@@ -71,6 +76,7 @@ class Star(list):
     def detail_plot(self ):
         """
         """
+
         #ax.set_xlabel("$Wavelenght [\\AA]$")
         #ax.set_ylabel("$Energy [10^{-17} erg/s/cm^2/\\AA]$")
         """ Plot spectra of the star
@@ -79,24 +85,24 @@ class Star(list):
         
 #        fig.subplots_adjust(wspace=0,hspace=0)
         axes = []
-        axes.append(plt.subplot2grid((2,3), (0,0), colspan = 2))
-        axes.append(plt.subplot2grid((2,3), (1,0), colspan = 1))
-        axes.append(plt.subplot2grid((2,3), (1,1), colspan = 1))
-        info = plt.subplot2grid((2,3), (0,2), rowspan = 2)
+
+                
+        axes.append(plt.subplot2grid((4,3), (0,0), rowspan = 2, colspan = 2))
+        axes.append(plt.subplot2grid((4,3), (2,0), rowspan = 2, colspan = 2))
+        axes.append(plt.subplot2grid((4,3), (1,2), rowspan = 3))
+        info = plt.subplot2grid((4,3), (0,2))
         axes[0].separate = False # separate lines
         axes[1].separate = False
         axes[2].separate = True
 
         
-        info.get_xaxis().set_visible(False)
-        info.get_yaxis().set_visible(False)
-        axes[0].get_xaxis().set_visible(False)
-        axes[1].set_xlabel("$Wavelenght [\\AA]$")
-#        axes[1].set_ylabel("ADU")
-        axes[2].get_yaxis().set_visible(False)
         
-        info.text(0.05,0.975, self.statistics(), horizontalalignment = 'left', verticalalignment = 'top', fontsize = 'small')        
-        info.text(0.05,0.765, self.spectra[0].get_header(40), horizontalalignment = 'left', verticalalignment = 'top', fontsize = 5)
+        info.text(0.05,0.875,
+                  self.statistics(),
+                  horizontalalignment = 'left',
+                  verticalalignment = 'top',
+                  fontsize = 'small')        
+#        info.text(0.05,0.765, self.spectra[0].get_header(40), horizontalalignment = 'left', verticalalignment = 'top', fontsize = 5)
         
         for ax in axes: 
 
@@ -105,7 +111,26 @@ class Star(list):
                 if ax.separate:
                     y = sp.y + i*.07
                 l, = ax.plot(sp.x, y)
+                        #H alpha line
 
+            ax.axvline(x = h_alpha, color = 'r', ls ='--')
+
+
+        # adjust axes
+        info.get_xaxis().set_visible(False)
+        info.get_yaxis().set_visible(False)
+        axes[0].get_xaxis().set_visible(False)
+        axes[1].set_xlabel("$Wavelenght [\\AA]$")
+        axes[2].get_yaxis().set_visible(False)
+
+        
+        # adjust ticks
+        axes[1].get_yaxis().set_ticks(np.arange(0.0,1.2,0.2))
+#        axes[2].get_yaxis().set_ticks([])
+#        info.get_xaxis().set_ticks([])
+#        info.get_yaxis().set_ticks([])
+
+        
         #zoom
         axes[1].set_xlim(6563 - 50, 6563 + 50)
         axes[2].set_xlim(6563 - 50, 6563 + 50)
@@ -114,6 +139,7 @@ class Star(list):
  #       figure.set_size_inches(8, 6)
         
 #        plt.savefig(os.path.join(self.thedir, self.name + '_detail.png'))
+        
         plt.savefig(self.name + '_detail.png')
         plt.savefig(self.name + '_detail.svg')
         
@@ -124,7 +150,8 @@ class Star(list):
         
     def file_list(self, thedir):
         f = lambda thedir, name: os.path.join(thedir, name) 
-        return [ name for name in os.listdir(thedir) if os.path.isfile(f(thedir, name)) and os.path.splitext(f(thedir, name))[1] == '.fits' ]
+        return [ name for name in os.listdir(thedir) if os.path.isfile(f(thedir, name))
+                 and os.path.splitext(f(thedir, name))[1] == '.fits' ]
     
 
     def load_spectra(self):
@@ -138,7 +165,11 @@ class Star(list):
     def statistics(self):
         """
         """
-        t = "Star: {} \n #spectra: {} \n first: {} \n last: {} \n diff: {} \n".format( self.name,self.count,min(self.dates), max(self.dates), max(self.dates) - min(self.dates))
+        t = " Star: {} \n Count: {} \n First: {} \n Last: {} \n Diff: {} days\n".format( self.name,
+                                                                                     self.count,
+                                                                                     (min(self.dates)).strftime(ISO_8601),
+                                                                                     (max(self.dates)).strftime(ISO_8601),
+                                                                                     (max(self.dates) - min(self.dates)).days)
         return t
                                 
     def __init__(self, category, name):
