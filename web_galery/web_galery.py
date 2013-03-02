@@ -6,33 +6,34 @@ import dateutil as dt
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 
+# config
 sep1 = 40*'-'
 sep2 = 40*'='
 sep3 = 40*'*'
 ISO_8601 = '%Y-%m-%d'
 h_alpha = 6563
 
+
 def main():
-    """
-    """
-    mpl.rc('xtick', labelsize = 8) 
-    mpl.rc('ytick', labelsize = 8)
-    
+    mpl.rc('xtick', labelsize=8)
+    mpl.rc('ytick', labelsize=8)
+
     if len(sys.argv) > 1:
         thedir = sys.argv[1]
     else:
         print 'First agrument is the input dir'
         sys.exit(1)
-        
+
     cat = Category(thedir)
     print cat.stars
-    #Plot(cat)
+
 
 class Category(list):
-    
+
     def dir_list(self, thedir):
-        return [ name for name in os.listdir(thedir) if os.path.isdir(os.path.join(thedir, name)) ]
-    
+        return [name for name in os.listdir(thedir)
+                if os.path.isdir(os.path.join(thedir, name))]
+
     def __init__(self, cat_path):
         self.thedir = cat_path
         self.name = os.path.basename(cat_path)
@@ -40,81 +41,63 @@ class Category(list):
         self.stars = [Star(cat_path, star) for star in self.dirs]
         self.count = len(self.stars)
         print sep2
-#        import ipdb; ipdb.set_trace()
+
         print "Added category {} with {} members".format(self.name, self.count)
+
     def __repr__(self):
         return str(self.name)
     __str__ = __repr__
 
-    
+
 class Star(list):
     def preview_plot(self):
-        """ Plot spectra of the star
+        """ thumbail plot
         """
         fig, axes = plt.subplots(2)
-        fig.subplots_adjust(wspace=0,hspace=0)
-        for ax in axes: 
-#            ax.get_xaxis().set_visible(False)
-#            ax.get_yaxis().set_visible(False)
+        fig.subplots_adjust(wspace=0, hspace=0)
 
-            for sp  in self.spectra:
+        for ax in axes:
+            for sp in self.spectra:
                 l, = ax.plot(sp.x, sp.y)
 
-        #disable x on first
+        # disable x on first
         axes[0].get_xaxis().set_visible(False)
-        
-        #zoom
-        axes[1].set_xlim(6563 - 50, 6563 + 50)
 
-#        figure = plt.gcf() # get current figure
-#        figure.set_size_inches(2, 1.5)
+        # zoom
+        axes[1].set_xlim(6563 - 50, 6563 + 50)
 
         plt.savefig(self.name + '_preview.png')
         plt.savefig(self.name + '_preview.svg')
 
+    def detail_plot(self):
+        """ detailed subplot
+        """
 
-    def detail_plot(self ):
-        """
-        """
-
-        #ax.set_xlabel("$Wavelenght [\\AA]$")
-        #ax.set_ylabel("$Energy [10^{-17} erg/s/cm^2/\\AA]$")
-        """ Plot spectra of the star
-        """
-#        fig, axes = plt.subplots(2)
-        
-#        fig.subplots_adjust(wspace=0,hspace=0)
         axes = []
-
-                
-        axes.append(plt.subplot2grid((4,3), (0,0), rowspan = 2, colspan = 2))
-        axes.append(plt.subplot2grid((4,3), (2,0), rowspan = 2, colspan = 2))
-        axes.append(plt.subplot2grid((4,3), (1,2), rowspan = 3))
-        info = plt.subplot2grid((4,3), (0,2))
-        axes[0].separate = False # separate lines
+        axes.append(plt.subplot2grid((4, 3), (0, 0), rowspan=2, colspan=2))
+        axes.append(plt.subplot2grid((4, 3), (2, 0), rowspan=2, colspan=2))
+        axes.append(plt.subplot2grid((4, 3), (1, 2), rowspan=3))
+        info = plt.subplot2grid((4, 3), (0, 2))
+        axes[0].separate = False  # separate lines
         axes[1].separate = False
         axes[2].separate = True
 
-        
-        
-        info.text(0.05,0.875,
+        info.text(0.05, 0.875,
                   self.statistics(),
-                  horizontalalignment = 'left',
-                  verticalalignment = 'top',
-                  fontsize = 'small')        
-#        info.text(0.05,0.765, self.spectra[0].get_header(40), horizontalalignment = 'left', verticalalignment = 'top', fontsize = 5)
-        
-        for ax in axes: 
+                  horizontalalignment='left',
+                  verticalalignment='top',
+                  fontsize='small')
 
-            for i, sp  in enumerate(self.spectra):
+        for ax in axes:
+
+            for i, sp in enumerate(self.spectra):
                 y = sp.y
                 if ax.separate:
                     y = sp.y + i*.07
                 l, = ax.plot(sp.x, y)
-                        #H alpha line
 
-            ax.axvline(x = h_alpha, color = 'r', ls ='--')
-
+            # H alpha line
+            ax.axvline(x=h_alpha, color='r', ls='--')
 
         # adjust axes
         info.get_xaxis().set_visible(False)
@@ -123,36 +106,23 @@ class Star(list):
         axes[1].set_xlabel("$Wavelenght [\\AA]$")
         axes[2].get_yaxis().set_visible(False)
 
-        
         # adjust ticks
-        axes[1].get_yaxis().set_ticks(np.arange(0.0,1.2,0.2))
-#        axes[2].get_yaxis().set_ticks([])
-#        info.get_xaxis().set_ticks([])
-#        info.get_yaxis().set_ticks([])
+        axes[1].get_yaxis().set_ticks(np.arange(0.0, 1.2, 0.2))
 
-        
-        #zoom
+        # zoom
         axes[1].set_xlim(6563 - 50, 6563 + 50)
         axes[2].set_xlim(6563 - 50, 6563 + 50)
 
- #       figure = plt.gcf() # get current figure
- #       figure.set_size_inches(8, 6)
-        
-#        plt.savefig(os.path.join(self.thedir, self.name + '_detail.png'))
-        
         plt.savefig(self.name + '_detail.png')
         plt.savefig(self.name + '_detail.svg')
-        
 
-        
-#        plt.show()
-            
-        
     def file_list(self, thedir):
-        f = lambda thedir, name: os.path.join(thedir, name) 
-        return [ name for name in os.listdir(thedir) if os.path.isfile(f(thedir, name))
-                 and os.path.splitext(f(thedir, name))[1] == '.fits' ]
-    
+        f = lambda thedir, name: os.path.join(thedir,
+                                              name)
+        return [name for name in
+                os.listdir(thedir)
+                if os.path.isfile(f(thedir, name))
+                and os.path.splitext(f(thedir, name))[1] == '.fits']
 
     def load_spectra(self):
         self.dates = []
@@ -161,17 +131,16 @@ class Star(list):
             self.dates.append(sp.date)
         self.loaded = True
         return True
-        
+
     def statistics(self):
-        """
-        """
-        t = " Star: {} \n Count: {} \n First: {} \n Last: {} \n Diff: {} days\n".format( self.name,
-                                                                                     self.count,
-                                                                                     (min(self.dates)).strftime(ISO_8601),
-                                                                                     (max(self.dates)).strftime(ISO_8601),
-                                                                                     (max(self.dates) - min(self.dates)).days)
+        t = " Star: {}\n Count: {}\n First: {}\n Last: {}\n Diff: {} days\n"
+        t = t.format(self.name,
+                     self.count,
+                     (min(self.dates)).strftime(ISO_8601),
+                     (max(self.dates)).strftime(ISO_8601),
+                     (max(self.dates) - min(self.dates)).days)
         return t
-                                
+
     def __init__(self, category, name):
         self.name = name
         self.thedir = os.path.join(category, name)
@@ -185,9 +154,9 @@ class Star(list):
         self.preview_plot()
         self.detail_plot()
 
+
 class Spectrum(list):
     def read_spectrum(self):
-#        print "reading {}".format(self.thefile)
         hdu = pf.open(self.thefile)
         data = hdu[1].data
         self.hdr = hdu[0].header
@@ -196,19 +165,18 @@ class Spectrum(list):
         self.x = data.field('WAVE')
         self.y = data.field('FLUX')
         self.data = True
-        
+
     def __init__(self, path, name):
         self.name = name
         self.thefile = os.path.join(path, name)
         self.data = False
-        #self.read_spectrum(self.thefile)
 
     def get_header(self, limit):
         l = list(self.hdr)[:limit]
         s = ''
         for i in l:
             s += (i + ' = ' + str(self.hdr[i]))[:40] + '\n'
-            
+
         return s
 
 if __name__ == '__main__':
