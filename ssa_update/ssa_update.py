@@ -66,7 +66,7 @@ class Star(list):
             text)
             return fits
         except:
-            print "No files"
+            print "No newer files"
 
             
         
