@@ -1,9 +1,9 @@
 #!/usr/bin/python
 # generate html table from input files
 # usage:
-#       ./makeHtmlTable.py '../data/corrupt_segue_small/*.png' test 1
-# generate html; table of directory ../data/corrupt_segue_small named test.html
-# last argument loca specify if the local or link to the sdss is followed after click on thumbnail
+# ../makeHtmlTable/makeHtmlTable.py "4/*_preview.png"
+# generate html; table of directory ../data/corrupt_segue_small named galery.html
+
 
 import os, sys, glob, re
 
@@ -13,24 +13,21 @@ def main():
 
     if len(sys.argv) > 1:
         dir = sys.argv[1]
-        program = sys.argv[2]
-        if len(sys.argv) == 4:
-            local =  sys.argv[3]# link to local picture instead of sdss web
-        else:
-            local = 0
     else:
         sys.exit(1)
 
-
+    local = 1 # use local file or sdss link
+    program = 'galery'
+#    import ipdb; ipdb.set_trace()
     nFiles, files = listdir(dir)
 
-
+#    import ipdb; ipdb.set_trace()
     l = [local for x in files] # prasarna mp needs local value for every file
     links = list(map(makeTag, files, l))
     fileName = program
     table = get_html_tbl(links,4)
     page = make_head_foot(program, nFiles, table)
-    save_html(fileName, page)
+    save_html(program, page)
 
 
 
@@ -40,8 +37,9 @@ def get_html_tbl(seq, col_count):
     tbl_template = '<table style="border: 1px solid #000000; border-collapse: collapse;" border="1">%s</table>' % ('<tr>%s</tr>' % ('<td>%s</td>' * col_count) * (len(seq)/col_count))
     return tbl_template % tuple(seq)
 
-def save_html(fileName,page):
-    f =  open(fileName + '.html','w')
+def save_html(name, page):
+#    import ipdb; ipdb.set_trace()
+    f =  open(name + '.html','w')
     f.write(page)
     f.close()
 
@@ -81,14 +79,15 @@ def makeTag(name, local):
     base_name = os.path.basename(name)
     name_no_ext = os.path.splitext(base_name)[0]
     name_no_ext = re.sub('.*_.*_','', name_no_ext)
-#    import pdb; pdb.set_trace()
     if local:
-        link = name
+        link = name.replace('preview','detail')
+        
     else:
         link = 'http://skyserver.sdss3.org/dr8/en/tools/explore/obj.asp?sid=%s' % name_no_ext
 #    tag = '<a href="%s"><img src="%s/%s" width = "300" border="0" alt="Spectrum of %s"></a>' % (link, 'thm', base_name, name_no_ext)
 
-    tag = '<a href="%s"><img src="%s" width = "300" border="0" alt="Spectrum of %s"></a>' % (link, base_name, name_no_ext)
+#    tag = '<a href="%s"><img src="%s" width = "300" border="0" alt="Spectrum of %s"></a>' % (link, base_name, name_no_ext)
+    tag = '<a href="%s"><img src="%s" width = "300" border="0" alt="Spectrum of %s"></a>' % (link, name, name_no_ext)
 
     return tag
 
