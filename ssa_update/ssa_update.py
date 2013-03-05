@@ -13,8 +13,11 @@ import os
 import sys
 import pyfits as pf
 from dateutil import parser
+import datetime as dt
 import string
 import urllib2
+from astropy.io.votable import parse_single_table
+from cStringIO import StringIO
 
 # config
 sep1 = 40*'-'
@@ -22,7 +25,7 @@ sep2 = 40*'='
 sep3 = 40*'*'
 ISO_8601 = '%Y-%m-%d'
 h_alpha = 6563
-ssa = 'http://ssaproxy.asu.cas.cz/ccd700/q/pssa/ssap.xml?POS={},{}&SIZE=0.01&REQUEST=queryData&FLUXCALIB=normalized&BAND=6500e-10/6700e-10&format=fits&TIME={}/'
+ssa = 'http://ssaproxy.asu.cas.cz/ccd700/q/pssa/ssap.xml?POS={},{}&SIZE=0.1&REQUEST=queryData&FLUXCALIB=normalized&BAND=6500e-10/6700e-10&format=fits&TIME={}/'
 
 def main():
 
@@ -60,25 +63,24 @@ class Star(list):
 
     def parse_votable(self, text):
         """ extract file names form votable """
-        try:
-            fits = re.findall(
-        'http://ssaproxy.asu.cas.cz/getproduct/ccd700/data/.{,40}fits[^<]{,50}',
-            text)
-            return fits
-        except:
-            print "No newer files"
-
-            
         
-    def check_ssa(self):
+        _file = StringIO(text) # create file for parse_single_table func
+        _table = parse_single_table(_file, pedantic = False)
+        _date = (_table.array['ssa_dateObs']).data
+        _url = (_table.array['accref']).data
+        return _date, _url
+        
+    def get_ssa(self):
         """ download votable of
             newer fits than stored
         """
-        ssa.format(self.ra2deg(self.ra),
+#        import ipdb; ipdb.set_trace()
+        url = ssa.format(self.ra2deg(self.ra),
                    self.dec2deg(self.dec),
-                   self.max_date.strftime(ISO_8601))
+                   self.max_date.isoformat())
+        print url
         try:
-            s = urllib2.urlopen(ssa)
+            s = urllib2.urlopen(url)
             return s.read()
 
         except IOError:
@@ -144,10 +146,14 @@ class Star(list):
         self.count = len(self.files)
         self.load_spectra()
         self.max_date = max(self.dates)
+        # add second to get next spectrum
+        self.max_date += dt.timedelta(seconds = 1) 
         # take first  ra, dec from all spectra
         self.ra = self.spectra[0].ra
         self.dec = self.spectra[0].dec
-
+        votable = self.get_ssa()
+        dates, fits = self.parse_votable(votable)
+        print "#fits = {}".format(len(fits))
         print sep1
         print "Added star {} with {} members, max date = {}, ra = {} {}, da = {} {}".format(self.name,
                                                                                       self.count,
@@ -166,7 +172,11 @@ class Spectrum(list):
         hdu = pf.open(self.thefile)
         data = hdu[1].data
         self.hdr = hdu[0].header
-        self.date = parser.parse(self.hdr['DATE-OBS'])
+        _date = parser.parse(self.hdr['DATE-OBS'])
+        _time = self.hdr['UT']
+        h, m, s = map(int, _time.split(':'))
+        _time = dt.time(h, m, s)
+        self.date = dt.datetime.combine(_date, _time)
         self.ra = self.hdr['RA']
         self.dec = self.hdr['DEC']
         hdu.close()
