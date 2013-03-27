@@ -8,7 +8,6 @@ Program does
 * analyze votable
 * download fits
 """
-import re
 import os
 import sys
 import pyfits as pf
@@ -26,6 +25,7 @@ sep3 = 40*'*'
 ISO_8601 = '%Y-%m-%d'
 h_alpha = 6563
 ssa = 'http://ssaproxy.asu.cas.cz/ccd700/q/pssa/ssap.xml?POS={},{}&SIZE=0.1&REQUEST=queryData&FLUXCALIB=normalized&BAND=6500e-10/6700e-10&format=fits&TIME={}/'
+
 
 def main():
 
@@ -52,7 +52,7 @@ class Category(list):
         self.count = len(self.stars)
         print sep2
 
-        print "Added category {} with {} members".format(self.name, self.count)
+        print 'Added category {} with {} members'.format(self.name, self.count)
 
     def __repr__(self):
         return str(self.name)
@@ -62,49 +62,45 @@ class Category(list):
 class Star(list):
 
     def parse_votable(self, text):
-        """ extract file names form votable """
-        
-        _file = StringIO(text) # create file for parse_single_table func
-        _table = parse_single_table(_file, pedantic = False)
+        """extract file names form votable."""
+
+        _file = StringIO(text)  # create file for parse_single_table func
+        _table = parse_single_table(_file, pedantic=False)
         _date = (_table.array['ssa_dateObs']).data
         _url = (_table.array['accref']).data
         return _date, _url
-        
+
     def get_ssa(self):
-        """ download votable of
-            newer fits than stored
-        """
+        """download votable of newer fits than stored."""
 #        import ipdb; ipdb.set_trace()
         url = ssa.format(self.ra2deg(self.ra),
-                   self.dec2deg(self.dec),
-                   self.max_date.isoformat())
+                         self.dec2deg(self.dec),
+                         self.max_date.isoformat())
         print url
         try:
             s = urllib2.urlopen(url)
             return s.read()
 
         except IOError:
-            print "Could not download file"
+            print 'Could not download file'
 
         finally:
             s.close()
-                
+
     def dec2deg(self, dec):
-        """ converts dec to degrees
-        """
-        dec = string.split(dec, ":")
+        """converts dec to degrees."""
+        dec = string.split(dec, ':')
         hh = abs(float(dec[0]))
         mm = float(dec[1])/60
         ss = float(dec[2])/3600
         deg = str(hh+mm+ss)
         if float(dec[0]) < 0:
-                deg += "-" 
+                deg += '-'
         return deg
-        
+
     def ra2deg(self, ra):
-        """ converts ra to degrees
-        """
-        ra = string.split(ra, ":")        
+        """converts ra to degrees."""
+        ra = string.split(ra, ':')
         hh = float(ra[0])*15
         mm = (float(ra[1])/60)*15
         ss = (float(ra[2])/3600)*15
@@ -124,12 +120,11 @@ class Star(list):
             sp.read_spectrum()
             self.dates.append(sp.date)
 
-        
         self.loaded = True
         return True
 
     def statistics(self):
-        t = " Star: {}\n Count: {}\n First: {}\n Last: {}\n Diff: {} days\n"
+        t = ' Star: {}\n Count: {}\n First: {}\n Last: {}\n Diff: {} days\n'
         t = t.format(self.name,
                      self.count,
                      (min(self.dates)).strftime(ISO_8601),
@@ -147,24 +142,22 @@ class Star(list):
         self.load_spectra()
         self.max_date = max(self.dates)
         # add second to get next spectrum
-        self.max_date += dt.timedelta(seconds = 1) 
+        self.max_date += dt.timedelta(seconds=1)
         # take first  ra, dec from all spectra
         self.ra = self.spectra[0].ra
         self.dec = self.spectra[0].dec
         votable = self.get_ssa()
         dates, fits = self.parse_votable(votable)
-        print "#fits = {}".format(len(fits))
+        print '#fits = {}'.format(len(fits))
         print sep1
-        print "Added star {} with {} members, max date = {}, ra = {} {}, da = {} {}".format(self.name,
-                                                                                      self.count,
-                                                                                      self.max_date,
-                                                                                      self.ra,
-                                                                                      self.ra2deg(self.ra),
-                                                                                      self.dec,
-                                                                                      self.dec2deg(self.dec))
-        
-        
-
+        print 'Added star {} with {} members, max date = {}, ra = {} {}, da = {} {}'.format(self.name,
+                                                                                            self.count,
+                                                                                            self.max_date,
+                                                                                            self.ra,
+                                                                                            self.ra2deg(
+                                                                                            self.ra),
+                                                                                            self.dec,
+                                                                                            self.dec2deg(self.dec))
 
 
 class Spectrum(list):
