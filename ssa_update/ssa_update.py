@@ -14,9 +14,11 @@ import pyfits as pf
 from dateutil import parser
 import datetime as dt
 import string
+import urllib
 import urllib2
 from astropy.io.votable import parse_single_table
 from cStringIO import StringIO
+from optparse import OptionParser
 
 # config
 sep1 = 40*'-'
@@ -24,20 +26,58 @@ sep2 = 40*'='
 sep3 = 40*'*'
 ISO_8601 = '%Y-%m-%d'
 h_alpha = 6563
-ssa = 'http://ssaproxy.asu.cas.cz/ccd700/q/pssa/ssap.xml?POS={},{}&SIZE=0.1&REQUEST=queryData&FLUXCALIB=normalized&BAND=6500e-10/6700e-10&format=fits&TIME={}/'
+
+
+#ssa = 'http://skoda:vo@ssaproxy.asu.cas.cz/ccd700/q/pssa/ssap.xml'\
+ssa = 'http://ssaproxy.asu.cas.cz/ccd700/q/pssa/ssap.xml'\
+      '?POS={},{}&SIZE=0.1&REQUEST=queryData&FLUXCALIB=normalized' \
+      '&BAND=6200e-10/6800e-10&format=fits&TIME={}/'
 
 
 def main():
 
-    if len(sys.argv) > 1:
-        thedir = sys.argv[1]
-    else:
-        print 'First agrument is the input dir'
+    prg = os.path.basename(sys.argv[0])
+    usage = prg + ' [ <OPTIONS> ] <ARGS>'
+
+    #
+    # parse command line, result is stored to 'opts'
+    #
+    parser = OptionParser(usage, version='%s version 0.1' % prg)
+
+    parser.add_option(
+        '-s', '--source-directory', action='store', dest='source_dir',
+        default=None, help='specify input directory')
+    parser.add_option('-d', '--download', action='store_true', dest='download',
+                      default=True, help='specify if fits should be updated')
+
+    parser.add_option('-u', '--user', action='store', dest='user',
+                      default=None, help='user name for secure server')
+
+    parser.add_option('-p', '--pass', action='store', dest='password',
+                      default=None, help='password')
+
+    opts, args = parser.parse_args()
+
+    source_dir = opts.source_dir
+    Opt.download = opts.download
+    Opt.user = opts.user
+    Opt.password = opts.password
+    #
+    # chek input parameters
+    #
+    if not source_dir:
+        sys.stderr.write("Wrong --source-directory '%s'\n" % opts.source_dir)
         sys.exit(1)
 
-    Category(thedir)
+    #
+    # Main logic
+    #
+        
+    Category(source_dir)
 
-
+    
+        
+        
 class Category(list):
 
     def dir_list(self, thedir):
@@ -52,7 +92,6 @@ class Category(list):
         self.count = len(self.stars)
         print sep2
 
-        print 'Added category {} with {} members'.format(self.name, self.count)
 
     def __repr__(self):
         return str(self.name)
@@ -61,6 +100,22 @@ class Category(list):
 
 class Star(list):
 
+    def download_spectra(self, urls, names):
+        """ download new spectra into star directory"""
+        for url, name in zip(urls, names):
+            full_name = os.path.join(self.thedir, name)
+            #change .fit to .fits because its in votable
+            full_name = full_name.replace('.fit', '.fits')
+            if Opt.user and Opt.password:
+                url = url.replace('http://', 'http://{}:{}@'.format(Opt.user, Opt.password))
+            try:
+                urllib.urlretrieve(url, full_name)
+            except Exception, e:
+                raise e
+            finally:
+                print "\tfile: {} downloaded into: {}".format(name,
+                                                            self.thedir)
+                    
     def parse_votable(self, text):
         """extract file names form votable."""
 
@@ -68,7 +123,8 @@ class Star(list):
         _table = parse_single_table(_file, pedantic=False)
         _date = (_table.array['ssa_dateObs']).data
         _url = (_table.array['accref']).data
-        return _date, _url
+        _name = (_table.array['ssa_dstitle']).data
+        return _date, _url, _name
 
     def get_ssa(self):
         """download votable of newer fits than stored."""
@@ -76,16 +132,17 @@ class Star(list):
         url = ssa.format(self.ra2deg(self.ra),
                          self.dec2deg(self.dec),
                          self.max_date.isoformat())
-        print url
+#        print url
+#        import ipdb; ipdb.set_trace()
         try:
             s = urllib2.urlopen(url)
             return s.read()
 
-        except IOError:
+        except:
             print 'Could not download file'
 
-        finally:
-            s.close()
+#        finally:
+#            s.close()
 
     def dec2deg(self, dec):
         """converts dec to degrees."""
@@ -95,7 +152,7 @@ class Star(list):
         ss = float(dec[2])/3600
         deg = str(hh+mm+ss)
         if float(dec[0]) < 0:
-                deg += '-'
+                deg = '-' + deg
         return deg
 
     def ra2deg(self, ra):
@@ -146,18 +203,27 @@ class Star(list):
         # take first  ra, dec from all spectra
         self.ra = self.spectra[0].ra
         self.dec = self.spectra[0].dec
+#        import ipdb; ipdb.set_trace()
         votable = self.get_ssa()
-        dates, fits = self.parse_votable(votable)
-        print '#fits = {}'.format(len(fits))
+        dates, urls, names = self.parse_votable(votable)
+        print sep2
+        print 'Star: {}\n\t{} spectra\n\tmax date: {}\n'\
+              '\tra: {} {} \n\tdec: {} {}'.format(self.name,
+                                            self.count,
+                                            self.max_date,
+                                            self.ra,
+                                            self.ra2deg(
+                                            self.ra),
+                                            self.dec,
+                                            self.dec2deg(self.dec))
         print sep1
-        print 'Added star {} with {} members, max date = {}, ra = {} {}, da = {} {}'.format(self.name,
-                                                                                            self.count,
-                                                                                            self.max_date,
-                                                                                            self.ra,
-                                                                                            self.ra2deg(
-                                                                                            self.ra),
-                                                                                            self.dec,
-                                                                                            self.dec2deg(self.dec))
+        print 'Number of fits to update: {}'.format(len(names))
+        print sep1
+        
+        if Opt.download:
+            self.download_spectra(urls, names)
+
+        
 
 
 class Spectrum(list):
@@ -190,5 +256,9 @@ class Spectrum(list):
 
         return s
 
+class Opt(object):
+    """ General options """
+    pass
+        
 if __name__ == '__main__':
     main()
