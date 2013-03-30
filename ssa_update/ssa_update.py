@@ -28,7 +28,7 @@ ISO_8601 = '%Y-%m-%d'
 h_alpha = 6563
 
 
-#ssa = 'http://skoda:vo@ssaproxy.asu.cas.cz/ccd700/q/pssa/ssap.xml'\
+# ssa = 'http://skoda:vo@ssaproxy.asu.cas.cz/ccd700/q/pssa/ssap.xml'\
 ssa = 'http://ssaproxy.asu.cas.cz/ccd700/q/pssa/ssap.xml'\
       '?POS={},{}&SIZE=0.1&REQUEST=queryData&FLUXCALIB=normalized' \
       '&BAND=6200e-10/6800e-10&format=fits&TIME={}/'
@@ -72,12 +72,10 @@ def main():
     #
     # Main logic
     #
-        
+
     Category(source_dir)
 
-    
-        
-        
+
 class Category(list):
 
     def dir_list(self, thedir):
@@ -92,7 +90,6 @@ class Category(list):
         self.count = len(self.stars)
         print sep2
 
-
     def __repr__(self):
         return str(self.name)
     __str__ = __repr__
@@ -101,21 +98,22 @@ class Category(list):
 class Star(list):
 
     def download_spectra(self, urls, names):
-        """ download new spectra into star directory"""
+        """download new spectra into star directory."""
         for url, name in zip(urls, names):
             full_name = os.path.join(self.thedir, name)
-            #change .fit to .fits because its in votable
+            # change .fit to .fits because its in votable
             full_name = full_name.replace('.fit', '.fits')
             if Opt.user and Opt.password:
-                url = url.replace('http://', 'http://{}:{}@'.format(Opt.user, Opt.password))
+                url = url.replace('http://', 'http://{}:{}@'.format(
+                    Opt.user, Opt.password))
             try:
                 urllib.urlretrieve(url, full_name)
             except Exception, e:
                 raise e
             finally:
-                print "\tfile: {} downloaded into: {}".format(name,
-                                                            self.thedir)
-                    
+                print '\tfile: {} downloaded into: {}'.format(name,
+                                                              self.thedir)
+
     def parse_votable(self, text):
         """extract file names form votable."""
 
@@ -209,21 +207,19 @@ class Star(list):
         print sep2
         print 'Star: {}\n\t{} spectra\n\tmax date: {}\n'\
               '\tra: {} {} \n\tdec: {} {}'.format(self.name,
-                                            self.count,
-                                            self.max_date,
-                                            self.ra,
-                                            self.ra2deg(
-                                            self.ra),
-                                            self.dec,
-                                            self.dec2deg(self.dec))
+                                                  self.count,
+                                                  self.max_date,
+                                                  self.ra,
+                                                  self.ra2deg(
+                                                  self.ra),
+                                                  self.dec,
+                                                  self.dec2deg(self.dec))
         print sep1
         print 'Number of fits to update: {}'.format(len(names))
         print sep1
-        
+
         if Opt.download:
             self.download_spectra(urls, names)
-
-        
 
 
 class Spectrum(list):
@@ -256,9 +252,9 @@ class Spectrum(list):
 
         return s
 
+
 class Opt(object):
-    """ General options """
-    pass
-        
+    """General options."""
+
 if __name__ == '__main__':
     main()
