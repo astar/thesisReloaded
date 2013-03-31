@@ -8,8 +8,10 @@ Program does
 * analyze votable
 * download fits
 """
+
 import os
 import sys
+import csv
 import pyfits as pf
 from dateutil import parser
 import datetime as dt
@@ -72,7 +74,7 @@ def main():
     #
     # Main logic
     #
-
+    Opt.del_csv()
     Category(source_dir)
 
 
@@ -96,6 +98,17 @@ class Category(list):
 
 
 class Star(list):
+
+    def save2csv(self):
+        """Save cat, star, #specra, min_date, max_date."""
+
+        row = self.name, self.count, self.ra2deg(
+            self.ra), self.dec2deg(self.dec), self.min_date, self.max_date
+
+        with open(Opt.stats_file, 'a') as f:
+            fileWriter = csv.writer(
+                f, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+            fileWriter.writerow(row)
 
     def download_spectra(self, urls, names):
         """download new spectra into star directory."""
@@ -196,6 +209,7 @@ class Star(list):
         self.count = len(self.files)
         self.load_spectra()
         self.max_date = max(self.dates)
+        self.min_date = min(self.dates)
         # add second to get next spectrum
         self.max_date += dt.timedelta(seconds=1)
         # take first  ra, dec from all spectra
@@ -220,6 +234,8 @@ class Star(list):
 
         if Opt.download:
             self.download_spectra(urls, names)
+
+        self.save2csv()
 
 
 class Spectrum(list):
@@ -255,6 +271,15 @@ class Spectrum(list):
 
 class Opt(object):
     """General options."""
+    stats_file = 'statistics.csv'
+
+    @classmethod
+    def del_csv(self):
+        """delete statistics file if exist."""
+        try:
+            os.remove(Opt.stats_file)
+        except Exception, e:
+            print 'tried to delete sttistics file but there is no one'
 
 if __name__ == '__main__':
     main()
