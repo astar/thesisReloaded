@@ -43,7 +43,7 @@ class Category(list):
         self.count = len(self.stars)
         print sep2
 
-        print "Added category {} with {} members".format(self.name, self.count)
+        print 'Added category {} with {} members'.format(self.name, self.count)
 
     def __repr__(self):
         return str(self.name)
@@ -52,8 +52,7 @@ class Category(list):
 
 class Star(list):
     def preview_plot(self):
-        """ thumbail plot
-        """
+        """thumbail plot."""
         fig, axes = plt.subplots(2)
         fig.subplots_adjust(wspace=0, hspace=0)
 
@@ -67,12 +66,11 @@ class Star(list):
         # zoom
         axes[1].set_xlim(6563 - 50, 6563 + 50)
 
-        plt.savefig(self.name + '_preview.png')
-        plt.savefig(self.name + '_preview.svg')
+        plt.savefig(os.path.join(self.category, self.name + '_preview.png'))
+        plt.savefig(os.path.join(self.category, self.name + '_preview.svg'))
 
     def detail_plot(self):
-        """ detailed subplot
-        """
+        """detailed subplot."""
 
         axes = []
         axes.append(plt.subplot2grid((4, 3), (0, 0), rowspan=2, colspan=2))
@@ -104,7 +102,7 @@ class Star(list):
         info.get_xaxis().set_visible(False)
         info.get_yaxis().set_visible(False)
         axes[0].get_xaxis().set_visible(False)
-        axes[1].set_xlabel("$Wavelenght [\\AA]$")
+        axes[1].set_xlabel('$Wavelenght [\\AA]$')
         axes[2].get_yaxis().set_visible(False)
 
         # adjust ticks
@@ -113,9 +111,9 @@ class Star(list):
         # zoom
         axes[1].set_xlim(6563 - 50, 6563 + 50)
         axes[2].set_xlim(6563 - 50, 6563 + 50)
-
-        plt.savefig(self.name + '_detail.png')
-        plt.savefig(self.name + '_detail.svg')
+        print self.thedir
+        plt.savefig(os.path.join(self.category, self.name + '_detail.png'))
+        plt.savefig(os.path.join(self.category, self.name + '_detail.svg'))
 
     def file_list(self, thedir):
         f = lambda thedir, name: os.path.join(thedir,
@@ -134,7 +132,7 @@ class Star(list):
         return True
 
     def statistics(self):
-        t = " Star: {}\n Count: {}\n First: {}\n Last: {}\n Diff: {} days\n"
+        t = ' Star: {}\n Count: {}\n First: {}\n Last: {}\n Diff: {} days\n'
         t = t.format(self.name,
                      self.count,
                      (min(self.dates)).strftime(ISO_8601),
@@ -143,6 +141,7 @@ class Star(list):
         return t
 
     def __init__(self, category, name):
+        self.category = category
         self.name = name
         self.thedir = os.path.join(category, name)
         self.files = self.file_list(self.thedir)
@@ -151,18 +150,18 @@ class Star(list):
         self.count = len(self.files)
         self.load_spectra()
         print sep1
-        print "Added star {} with {} members".format(self.name, self.count)
+        print 'Added star {} with {} members'.format(self.name, self.count)
         self.preview_plot()
         self.detail_plot()
 
 
 class Spectrum(list):
     def read_spectrum(self):
-        hdu = pf.open(self.thefile)
-        data = hdu[1].data
-        self.hdr = hdu[0].header
+        with pf.open(self.thefile) as hdu:
+            data = hdu[1].data
+            self.hdr = hdu[0].header
+
         self.date = dt.parser.parse(self.hdr['DATE-OBS'])
-        hdu.close()
         self.x = data.field('WAVE')
         self.y = data.field('FLUX')
         self.data = True
