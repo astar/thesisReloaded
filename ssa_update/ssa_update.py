@@ -49,7 +49,7 @@ def main():
     parser.add_option(
         '-s', '--source-directory', action='store', dest='source_dir',
         default=None, help='specify input directory')
-    parser.add_option('-d', '--download', action='store_true', dest='download',
+    parser.add_option('-t', '--stats', action='store_false', dest='download',
                       default=True, help='specify if fits should be updated')
 
     parser.add_option('-u', '--user', action='store', dest='user',
@@ -74,7 +74,7 @@ def main():
     #
     # Main logic
     #
-    Opt.del_csv()
+
     Category(source_dir)
 
 
@@ -102,7 +102,7 @@ class Star(list):
     def save2csv(self):
         """Save cat, star, #specra, min_date, max_date."""
 
-        row = self.name, self.count, self.ra2deg(
+        row = self.category, self.name, self.count, self.ra2deg(
             self.ra), self.dec2deg(self.dec), self.min_date, self.max_date
 
         with open(Opt.stats_file, 'a') as f:
@@ -201,6 +201,7 @@ class Star(list):
         return t
 
     def __init__(self, category, name):
+        self.category = category
         self.name = name
         self.thedir = os.path.join(category, name)
         self.files = self.file_list(self.thedir)
@@ -216,8 +217,7 @@ class Star(list):
         self.ra = self.spectra[0].ra
         self.dec = self.spectra[0].dec
 #        import ipdb; ipdb.set_trace()
-        votable = self.get_ssa()
-        dates, urls, names = self.parse_votable(votable)
+
         print sep2
         print 'Star: {}\n\t{} spectra\n\tmax date: {}\n'\
               '\tra: {} {} \n\tdec: {} {}'.format(self.name,
@@ -228,21 +228,26 @@ class Star(list):
                                                   self.ra),
                                                   self.dec,
                                                   self.dec2deg(self.dec))
-        print sep1
-        print 'Number of fits to update: {}'.format(len(names))
-        print sep1
+
+
+        
+        self.save2csv()
 
         if Opt.download:
+            votable = self.get_ssa()
+            dates, urls, names = self.parse_votable(votable)
+            print sep1
+            print 'Number of fits to update: {}'.format(len(names))
+            print sep1
             self.download_spectra(urls, names)
 
-        self.save2csv()
+
 
 
 class Spectrum(list):
     def read_spectrum(self):
-        hdu = pf.open(self.thefile)
-        data = hdu[1].data
-        self.hdr = hdu[0].header
+        with pf.open(self.thefile) as hdu:
+            self.hdr = hdu[0].header
         _date = parser.parse(self.hdr['DATE-OBS'])
         _time = self.hdr['UT']
         h, m, s = map(int, _time.split(':'))
@@ -250,15 +255,12 @@ class Spectrum(list):
         self.date = dt.datetime.combine(_date, _time)
         self.ra = self.hdr['RA']
         self.dec = self.hdr['DEC']
-        hdu.close()
-        self.x = data.field('WAVE')
-        self.y = data.field('FLUX')
-        self.data = True
+
 
     def __init__(self, path, name):
         self.name = name
         self.thefile = os.path.join(path, name)
-        self.data = False
+
 
     def get_header(self, limit):
         l = list(self.hdr)[:limit]
