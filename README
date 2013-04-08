@@ -62,6 +62,11 @@
     http://simbad.u-strasbg.fr/simbad/sim-tap
 
 * TODO
+** Bezier
+   [[http://processingjs.nihongoresources.com/bezierinfo/]]
+   [[http://stackoverflow.com/questions/12643079/bezier-curve-fitting-with-scipy]]
+
+* DONE
 ** Make trainning3 visible on wiki and inform Pavla and Petr
 ** Finish program ema (EmissionManualAnalyzer)
 
@@ -146,7 +151,7 @@
 
   not in database 3533121815952072704
   
-* DONE
+
 ** ab_normal script
    check and move unnormalized fits
    on taurus created trainnin3
