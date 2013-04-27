@@ -1,8 +1,8 @@
 #!/usr/bin/python
 # generate html table from input files
-# usage:
+# usage:l
 # ../makeHtmlTable/makeHtmlTable.py "4/*_preview.png"
-# generate html; table of directory ../data/corrupt_segue_small named galery.html
+# generate html; table of directory ../data/corrupt_segue_small named 4.htm
 
 
 import os, sys, glob, re
@@ -17,17 +17,16 @@ def main():
         sys.exit(1)
 
     local = 1 # use local file or sdss link
-    program = 'galery'
 #    import ipdb; ipdb.set_trace()
     nFiles, files = listdir(dir)
 
 #    import ipdb; ipdb.set_trace()
     l = [local for x in files] # prasarna mp needs local value for every file
     links = list(map(makeTag, files, l))
-    fileName = program
+    fileName = os.path.split(dir)[0]
     table = get_html_tbl(links,4)
-    page = make_head_foot(program, nFiles, table)
-    save_html(program, page)
+    page = make_head_foot(fileName, nFiles, table)
+    save_html(fileName, page)
 
 
 
@@ -80,7 +79,7 @@ def makeTag(name, local):
     name_no_ext = os.path.splitext(base_name)[0]
     name_no_ext = re.sub('.*_.*_','', name_no_ext)
     if local:
-        link = name.replace('preview','detail')
+        link = name.replace('preview.png','detail.html')
         
     else:
         link = 'http://skyserver.sdss3.org/dr8/en/tools/explore/obj.asp?sid=%s' % name_no_ext
