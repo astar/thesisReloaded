@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!python
 import os
 import sys
 import pyfits as pf
@@ -60,6 +60,13 @@ class Star(list):
             for sp in self.spectra:
                 l, = ax.plot(sp.x, sp.y)
 
+        # star name
+        axes[0].text(6250, 9,
+                     self.name,
+                     horizontalalignment='left',
+                     verticalalignment='top',
+                     fontsize='large')
+
         # disable x on first
         axes[0].get_xaxis().set_visible(False)
 
@@ -102,7 +109,7 @@ class Star(list):
         info.get_xaxis().set_visible(False)
         info.get_yaxis().set_visible(False)
         axes[0].get_xaxis().set_visible(False)
-        axes[1].set_xlabel('$Wavelenght [\\AA]$')
+        axes[1].set_xlabel('$Wavelength [\\AA]$')
         axes[2].get_yaxis().set_visible(False)
 
         # adjust ticks
