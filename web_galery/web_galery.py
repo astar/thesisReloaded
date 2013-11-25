@@ -61,11 +61,12 @@ class Star(list):
                 l, = ax.plot(sp.x, sp.y)
 
         # star name
-        axes[0].text(6250, 9,
+        axes[0].text(0.1, 0.9,
                      self.name,
                      horizontalalignment='left',
                      verticalalignment='top',
-                     fontsize='large')
+                     fontsize=40,
+                     transform=axes[0].transAxes)
 
         # disable x on first
         axes[0].get_xaxis().set_visible(False)
